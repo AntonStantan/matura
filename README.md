@@ -10,4 +10,4 @@ The Arbeitsprozess can be found in the OneNote file: ArbeitsProtokoll.one (I'm n
 Or the pdf version in the folder "ArbeitsProzess"
 
 
-If the download is more comfortable via GitHub, have a look my page for this project: https://github.com/AntonStantan/matura/main
+If the download is more comfortable via GitHub, have a look my page for this project: https://github.com/AntonStantan/matura/tree/main
