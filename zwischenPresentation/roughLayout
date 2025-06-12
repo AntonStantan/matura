@@ -1,0 +1,18 @@
+Main Topics:
+
+- Definition of project: 5min
+	- Definition
+	- Why is this interesting or even important?
+- Literature Study presentation: 4min
+	- Brief summary
+	- what did I learn? / Interesting finds
+	- Keyfinds / Takeaways
+- Brief introduction to my project, by showing the FNN analysis: 5min
+	- Brief refresher on how FNNs work
+	- Methodology:
+		- Data Generation
+		- The base model and bootstrapping
+		- Different extrapolation scenarios
+	- Key results:
+		- Basemodel results
+		- comparison between models
