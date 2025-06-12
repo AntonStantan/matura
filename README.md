@@ -12,4 +12,4 @@ Guide for the **zwischenProdukt** folder:
 See the folder **ArbeitsProzess** for pdfs documenting my work log.
 
 The folder **zwischenPresentation**: 
-**roughLayout** is a file showing my first rough layout idea for the presentation
+  **roughLayout** is a file showing my first rough layout idea for the presentation
