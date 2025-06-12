@@ -2,11 +2,14 @@
 
 Guide for the **zwischenProdukt** folder:
 
-The literature review is in this folder, in the file **LiteraturstudieAnton.pdf**.
-
-The notebook for the code, which includes the graphics can be found in the raw files: **FNN1.py** and **FNN.ipynb**
-#the **TheFirst.ipynb** file is a pre-version of FNN.ipynb with slightly different results.
-or under the link: https://colab.research.google.com/github/AntonStantan/matura/blob/main/FNN.ipynb
-if this link doesn't work for some reason, please contact me. You shouldn't have any permissions for editing. (If you do, **please don't edit**)
-
+  The literature review is in this folder, in the file **LiteraturstudieAnton.pdf**.
+  
+  The notebook for the code, which includes the graphics can be found in the raw files: **FNN1.py** and **FNN.ipynb**
+  #the **TheFirst.ipynb** file is a pre-version of FNN.ipynb with slightly different results.
+  or under the link: https://colab.research.google.com/github/AntonStantan/matura/blob/main/FNN.ipynb
+  if this link doesn't work for some reason, please contact me. You shouldn't have any permissions for editing. (If you do, **please don't edit**)
+  
 See the folder **ArbeitsProzess** for pdfs documenting my work log.
+
+The folder **zwischenPresentation**: 
+**roughLayout** is a file showing my first rough layout idea for the presentation
