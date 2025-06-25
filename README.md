@@ -36,3 +36,11 @@ The folder **zwischenPresentation**:
 The **pre-version.pptx** is a pre-version of the powerpoint.
 
 **finalPresentation.pdf** is the final powerpoint in pdf format.
+
+---
+
+# FNN1.ipynb
+Latest version of the Feed-forward neural network notebook.
+
+# FNN_Heatmaps
+A folder with some results of FNN heatmaps. (They take a while to generate)
