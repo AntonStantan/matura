@@ -144,7 +144,7 @@ x_train, x_val, y_train, y_val = \
     np.array(x_train), np.array(x_val), np.array(y_train), np.array(y_val)
 
 early_stopping = keras.callbacks.EarlyStopping(
-    patience=10,
+    patience=20,
     min_delta=0.001,
     restore_best_weights=True,
     monitor='val_loss',
