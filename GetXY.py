@@ -148,5 +148,15 @@ early_stopping = keras.callbacks.EarlyStopping(
     min_delta=0.001,
     restore_best_weights=True,
     monitor='val_loss',
-    mode = "min"
+    mode = "min", 
+    verbose = 1
 )
+
+def absSum(x):
+  expressions = x
+  p = []
+  for i in range(len(expressions)):
+    components = []
+    components = expressions[i].split(" ")
+    p.append(abs(int(components[0])) + abs(int(components[2])) + abs(int(components[4])))
+  return p
