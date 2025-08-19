@@ -38,12 +38,12 @@ for i in range(len(x1)):
     opp2 = " - "
   unique_expressions.add(x1_str[i] + opp1 + x2_str[i] + opp2 + x3_str[i])
 
-x = list(unique_expressions) # Convert the set back to a list
-print(x[0])
-print(len(x))
+x_string = list(unique_expressions) # Convert the set back to a list
+print(x_string[0])
+print(len(x_string))
 y = []
 
-for expression in x:
+for expression in x_string:
   result = float(eval(expression))
   y.append(result)
 
@@ -69,7 +69,7 @@ def tokenizer(input_list): # Changed parameter name to avoid confusion with glob
       tokenized_x[i].append(np.float32(0.5))
   tokenized_x = np.array(tokenized_x)
   return tokenized_x
-x = tokenizer(x)
+x = tokenizer(x_string)
 # Generate all possible expressions
 all_possible_expressions = set()
 for num1 in range(-5, 5): # Range -5 to 4
