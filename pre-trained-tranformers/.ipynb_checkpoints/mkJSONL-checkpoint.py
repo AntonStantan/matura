@@ -18,8 +18,20 @@ print("Successfully imported variables!")
 
 dataset = [
     {
-        'text_input': str(x_item), 
-        'output': str(y_item)
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {"text": str(x_item)}
+                ]
+            },
+            {
+                "role": "model",
+                "parts": [
+                    {"text": str(y_item)}
+                ]
+            }
+        ]
     }
     for x_item, y_item in zip(x_string, y)
 ]
