@@ -1,12 +1,14 @@
 import numpy as np
 import pandas as pd
-import tensorflow as tf
-from tensorflow import keras
+
+#import tensorflow as tf
+#from tensorflow import keras
+
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-tf.random.set_seed(42)
+#tf.random.set_seed(42)
 np.random.seed(42)
 x1 = np.random.rand(4000)*10
 x2 = np.random.rand(4000)*10
@@ -142,7 +144,7 @@ x_train, x_val, y_train, y_val = \
     train_test_split(x, y, train_size=0.75)
 x_train, x_val, y_train, y_val = \
     np.array(x_train), np.array(x_val), np.array(y_train), np.array(y_val)
-
+'''
 early_stopping = keras.callbacks.EarlyStopping(
     patience=20,
     min_delta=0.001,
@@ -151,6 +153,7 @@ early_stopping = keras.callbacks.EarlyStopping(
     mode = "min", 
     verbose = 1
 )
+'''
 
 def absSum(x):
   expressions = x
