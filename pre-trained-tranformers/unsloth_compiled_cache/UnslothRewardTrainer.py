@@ -1,6 +1,6 @@
 """
 2025.8.9
-2025.8.10
+2025.8.9
 4.56.0
 0.22.1
 __UNSLOTH_VERSIONING__
@@ -237,7 +237,7 @@ class UnslothRewardConfig(RewardConfig):
             save_strategy = 'no'
         if dataset_num_proc is None:
             from multiprocessing import cpu_count
-            dataset_num_proc = max(cpu_count()+4, 2)
+            dataset_num_proc = min(cpu_count()*2, 2)
         
         super().__init__(
             output_dir = output_dir,
@@ -733,7 +733,7 @@ class UnslothRewardTrainer(_UnslothRewardTrainer):
             print('Unsloth: Switching to float32 training since model cannot work with float16')
             force_float32 = True
         mixed_precision_dtype = os.environ.get('UNSLOTH_MIXED_PRECISION', 'float32')
-        dtype = getattr(model.config, 'dtype', None) or getattr(model.config, 'torch_dtype', None)
+        dtype = getattr(model.config, 'torch_dtype', None)
         if dtype is None: dtype = model.get_input_embeddings().dtype
         from unsloth_zoo.utils import _get_dtype
         dtype = _get_dtype(dtype)
@@ -799,17 +799,9 @@ class UnslothRewardTrainer(_UnslothRewardTrainer):
         from unsloth_zoo.vision_utils import UnslothVisionDataCollator
         if not isinstance(data_collator, UnslothVisionDataCollator):
             if isinstance(data_collator, DataCollatorForSeq2Seq) and 'labels' not in train_dataset.column_names:
-                data_collator = TransformersDataCollatorForLanguageModeling(
-                    __tokenizer,
-                    mlm = False,
-                    mlm_probability = 0.0,
-                    pad_to_multiple_of = getattr(args, 'pad_to_multiple_of', None),
-                )
+                data_collator = TransformersDataCollatorForLanguageModeling(__tokenizer, mlm = False, mlm_probability = 0.0)
             elif isinstance(data_collator, TransformersDataCollatorForLanguageModeling) and 'labels' in train_dataset.column_names:
-                data_collator = DataCollatorForSeq2Seq(
-                    __tokenizer,
-                    pad_to_multiple_of = getattr(args, 'pad_to_multiple_of', None),
-                )
+                data_collator = DataCollatorForSeq2Seq(__tokenizer)
         else:
             if hasattr(args, 'remove_unused_columns'): args.remove_unused_columns = False
             if hasattr(args, 'dataset_text_field'): args.dataset_text_field = ''
@@ -817,17 +809,9 @@ class UnslothRewardTrainer(_UnslothRewardTrainer):
         if not isinstance(data_collator, UnslothVisionDataCollator):
             if not hasattr(__tokenizer, 'pad') and hasattr(__tokenizer, 'tokenizer'):
                 if isinstance(data_collator, DataCollatorForSeq2Seq):
-                    data_collator = DataCollatorForSeq2Seq(
-                        __tokenizer.tokenizer,
-                        pad_to_multiple_of = getattr(args, 'pad_to_multiple_of', None),
-                    )
+                    data_collator = DataCollatorForSeq2Seq(__tokenizer.tokenizer)
                 else:
-                    data_collator = TransformersDataCollatorForLanguageModeling(
-                        __tokenizer.tokenizer,
-                        mlm = False,
-                        mlm_probability = 0.0,
-                        pad_to_multiple_of = getattr(args, 'pad_to_multiple_of', None),
-                    )
+                    data_collator = TransformersDataCollatorForLanguageModeling(__tokenizer.tokenizer, mlm = False, mlm_probability = 0.0)
         other_metrics = []
         
         from unsloth_zoo.logging_utils import PatchRLStatistics

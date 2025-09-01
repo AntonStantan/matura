@@ -1,6 +1,6 @@
 """
 2025.8.9
-2025.8.10
+2025.8.9
 4.56.0
 0.22.1
 __UNSLOTH_VERSIONING__
@@ -853,7 +853,7 @@ class UnslothIterativeSFTTrainer(_UnslothIterativeSFTTrainer):
             print('Unsloth: Switching to float32 training since model cannot work with float16')
             force_float32 = True
         mixed_precision_dtype = os.environ.get('UNSLOTH_MIXED_PRECISION', 'float32')
-        dtype = getattr(model.config, 'dtype', None) or getattr(model.config, 'torch_dtype', None)
+        dtype = getattr(model.config, 'torch_dtype', None)
         if dtype is None: dtype = model.get_input_embeddings().dtype
         from unsloth_zoo.utils import _get_dtype
         dtype = _get_dtype(dtype)
