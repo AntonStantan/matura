@@ -1,10 +1,8 @@
 import numpy as np
-import pandas as pd
+#import pandas as pd
 
 #import tensorflow as tf
 #from tensorflow import keras
-
-from sklearn.model_selection import train_test_split
 
 #tf.random.set_seed(42)
 np.random.seed(42)
@@ -138,6 +136,17 @@ for i in longer_Exps:
   long_y_test.append(result)
 print(long_y_test[0])
 print(long_x_test[0])
+
+def train_test_split(x, y, train_size=0.75):
+    x, y = np.array(x), np.array(y)
+    indices = np.random.permutation(len(x))
+    split_idx = int(train_size * len(x))
+    
+    train_indices = indices[:split_idx]
+    val_indices = indices[split_idx:]
+    
+    return x[train_indices], x[val_indices], y[train_indices], y[val_indices]
+
 x_train, x_val, y_train, y_val = \
     train_test_split(x, y, train_size=0.75)
 x_train, x_val, y_train, y_val = \
