@@ -4,8 +4,8 @@ library_name: transformers
 model_name: output
 tags:
 - generated_from_trainer
-- trl
 - sft
+- trl
 licence: license
 ---
 
