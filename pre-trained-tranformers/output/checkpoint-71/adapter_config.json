@@ -21,17 +21,17 @@
   "modules_to_save": null,
   "peft_type": "LORA",
   "qalora_group_size": 16,
-  "r": 16,
+  "r": 32,
   "rank_pattern": {},
   "revision": null,
   "target_modules": [
+    "v_proj",
+    "up_proj",
+    "q_proj",
+    "o_proj",
     "k_proj",
     "gate_proj",
-    "o_proj",
-    "q_proj",
-    "down_proj",
-    "v_proj",
-    "up_proj"
+    "down_proj"
   ],
   "target_parameters": null,
   "task_type": "CAUSAL_LM",
