@@ -204,7 +204,7 @@ def absSum(x):
         p.append(abs(int(components[0])) + abs(int(components[2])) + abs(int(components[4])))
     return p
 
-n_bootstrap = 10
+n_bootstrap = 1
 predictions = []
 out_predictions = []
 long_predictions = []
