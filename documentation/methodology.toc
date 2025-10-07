@@ -1,6 +1,8 @@
-\contentsline {section}{\numberline {1}Brief Summary of the Project}{1}{section.1}%
-\contentsline {section}{\numberline {2}Introduction to this document}{1}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Drop-Out}{3}{subsection.2.1}%
-\contentsline {section}{\numberline {3}Recurrent Neural Network (RNN)}{3}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Introduction}{3}{subsection.3.1}%
-\contentsline {section}{\numberline {4}attention}{5}{section.4}%
+\contentsline {subsection}{\numberline {0.1}Brief Summary of the Project}{1}{subsection.0.1}%
+\contentsline {subsection}{\numberline {0.2}Introduction to this document}{1}{subsection.0.2}%
+\contentsline {section}{\numberline {1}Feed-forward Neural Networks (FNN)}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Train and Test data}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Drop-Out}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Recurrent Neural Network (RNN)}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Introduction}{4}{subsection.2.1}%
+\contentsline {section}{\numberline {3}attention}{6}{section.3}%

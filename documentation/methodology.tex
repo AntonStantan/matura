@@ -6,48 +6,53 @@
 \author{Anton Mukin}
 \date{June 2025}
 
+\setlength{\parindent}{0pt}
+
+
 \begin{document}
 
 \maketitle
 
-\section{Brief Summary of the Project}
+\subsection{Brief Summary of the Project}
 This Matura project investigates and evaluates the arithmetic capabilities 
 of different neural networks. 
-\\
+
 The project began with a literature review to 
 generate a hypothesis regarding the weaknesses of neural networks in 
 performing simple arithmetic. This literature review was submitted as the 
 Zwischenprodukt, alongside a proof-of-concept notebook featuring a 
 comparison of Feed-forward Neural Networks (FNNs) of different sizes.
-\\
+
 The next step was to build a Recurrent Neural Network (RNN) and similar 
 attention-based RNNs to investigate their arithmetic capabilities and 
 compare them to those of the FNN using a benchmark.
-\\
+
 The benchmark's baseline was defined to be the performance of a basic FNN's 
 performance on different, but roughly still similar arithmetic tasks.
-\\
+
 Afterwards, the same was done for the transformer type of neural network 
 model. Here, their exact functionality was thuroughly investigated, because 
 of their unique architectures.
-\\
+
 Lastly a simillar workflow was repeated for some bigger, pre-trained models. 
-\\
+
 And finally all the findings were collected and evaluated as a whole.
 
 
-\section{Introduction to this document}
+\subsection{Introduction to this document}
 The goal of this document is assisting reproducability and showing how the 
 findings discussed in the other document have been obtained.
-\\[2em]
+
 All of the code written for this project is available in the github 
 reporsitory: 
-\\
+
 \url{https://github.com/AntonStantan/matura}
-\\
-In this project all of the code is written in Python-notebooks (Jupyter Lab). 
-\\
-Most of the models were trained locally on a Nvidia GPU device: \it{Nvidia 
+
+In this project all of the code is written in Python-notebooks (Jupyter Lab).
+The preffered library used was \href{https://www.tensorflow.org/guide/keras}
+{tensorflow keras}. 
+
+Most of the models were trained locally on a Nvidia GPU device: \textit{Nvidia 
 Jetson Orin Nano Super Developer Kit}
 
 \begin{figure}[ht]
@@ -61,8 +66,47 @@ Jetson Orin Nano Super Developer Kit}
 \tableofcontents
 \newpage
 
+\section{Feed-forward Neural Networks (FNN)}
+This section refers to the \href{https://github.com/AntonStantan/matura/tree/main/FNN}
+{/FNN directory} in the github reporsitory.
 
+There are two notebooks here: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}
+{FNN1} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}
+{FNN2}.
 
+\subsection{Train and Test data}
+Defining the train data; The decision was made to only use subtraction and 
+addition. The arithmetic expressions were defined to consist of two 
+operators (+ or -) and three integers $[-5, 5]$
+
+The reason for these definitions are: + and - are the 2 simplest operators. 
+And the decision to introduce the model to 3 numbers, in place of the more 
+commonly used 2, was made in hopes of simplifying the transition to more 
+numbers later on.
+
+e.g., the first three entries are: 
+\[
+1 - -2 + 3 \qquad -2 + -3 - -5 \qquad 3 - 1 - 0
+\]
+{\small In total there are 1907 expressions like this in the train data.}
+\\[2em]
+The test data is also defined in a slightly unconventional manner. It is 
+split up into three categories.
+\begin{itemize}
+    \item Inside of the number range: Expressions just like in the train 
+data but not inside of train data. 
+    \item Outside of the number range: The same expressions, but with 
+numbers in the ranges $[-8, -5]$ and $[5, 8]$ e.g.,
+\[
+-6 + 6 + 8 \qquad -7 + 6 + 7 \qquad 5 - -6 - 6
+\]
+    \item Longer expressions: Expressions of different lengths. 
+Specifically, there are between 2 and 8 numbers inside of the $[-5, 5]$ 
+range. e.g.,
+\[
+-5 + 1 \qquad 3 + -1 + 4 + -2 + -4 \qquad -2 + 1 + 5 + -5 - -2 + -1 - 2 - 5
+\]
+\end{itemize}
 
 \subsection{Drop-Out}
 When introducing a Drop-Out with an industry standard value of 0.3; contrary 
@@ -85,7 +129,7 @@ model.
 
 \newpage
 \textbf{ Numerical Visualization:}
-\\
+
 
 Let:
 \begin{itemize}
