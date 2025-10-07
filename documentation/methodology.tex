@@ -1,6 +1,14 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{hyperref}
+\usepackage{fancyvrb}
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{references.bib}
+
+% Set smaller font size for all Verbatim environments
+\fvset{
+  fontsize=\small
+}
 
 \title{Methodology for Predictive calculator}
 \author{Anton Mukin}
@@ -108,6 +116,107 @@ range. e.g.,
 \]
 \end{itemize}
 
+\subsection{Training a Neural Network Using Tensorflow}
+This subsection will show how the models used in this project were first 
+defined and then trained with tensorflow on the example of a simple FNN.
+\\[2em]
+To start of we will import the necessary libraries.
+\begin{Verbatim}
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.layers import Dense, Layer, Dropout
+from tensorflow.keras import layers, Sequential
+from tensorflow.keras.layers import PReLU
+\end{Verbatim}
+
+And then we have to make a dataset out of the train and validation data 
+discussed in the previous subsection. Let's use batches of 32.
+Validation data is like the In-Range-test-data, except there aren't as many
+expressions.
+\begin{Verbatim}
+batch_size = 32
+train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
+.shuffle(len(x_train)).batch(batch_size)
+val_dataset = tf.data.Dataset.from_tensor_slices((x_val, y_val))
+.batch(batch_size)
+\end{Verbatim}
+
+We can now define the model using tf.keras.Sequential. The model's 
+architecture is clearly visible. In this example the model has two dense 
+layers with 64 neurons each.
+
+The activation function used is PReLU, as this is the one, which was the  
+most promising in \cite{trask2018neuralarithmeticlogicunits}. 
+
+Drop-out is included to prevent overfitting. In most models used in this 
+project it wasn't necessary.
+
+As you can see, the input-shape has to be defined, when defining the model.
+
+Additionally, please notice how the output layer only consists of a single 
+neuron with a linear activation function. This means the model we just 
+created is a regression model. This is similar to not having a decoder.
+\begin{Verbatim}
+input_shape = (15,)
+model = Sequential([
+    keras.Input(shape = input_shape),     #input
+
+    Dense(64),                            #first dense layer
+    PReLU(),                              #PReLU activation function
+    Dropout(0.1),                         #dropout layer
+
+    Dense(64),                            #second dense layer
+    PReLU(),                                
+    Dropout(0.1),                           
+
+    Dense(1, activation='linear')         #output layer
+])
+\end{Verbatim}
+
+The next step is to compile the model, by choosing an optimizer and loss 
+calculation e.g., in our case Mean Squared Error (MSE)
+\begin{Verbatim}
+model.compile(optimizer="adam", loss="mse")
+\end{Verbatim}
+
+The last step remaining is to fit the model on some data. We will be 
+fitting our model on the previously defined train and validation data. 
+The training process will take 200 epochs to complete or it might be aborted
+preemtively if the model starts to overfit and early\_stopping is triggered.
+
+\begin{Verbatim}
+model.fit(
+    train_dataset,
+    validation_data=val_dataset,
+    epochs=200,
+    callbacks=[early_stopping],
+    verbose=1
+)
+\end{Verbatim}
+
+\subsection{FNN1 and FNN2 Notebooks}
+In this project two notebooks with FNNs have been created. FNN1 and FNN2. 
+In FNN1 a simple FNN was created, it's performance was evaluated and FNNs 
+of different sizes have been compared against eachother in a heatmap. It is 
+noteworthy, that the models here have been used with a bootstrap, meaning 
+multiple models with the same sizes were trained and then used to give one 
+combined prediction. This was done to reduce noise. In later notebooks this 
+will not be the case, as this makes it more difficult to accurately evaluate 
+a model.
+\\[2em]
+FNN2 includes a model with hyperparameters (in this case the number of 
+neurons, the number of layers and whether or not to use dropout) chosen by 
+the keras-tuner. This is simply put an automatization: It picks out models 
+with different hyperparameters, trains them and compares their performance 
+on validation data. The model with the best-performing hyperparameters will 
+be chosen as the best model.
+
+The model in FNN2 is evaluated inside of that notebook and it's benchmark 
+is calculated.
+
+\subsection{The Benchmark}
+
+
 \subsection{Drop-Out}
 When introducing a Drop-Out with an industry standard value of 0.3; contrary 
 to the expectation of reducing over-fitting, which in some way is present, 
@@ -159,9 +268,13 @@ Useful sources for the creation of the first RNN prototype:
 % https://www.tensorflow.org/guide/keras/working_with_rnns
 \newpage
 
-\section{attention}
+%\section{attention}
 
 %https://arxiv.org/abs/1409.0473
 %https://arxiv.org/abs/1508.04025
 %https://www.tensorflow.org/api_docs/python/tf/keras/layers/Attention
+
+
+\printbibliography[heading=bibintoc]
+
 \end{document}

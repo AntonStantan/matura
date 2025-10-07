@@ -1,0 +1,163 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{trask2018neuralarithmeticlogicunits}{misc}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=27cd1df7880d14dc1dab23f4d06dfd30}{%
+           family={Trask},
+           familyi={T\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b0e56d87bc44e497c3ed1a2546f53283}{%
+           family={Hill},
+           familyi={H\bibinitperiod},
+           given={Felix},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=698ee61a2f3fa29734204496d2d36aef}{%
+           family={Reed},
+           familyi={R\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=26d1c8984da606b6ed6683c4e6eda1af}{%
+           family={Rae},
+           familyi={R\bibinitperiod},
+           given={Jack},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc0d6b065a6566cde5d6b93214be1b55}{%
+           family={Dyer},
+           familyi={D\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f78b89d658b3089596ea20b3dc21304}{%
+           family={Blunsom},
+           familyi={B\bibinitperiod},
+           given={Phil},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a782ddd970d421d1e68d8cbd5d0e049f}
+      \strng{fullhash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{fullhashraw}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{bibnamehash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authorbibnamehash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authornamehash}{a782ddd970d421d1e68d8cbd5d0e049f}
+      \strng{authorfullhash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authorfullhashraw}{d696dba458fbb9b55c292e88eec17be1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.NE}
+      \field{eprinttype}{arXiv}
+      \field{title}{Neural Arithmetic Logic Units}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1808.00508
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1808.00508
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1808.00508
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{trask2018neuralarithmeticlogicunits}{misc}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=27cd1df7880d14dc1dab23f4d06dfd30}{%
+           family={Trask},
+           familyi={T\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b0e56d87bc44e497c3ed1a2546f53283}{%
+           family={Hill},
+           familyi={H\bibinitperiod},
+           given={Felix},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=698ee61a2f3fa29734204496d2d36aef}{%
+           family={Reed},
+           familyi={R\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=26d1c8984da606b6ed6683c4e6eda1af}{%
+           family={Rae},
+           familyi={R\bibinitperiod},
+           given={Jack},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dc0d6b065a6566cde5d6b93214be1b55}{%
+           family={Dyer},
+           familyi={D\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f78b89d658b3089596ea20b3dc21304}{%
+           family={Blunsom},
+           familyi={B\bibinitperiod},
+           given={Phil},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a782ddd970d421d1e68d8cbd5d0e049f}
+      \strng{fullhash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{fullhashraw}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{bibnamehash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authorbibnamehash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authornamehash}{a782ddd970d421d1e68d8cbd5d0e049f}
+      \strng{authorfullhash}{d696dba458fbb9b55c292e88eec17be1}
+      \strng{authorfullhashraw}{d696dba458fbb9b55c292e88eec17be1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.NE}
+      \field{eprinttype}{arXiv}
+      \field{title}{Neural Arithmetic Logic Units}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1808.00508
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1808.00508
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1808.00508
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
