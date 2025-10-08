@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber methodology"] 1759874089.588 "methodology.bcf" "methodology.bbl" "methodology" 1759938653.61331 0
-  "methodology.bcf" 1759938653 134033 9d545d2132b7501301de8965a138aa8e "pdflatex"
-  "references.bib" 1759874041 354 b9bff91a272ff27cac3d22b500cff821 ""
+["biber methodology"] 1759957037.97049 "methodology.bcf" "methodology.bbl" "methodology" 1759957266.15528 0
+  "methodology.bcf" 1759957265 134263 d896a06178f4345d06fb6f9e876b2824 "pdflatex"
+  "references.bib" 1759957037 1148 d069c1bfd79579c9cdc3402ea62d8bc9 ""
   (generated)
   "methodology.bbl"
   "methodology.blg"
   (rewritten before read)
-["pdflatex"] 1759938651.84627 "c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/methodology.tex" "methodology.pdf" "methodology" 1759938653.6143 0
-  "c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/methodology.tex" 1759938649 13634 fc2bb2f34cfee40f78ccb834bdbc38cf ""
+["pdflatex"] 1759957264.30954 "c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/methodology.tex" "methodology.pdf" "methodology" 1759957266.15626 0
+  "c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/methodology.tex" 1759957259 14377 13c3b41c1a622ad7708f4910b7505065 ""
   "d:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1759790158 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "d:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1759791291 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1759790793 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -101,12 +101,12 @@
   "d:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1759796127 3629021 6726fd846c155256674bac8c2117ee4b ""
   "d:/texlive/2025/texmf.cnf" 1759795861 713 e69b156964470283e0530f5060668171 ""
   "images/JetsonBoot.jpg" 1759847875 779280 4862077e83d56fbda7243a9db3cf1f16 ""
-  "methodology.aux" 1759938653 2384 d1c318acb45d3f580846ddbbbdcc11d2 "pdflatex"
-  "methodology.bbl" 1759874091 5927 6377160ac615c94870ec0be8e612e0d3 "biber methodology"
-  "methodology.out" 1759938653 2092 f5b5df88f8c3a7881070f6402a57d456 "pdflatex"
-  "methodology.run.xml" 1759938653 2476 a81ac3875392e2754dc07ab3301a2de0 "pdflatex"
-  "methodology.tex" 1759938649 13634 fc2bb2f34cfee40f78ccb834bdbc38cf ""
-  "methodology.toc" 1759938653 1021 279ce110d98a9c219ae87365eedaf475 "pdflatex"
+  "methodology.aux" 1759957265 3217 c11e08256ed820bd48e93629efd215d0 "pdflatex"
+  "methodology.bbl" 1759957040 14471 12907f65c785decc48c02bab62cb623a "biber methodology"
+  "methodology.out" 1759957265 2323 93e726a2cdf71731746ee3564c992e8d "pdflatex"
+  "methodology.run.xml" 1759957265 2476 a81ac3875392e2754dc07ab3301a2de0 "pdflatex"
+  "methodology.tex" 1759957259 14377 13c3b41c1a622ad7708f4910b7505065 ""
+  "methodology.toc" 1759957265 1113 dff58806be19700db6b9ee2728b25977 "pdflatex"
   (generated)
   "methodology.aux"
   "methodology.bcf"

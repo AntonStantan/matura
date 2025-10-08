@@ -19,6 +19,56 @@
 
 \refsection{0}
   \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{bowman2015recursiveneuralnetworkslearn}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=fc3587de57b6b9868eab5cb9c8efc3fb}{%
+           family={Bowman},
+           familyi={B\bibinitperiod},
+           given={Samuel\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=699d626ef41a1a827d623529c1a45e5a}{%
+           family={Potts},
+           familyi={P\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2214edb8305f7ccd7cdc310b3a8ae1b4}{%
+           family={Manning},
+           familyi={M\bibinitperiod},
+           given={Christopher\bibnamedelima D.},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d4eac46f500ea79b2ca148f2bf01bc6}
+      \strng{fullhash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{fullhashraw}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{bibnamehash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authorbibnamehash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authornamehash}{2d4eac46f500ea79b2ca148f2bf01bc6}
+      \strng{authorfullhash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authorfullhashraw}{087dafd0a9cca9beea25f30791064c0b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CL}
+      \field{eprinttype}{arXiv}
+      \field{title}{Recursive Neural Networks Can Learn Logical Semantics}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1406.1827
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1406.1827
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1406.1827
+      \endverb
+    \endentry
     \entry{trask2018neuralarithmeticlogicunits}{misc}{}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=27cd1df7880d14dc1dab23f4d06dfd30}{%
@@ -87,8 +137,112 @@
       \verb https://arxiv.org/abs/1808.00508
       \endverb
     \endentry
+    \entry{ibm_rnn}{misc}{}{}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labeldatesource}{nodate}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{What is a recurrent neural network (RNN?)}
+      \verb{urlraw}
+      \verb https://www.ibm.com/think/topics/recurrent-neural-networks
+      \endverb
+      \verb{url}
+      \verb https://www.ibm.com/think/topics/recurrent-neural-networks
+      \endverb
+    \endentry
+    \entry{tensorflow_keras_rnn}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3cf79504f32e3797c7388fb8406c4cef}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5836fc1fa037e340c8b5591da3207608}{%
+           family={Chollet},
+           familyi={C\bibinitperiod},
+           given={Francois},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{fullhash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{fullhashraw}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{bibnamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorbibnamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authornamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorfullhash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorfullhashraw}{669a0684a85baa8a0f255e2d76765bb5}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{Working with {RNN}s}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://www.tensorflow.org/guide/keras/working_with_rnns
+      \endverb
+      \verb{url}
+      \verb https://www.tensorflow.org/guide/keras/working_with_rnns
+      \endverb
+    \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
+    \entry{bowman2015recursiveneuralnetworkslearn}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=fc3587de57b6b9868eab5cb9c8efc3fb}{%
+           family={Bowman},
+           familyi={B\bibinitperiod},
+           given={Samuel\bibnamedelima R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=699d626ef41a1a827d623529c1a45e5a}{%
+           family={Potts},
+           familyi={P\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2214edb8305f7ccd7cdc310b3a8ae1b4}{%
+           family={Manning},
+           familyi={M\bibinitperiod},
+           given={Christopher\bibnamedelima D.},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d4eac46f500ea79b2ca148f2bf01bc6}
+      \strng{fullhash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{fullhashraw}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{bibnamehash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authorbibnamehash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authornamehash}{2d4eac46f500ea79b2ca148f2bf01bc6}
+      \strng{authorfullhash}{087dafd0a9cca9beea25f30791064c0b}
+      \strng{authorfullhashraw}{087dafd0a9cca9beea25f30791064c0b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CL}
+      \field{eprinttype}{arXiv}
+      \field{title}{Recursive Neural Networks Can Learn Logical Semantics}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1406.1827
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1406.1827
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1406.1827
+      \endverb
+    \endentry
     \entry{trask2018neuralarithmeticlogicunits}{misc}{}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=27cd1df7880d14dc1dab23f4d06dfd30}{%
@@ -155,6 +309,60 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/1808.00508
+      \endverb
+    \endentry
+    \entry{ibm_rnn}{misc}{}{}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labeldatesource}{nodate}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{What is a recurrent neural network (RNN?)}
+      \verb{urlraw}
+      \verb https://www.ibm.com/think/topics/recurrent-neural-networks
+      \endverb
+      \verb{url}
+      \verb https://www.ibm.com/think/topics/recurrent-neural-networks
+      \endverb
+    \endentry
+    \entry{tensorflow_keras_rnn}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3cf79504f32e3797c7388fb8406c4cef}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5836fc1fa037e340c8b5591da3207608}{%
+           family={Chollet},
+           familyi={C\bibinitperiod},
+           given={Francois},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{fullhash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{fullhashraw}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{bibnamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorbibnamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authornamehash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorfullhash}{669a0684a85baa8a0f255e2d76765bb5}
+      \strng{authorfullhashraw}{669a0684a85baa8a0f255e2d76765bb5}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{Working with {RNN}s}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://www.tensorflow.org/guide/keras/working_with_rnns
+      \endverb
+      \verb{url}
+      \verb https://www.tensorflow.org/guide/keras/working_with_rnns
       \endverb
     \endentry
   \enddatalist

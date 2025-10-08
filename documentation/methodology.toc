@@ -8,5 +8,6 @@
 \contentsline {subsection}{\numberline {1.5}Drop-Out}{7}{subsection.1.5}%
 \contentsline {section}{\numberline {2}Recurrent Neural Network (RNN)}{7}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Numerical Visualization of a RNN:}{7}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}RNN0}{8}{subsection.2.2}%
-\contentsline {section}{References}{9}{section*.2}%
+\contentsline {subsection}{\numberline {2.2}RNN0 and RNN2}{8}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Attention and Transformers}{9}{section.3}%
+\contentsline {section}{References}{10}{section*.2}%

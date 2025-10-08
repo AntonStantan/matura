@@ -264,13 +264,18 @@ yield scores below or above 1, respectively.
 
 
 \subsection{Drop-Out}
-When introducing a Drop-Out with an industry standard value of 0.3; contrary 
-to the expectation of reducing over-fitting, which in some way is present, 
-as the models aren't able to generalize beyond the training range, this has 
-a negative effect on the model. The MSEs of models with Drop-out are higher 
-then, the ones of the previous models without drop-out.
+When introducing a Drop-Out with an industry standard value of 0.3, contrary 
+to the expectation of reducing over-fitting, which in some way is present 
+(according to literature discussed in the literature study), as the models 
+aren't able to generalize beyond the training range, this has a negative 
+effect on the model. The MSEs of models with Drop-out are higher then, the 
+ones of the previous models without drop-out. 
+
+This is because drop out effectively decreases the computing cpacity of a 
+model during training (when predicting this is no longer the case), by 
+deactivating a percentage of randomly chosen neurons in each layer.
 % https://github.com/AntonStantan/matura/blob/main/FNN_Heatmaps/DropOutComparison.png
-%this is kinda wrong. Will explain later
+%THIS SHOULD GO INTO FINDINGS
 
 \section{Recurrent Neural Network (RNN)}
 Recurrent Neural Networks (RNNs) work similar to FNNs with one key 
@@ -304,7 +309,7 @@ $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
 
 
-\subsection{RNN0}
+\subsection{RNN0 and RNN2}
 The RNN0 notebook includes a model built with the aformentioned architecture.
 
 A RNN model consisting of 2 dense layers with 50 neurons each:
@@ -324,20 +329,28 @@ By default this is set to false, because RNNs are frequently used with just
 one layer, for applications like Natural Language Processing (NLP) or Time 
 series analysis like the stock market.
 
+The same notebook used in FNN2 was adapted to work with RNNs in the notebook 
+\href{https://github.com/AntonStantan/matura/blob/main/RNN/RNN2.ipynb}{RNN2}. 
+Like in FNN2 the keras-tuner was used for finding the optimal number of 
+neurons, as well as whether or not to include the dropout after a dense 
+layer.
+
+Ensuring the keras-tuner can choose to use a dropout isn't crucial, because 
+we expect all results from a model with a drop-out to be worse. This only 
+helps if the model would be over-fitting otherwise.
+
 
 Useful sources for the creation of the first RNN prototype:
-% https://www.ibm.com/think/topics/recurrent-neural-networks
-% https://arxiv.org/pdf/1406.1827
-% https://www.tensorflow.org/guide/keras/working_with_rnns
-\newpage
+\cite{bowman2015recursiveneuralnetworkslearn, tensorflow_keras_rnn,ibm_rnn}
 
-%\section{attention}
+
+\section{Attention and Transformers}
 
 %https://arxiv.org/abs/1409.0473
 %https://arxiv.org/abs/1508.04025
 %https://www.tensorflow.org/api_docs/python/tf/keras/layers/Attention
 
-
+\newpage
 \printbibliography[heading=bibintoc]
 
 \end{document}
