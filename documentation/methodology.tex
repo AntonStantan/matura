@@ -63,7 +63,7 @@ The preffered library used was \href{https://www.tensorflow.org/guide/keras}
 Most of the models were trained locally on a Nvidia GPU device: \textit{Nvidia 
 Jetson Orin Nano Super Developer Kit}
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\paperwidth]{images/JetsonBoot.jpg}
     \caption{You can see the aformentioned Nvidia Jetson device booting up.}
@@ -75,6 +75,9 @@ Jetson Orin Nano Super Developer Kit}
 \newpage
 
 \section{Feed-forward Neural Networks (FNN)}
+For details on how a FNN works please refer to the section two in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}
+{the literature study}.
+
 This section refers to the \href{https://github.com/AntonStantan/matura/tree/main/FNN}
 {/FNN directory} in the github reporsitory.
 
@@ -215,6 +218,49 @@ The model in FNN2 is evaluated inside of that notebook and it's benchmark
 is calculated.
 
 \subsection{The Benchmark}
+To calculate the benchmark a model is evaluated on 4 categories: The test 
+data inside of the number range, outside of the number range, longer 
+expressions and a relative MSE of the test data with numbers outside of the 
+range.
+Refer to the code below:
+\begin{Verbatim}
+benchmark = 0
+benchmark += baseline_deviation / (meanDiff_InRange**2) / 4
+benchmark += baseline_out_deviation / (meanDiff_OutRange**2) / 4
+benchmark += baseline_long_deviation / (meanDiff_LongRange**2) / 4
+benchmark += baseline_relError / (meanDiff_OutRelRange**2) / 4
+print(f"Benchmark: {benchmark}")
+\end{Verbatim}
+
+The usage of a relative error punishes mistakes on "simpler" expressions and 
+is less harsh on more "difficult". Expressions whose absolute result is 
+small, are easier for a neural network to solve, while a larger absolute 
+result is more difficult to calculate.
+
+For the same reason two more adjustments have been made:
+Not all expressions outside the number range, and not all longer expressions 
+were used. 
+
+For longer expressions only expressions with 4 numbers were used.
+
+For expressions with numbers outside of the range, the expression was only 
+used if the absolute values of all three numbers added up to 22.
+
+These subsets were chosen because of their reasonable MSE of around 10 each.
+
+This, aswell as the inlusion of the relative MSE is done in hopes of 
+bringing the benchmarks of different models closer together and to increase 
+the linearity between them. This makes the benchmark more comfortable to 
+work with.
+
+The baseline values are defined to be of a FNN model with 30 neurons and two 
+dense layers. It is trained over the period of 200 epochs with 
+early\_stopping enabled.
+
+As clearly observable in the code for calculating the benchmark, using this 
+formula defines a model with the same performance as the baseline model to 
+have a benchmark of 1. Models performing worse or better on the test data 
+yield scores below or above 1, respectively.
 
 
 \subsection{Drop-Out}
@@ -227,7 +273,6 @@ then, the ones of the previous models without drop-out.
 %this is kinda wrong. Will explain later
 
 \section{Recurrent Neural Network (RNN)}
-\subsection{Introduction}
 Recurrent Neural Networks (RNNs) work similar to FNNs with one key 
 difference: There is a vector called the hidden-state. This vector contains 
 information about previous inputs. The hidden-state of the previous 
@@ -236,10 +281,8 @@ model which computes the hidden-state of the present time-step. The output
 of each time-step is calculated by feeding the respective hiddenstate to a 
 model.
 
-\newpage
-\textbf{ Numerical Visualization:}
 
-
+\subsection{Numerical Visualization of a RNN:}
 Let:
 \begin{itemize}
     \item $x_t$: Input at time step $t$
@@ -260,6 +303,26 @@ $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
 
+
+\subsection{RNN0}
+The RNN0 notebook includes a model built with the aformentioned architecture.
+
+A RNN model consisting of 2 dense layers with 50 neurons each:
+
+\begin{Verbatim}
+model = keras.Sequential([
+    keras.Input(shape=(input_shape, 1)),
+    keras.layers.SimpleRNN(50, return_sequences=True),
+    keras.layers.PReLU(),
+    keras.layers.SimpleRNN(50),
+    keras.layers.PReLU(),
+    keras.layers.Dense(1, activation = "linear")
+])
+\end{Verbatim}
+Notice return\_sequences = True. This is necessary for a subsequent layer. 
+By default this is set to false, because RNNs are frequently used with just 
+one layer, for applications like Natural Language Processing (NLP) or Time 
+series analysis like the stock market.
 
 
 Useful sources for the creation of the first RNN prototype:

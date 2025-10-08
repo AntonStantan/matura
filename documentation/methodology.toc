@@ -1,11 +1,12 @@
 \contentsline {subsection}{\numberline {0.1}Brief Summary of the Project}{1}{subsection.0.1}%
 \contentsline {subsection}{\numberline {0.2}Introduction to this document}{1}{subsection.0.2}%
-\contentsline {section}{\numberline {1}Feed-forward Neural Networks (FNN)}{3}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Train and Test data}{3}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Training a Neural Network Using Tensorflow}{3}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}FNN1 and FNN2 Notebooks}{5}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.4}The Benchmark}{5}{subsection.1.4}%
-\contentsline {subsection}{\numberline {1.5}Drop-Out}{5}{subsection.1.5}%
-\contentsline {section}{\numberline {2}Recurrent Neural Network (RNN)}{5}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Introduction}{5}{subsection.2.1}%
-\contentsline {section}{References}{7}{section*.2}%
+\contentsline {section}{\numberline {1}Feed-forward Neural Networks (FNN)}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Train and Test data}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Training a Neural Network Using Tensorflow}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}FNN1 and FNN2 Notebooks}{6}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}The Benchmark}{6}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Drop-Out}{7}{subsection.1.5}%
+\contentsline {section}{\numberline {2}Recurrent Neural Network (RNN)}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Numerical Visualization of a RNN:}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}RNN0}{8}{subsection.2.2}%
+\contentsline {section}{References}{9}{section*.2}%
