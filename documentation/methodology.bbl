@@ -19,6 +19,23 @@
 
 \refsection{0}
   \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{geeksforgeeks_attention_bilstm}{misc}{}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{GeeksforGeeks}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{Adding Attention Layer to a {Bi-LSTM}}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/nlp/adding-attention-layer-to-a-bi-lstm
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/nlp/adding-attention-layer-to-a-bi-lstm
+      \endverb
+    \endentry
     \entry{bowman2015recursiveneuralnetworkslearn}{misc}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=fc3587de57b6b9868eab5cb9c8efc3fb}{%
@@ -193,6 +210,23 @@
     \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
+    \entry{geeksforgeeks_attention_bilstm}{misc}{}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{GeeksforGeeks}
+      \field{note}{Accessed: Oct. 09, 2025}
+      \field{title}{Adding Attention Layer to a {Bi-LSTM}}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://www.geeksforgeeks.org/nlp/adding-attention-layer-to-a-bi-lstm
+      \endverb
+      \verb{url}
+      \verb https://www.geeksforgeeks.org/nlp/adding-attention-layer-to-a-bi-lstm
+      \endverb
+    \endentry
     \entry{bowman2015recursiveneuralnetworkslearn}{misc}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=fc3587de57b6b9868eab5cb9c8efc3fb}{%

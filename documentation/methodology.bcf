@@ -3075,6 +3075,7 @@
     <bcf:citekey order="2" intorder="1">bowman2015recursiveneuralnetworkslearn</bcf:citekey>
     <bcf:citekey order="2" intorder="2">tensorflow_keras_rnn</bcf:citekey>
     <bcf:citekey order="2" intorder="3">ibm_rnn</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">geeksforgeeks_attention_bilstm</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

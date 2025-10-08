@@ -346,6 +346,43 @@ Useful sources for the creation of the first RNN prototype:
 
 \section{Attention and Transformers}
 
+\subsection{Attentional RNNs}
+For the sake of transitioning from RNNs to transformers an attentional RNN 
+model was trained and evaluated.
+
+It consisted of a bidirectional\footnote{This means input is being processed 
+from front to back and from back to front. It allows the LSTM to get a 
+richer and broader context representation} Long Short Term Memory (LSTM) 
+layer, used as the encoder and a self-attention mechanism for attention. 
+
+\begin{Verbatim}
+#Encoder:
+encoder_inputs = Input(shape = (len(x_train[0]), 1))
+encoder_outputs = Bidirectional(LSTM(64, return_sequences=True))(encoder_inputs)
+
+#self-attention mechanism
+attention_outputs = Attention()([encoder_outputs, encoder_outputs])
+
+#condensing into a single vector
+context_vector = GlobalAveragePooling1D()(attention_outputs)
+
+#output layer (Decoder)
+output = Dense(1, activation = "linear")(context_vector)
+
+model = Model(inputs = encoder_inputs, outputs = output)
+\end{Verbatim}
+
+This bidirectional LSTM with attention was realized in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/g4gLSTM.ipynb}
+{the g4gLSTM notebook}. It contains a model built with the help of code from 
+\cite{geeksforgeeks_attention_bilstm}. 
+
+A number of 35 LSTMs were chosen for the Encoder because of it's previous 
+performance (with bootstrapping), visible in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/previousHeatmap.png}
+{a heatmap}.
+
+
+
+%sources for attention theory:
 %https://arxiv.org/abs/1409.0473
 %https://arxiv.org/abs/1508.04025
 %https://www.tensorflow.org/api_docs/python/tf/keras/layers/Attention

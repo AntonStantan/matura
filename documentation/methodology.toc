@@ -10,4 +10,5 @@
 \contentsline {subsection}{\numberline {2.1}Numerical Visualization of a RNN:}{7}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}RNN0 and RNN2}{8}{subsection.2.2}%
 \contentsline {section}{\numberline {3}Attention and Transformers}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Attentional RNNs}{9}{subsection.3.1}%
 \contentsline {section}{References}{10}{section*.2}%
