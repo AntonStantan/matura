@@ -3076,6 +3076,11 @@
     <bcf:citekey order="2" intorder="2">tensorflow_keras_rnn</bcf:citekey>
     <bcf:citekey order="2" intorder="3">ibm_rnn</bcf:citekey>
     <bcf:citekey order="3" intorder="1">geeksforgeeks_attention_bilstm</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">vaswani2023attentionneed</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">vaswani2023attentionneed</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">vaswani2023attentionneed</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">vaswani2023attentionneed</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">loshchilov2019decoupledweightdecayregularization</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

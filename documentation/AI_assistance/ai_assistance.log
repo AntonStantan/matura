@@ -1,0 +1,128 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.7)  9 OCT 2025 22:57
+entering extended mode
+ \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/AI_assistance/ai_assistance.tex
+(c:/Users/stant/Desktop/ksba/MATURA/matura/matura/documentation/AI_assistance/ai_assistance.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-09-02>
+(d:/texlive/2025/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(d:/texlive/2025/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (d:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count283
+) (./ai_assistance.aux)
+\openout1 = `ai_assistance.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--25
+
+ []
+
+
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 78--78
+[]\OT1/cmtt/m/n/10 # Define a custom learning rate schedule class with warmup and cosine decay[] 
+ []
+
+
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 78--78
+[]\OT1/cmtt/m/n/10 class WarmupCosineDecay(tf.keras.optimizers.schedules.LearningRateSchedule):[] 
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 78--78
+[]    \OT1/cmtt/m/n/10 A custom learning rate schedule that implements a linear warmup[] 
+ []
+
+
+Overfull \hbox (80.24629pt too wide) in paragraph at lines 78--78
+[]    \OT1/cmtt/m/n/10 def __init__(self, peak_lr, warmup_steps, decay_steps, alpha=0.0, name=None):[] 
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 78--78
+[]            \OT1/cmtt/m/n/10 # Linearly increase the learning rate from 0 to peak_lr[] 
+ []
+
+
+Overfull \hbox (64.49643pt too wide) in paragraph at lines 78--78
+[]            \OT1/cmtt/m/n/10 cosine_decay_schedule = tf.keras.optimizers.schedules.CosineDecay([] 
+ []
+
+
+
+[1
+
+{d:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (80.24629pt too wide) in paragraph at lines 78--78
+[]            \OT1/cmtt/m/n/10 # Note: The 'step' for the cosine part must be relative to its start.[] 
+ []
+
+
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 78--78
+[]            \OT1/cmtt/m/n/10 decay_lr = cosine_decay_schedule(step - self.warmup_steps)[] 
+ []
+
+
+Overfull \hbox (74.99634pt too wide) in paragraph at lines 78--78
+[]            \OT1/cmtt/m/n/10 # Use tf.where to select the learning rate based on the current step[] 
+ []
+
+
+
+[2] (./ai_assistance.aux)
+ ***********
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-09-02>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 430 strings out of 467748
+ 8244 string characters out of 5431138
+ 443696 words of memory out of 5000000
+ 29204 multiletter control sequences out of 15000+600000
+ 627889 words of font info for 41 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 35i,5n,38p,231b,306s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on ai_assistance.pdf (2 pages, 39009 bytes).
+PDF statistics:
+ 21 PDF objects out of 1000 (max. 8388607)
+ 12 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

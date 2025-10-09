@@ -376,11 +376,92 @@ This bidirectional LSTM with attention was realized in \href{https://github.com/
 {the g4gLSTM notebook}. It contains a model built with the help of code from 
 \cite{geeksforgeeks_attention_bilstm}. 
 
-A number of 35 LSTMs were chosen for the Encoder because of it's previous 
+A number of 35 LSTM units were chosen for the Encoder because of it's previous 
 performance (with bootstrapping), visible in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/previousHeatmap.png}
 {a heatmap}.
+\newpage
+\subsection{Transformers}
+
+For the example of which architecture to use for building a transformer, we 
+turn to the original paper \cite{vaswani2023attentionneed}. The architecture 
+used in this project resembles the one that first introduced the transformer 
+architecture with one small difference: It is a Encoder-only model, not the 
+sequence to sequence type from the paper.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\paperwidth]{images/transformerSeq2Seq.png}
+    \caption{A Seq2Seq model from \cite{vaswani2023attentionneed}. The 
+    Encoder-only model used in this project, is the same, except the decoder 
+    part is skipped, in the image this part has been crossed out with red.}
+    \label{fig:transformerSeq2Seq}
+\end{figure}
+
+To code this in python an object oriented approach has been taken, with 
+classes consisting of other classes, like a matryoshka: 
+
+\begin{itemize}
+    \item Multi-Head Attention (MHA) and pointwise-FNN
+    \item Encoding layer consisting of the MHA and pointwise-FNN, as well as 
+layer normalization and dropout (included in the original paper to prevent 
+drop-out)
+    \item Encoder containing encoding layers and drop-out.
+    \item Transformer which encapsulates embedding and positional encoding, 
+as well as obviously the encoder and a final one-neuron-FNN with a linear 
+activation.
+\end{itemize}
+
+A model with the same hyperparameters like the ones used by \cite{vaswani2023attentionneed} 
+can be found in \href{https://github.com/AntonStantan/matura/blob/main/transformer/transformer0.ipynb}
+{transformer0}.
+
+Sadly this model get's stuck in a local minimum when training, as you can 
+tell at the bottom of it's notebook. The minimum is just predicting a number 
+close to 0 for every expression.
+
+We don't want this, so we have to tune the model's hyperparameters.
+We do this with the help of keras-tuner. 
+
+A couple of other minor adjustments were made to the model, mainly switching to 
+AdamW optimizer, because it is better than Adam for transformers \cite{loshchilov2019decoupledweightdecayregularization}. 
+And using a learning rate scheduler with warmup and Cosine decay. This means 
+that not like before, when the learning rate stayed constant throughout the 
+training, the learningrate changes. It is higher in the beginning and decays 
+towards the end. This helps the model take "big steps", "jump over" local 
+minimums and take more mindful, careful "steps" towards the end of the training. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\paperwidth]{images/learningRate.png}
+    \caption{This is how the learning rate could look like for a model being 
+    trained over the period of 200 epochs, when using a cosine decay with a 
+    linear warmup, like in this project. (Except for the changing 
+    peak-learningrate all other parameters are the same as the ones used in 
+    this project.)}
+    \label{fig:learningrate}
+\end{figure}
+
+In contrast to the FNN or the RNN a transformer has to be trained on other 
+hyperparameters: 
+\begin{itemize}
+    \item The number of heads inside the MHA
+    \item The number of dimensions tensors have inside the model
+    \item The number of encoding layers
+    \item The number of neurons in the layer inside of the pointwise-FNN
+    \item Wether to use dropout or not
+    \item The peak learning-rate after warmup and after the cosine decay
+\end{itemize}
 
 
+In the notebooks \href{https://github.com/AntonStantan/matura/blob/main/transformer/transformer4.ipynb}
+{transformer4} and \href{https://github.com/AntonStantan/matura/blob/main/transformer/transformer5.ipynb}
+{transformer5} you can look at models with successfully tuned 
+hyperparameters displaying promising performance on the benchmark.
+
+The difference between them is Transformer5 is a bigger model, than 
+Transformer4.
+
+\section{Pre-trained Transformers}
 
 %sources for attention theory:
 %https://arxiv.org/abs/1409.0473
