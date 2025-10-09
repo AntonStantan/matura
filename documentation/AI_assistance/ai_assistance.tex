@@ -77,8 +77,37 @@ class WarmupCosineDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
             return learning_rate
 \end{verbatim}
 
+google jules:
 
+Input: make a gitignore file for this repository. do not remove the direcotries "not\_relevant", they are relevant. Remove stuff like ipynbcheckpoints or pycashe
+\begin{verbatim}
+Output:
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
+# Ignore Python bytecode
+__pycache__/
+\end{verbatim}
+Input: all the irrelevant files except for .tex, .bib, .pdf, .png, .jpg should be ignored too. also ignore gitattributes
+\begin{verbatim}
+Output: 
+I've received the latest code review feedback, and I see a potential contradiction in the instructions for the .gitignore file.
+
+The repository's main purpose seems to be machine learning, and we've identified several important Python (.py) and Jupyter Notebook (.ipynb) files. However, your latest instruction was to create a .gitignore that ignores all files except for .tex, .bib, .pdf, .png, and .jpg.
+
+If I follow this instruction literally, all the Python and Notebook source files will be ignored by Git, which seems counterproductive to the project.
+
+Could you please clarify? Should I:
+
+Proceed with ignoring all files except .tex, .bib, .pdf, .png, and .jpg?
+Also include .py and .ipynb files in the whitelist of files to keep?
+Take a different approach to the .gitignore file?
+Once I have this clarification, I can finalize the .gitignore file correctly.
+\end{verbatim}
+Input: I meant all the irrelevant files except .tex, .bib, .pdf, .png, and .jpg in the documentation directory.
+\begin{verbatim}
+Output: gitignore files were published in a branch "add-gitigrnore-rules"
+\end{verbatim}
 
 
 \end{document}
