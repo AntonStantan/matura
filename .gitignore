@@ -1,0 +1,15 @@
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore .gitattributes as requested
+.gitattributes
+
+# Other common temporary files
+*.swp
+*.tmp
+*~
