@@ -4,6 +4,8 @@
 \usepackage{fancyvrb}
 \usepackage[backend=biber, style=apa]{biblatex}
 \addbibresource{references.bib}
+\usepackage{setspace} % Add this to your preamble
+
 
 % Set smaller font size for all Verbatim environments
 \fvset{
@@ -462,6 +464,140 @@ The difference between them is Transformer5 is a bigger model, than
 Transformer4.
 
 \section{Pre-trained Transformers}
+
+The only model-type left for me to analyse were fine-tuned pre-trained LLMs.
+Since working with them is completely different than working with your own 
+locally trained neural networks, a lot of research had to be done before 
+beginning to dig into the work.
+\\[1em]
+A lot of fuss went into library compatibility for the amd64 architecture 
+system on the Jetson device. The final solution was using a the 
+\href{https://github.com/dusty-nv/jetson-containers}{jetson-containers} 
+who offer a docker container optimized for the jetson-system. Specifically, 
+the container called bitsandbytes has most of the libraries needed for this 
+project, the few remaining ones can be installed manually using: \texttt{pip install}
+
+
+\subsection{Gemini 2.5 Pro}
+The first model to be fine-tuned was Gemini 2.5 pro. It is the one I 
+personally use the most, it was also chosen in part because of it's high 
+ranking in the \href{https://lmarena.ai/leaderboard}{LMarena}. 
+
+Fine-tuning had to be done on a remote server hosted by Google Cloud, 
+because of the model's size. 
+
+In the end, the costs for their service amounted to CHF 83.58.
+
+The fine-tuning was done from the VertexAI website. First a .json file with 
+the training data had to be created and uploaded. Afterwards the model was 
+fine-tuned in the notebook \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemini_vertex.ipynb}
+{gemini\_vertex}. The resulting model is loaded into an endpoint on the 
+google cloud servers.
+
+To access the new, fine-tuned model and be able to evaluate it, a pretty 
+simplistic notebook is created: \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemini_vertex_predict.ipynb}
+{gemini\_vertex\_predict}
+
+There, the model is loaded in from it's endpoint and used to predict test 
+data. 
+
+\subsection{Gemma 3}
+For some diversity a smaller (Gemma3 1B parameters) and a tiny (Gemma3 270M 
+parameters) were chosen.
+
+Because of their size, they can be fine-tuned locally on the jetson-device.
+They are fine-tuned with the SFTTrainer provided by trl.\footnote{We cannot 
+use the standard Trainer from huggingface, because the finetuning we do is 
+supervised, hence the name: Supervised Fine-Tuning (SFT)} \href{https://huggingface.co/docs/trl/en/sft_trainer}
+{The guide on huggingface} was used as help for this.
+
+During the fine-tuning process, a custom designed function that calculates 
+the accuracy on some validation data (first 100 samples from the test data). 
+This function was used to evaluate the model at different steps in training. 
+Fine-tuning notebooks for Gemma3 models can be found under:
+
+\href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/big_gemma_huggingface.ipynb}{Gemma3 1B}, \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemma_huggingface.ipynb}{Gemma3 270M}
+\\[2em]
+After fine-tuning the models can be found in the hugggingface repositories:
+
+\href{https://huggingface.co/AntonBOOM/big_output}{fine-tuned Gemma3 1B}, 
+\href{https://huggingface.co/AntonBOOM/output1}{fine-tuned Gemma3 270M}
+
+After a basemodel of the same architecture is loaded with the parameters 
+obtained from the fine-tune, see the notebooks: 
+
+\href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/big_gemma_huggingface_predict.ipynb}{Gemma3 1B prediction notebook}, 
+\href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemma-huggingface-predict.ipynb}{Gemma3 270M prediction notebook}
+
+There, the models are used to predict test data and again, calculate the 
+accuracy of the respective model.
+
+\subsection{Weird Results Encountered After Evaluation}
+
+A weird observation rose up: The accuracy during the fine-tuning process is 
+greater than the accuracy calculated when evaluating the models in the 
+prediction notebooks. This is probably due to some error that was overlooked 
+but no errors were found.
+
+The error was approached from a systematic standpoint; Multiple hypothesis 
+have been set and all of them disproven. The error (if there is one) could 
+not be found.
+
+\begin{quote}
+\setstretch{0.5}
+\footnotesize{
+Hypothesis for reason of the error:
+	
+- There is a previous model that is being loaded, instead of the most recent one. (or not the most recent epoch)
+
+All the previous runs have been deleted, there is only one left. The specific checkpoint has been specified (the most recent one).
+
+- There is an error with generating the data, like using different hyperparameters (temperature and stuff.)
+
+The pytorch .generate() and the huggingface provided generator pipeline both yielded simmilar results. And the pipeline uses hyperparameters from the fine-tune.
+
+- There might be an issue with the calculation during the evaluation steps
+
+I thuroughly checked the compute\_metrics function, and made sure the validation dataset is being used and not the train dataset. The function itself is very basic and there is no error, as confirmed by multiple LLMs.
+
+- The model is overfitted
+
+No, predicting on train data yielded the same (slightly better) results
+\\[2em]	
+After trying out different checkpoints, all of a sudden the accuracy of the 270m model dropped from 40% to 15%
+	
+- This lead me to believe maybe it has something to do with the way the models are calculating everything, apart from the temperature and other hyperparameters, it might be because of performance optimization software calculation on GPU or GPU with work offload to CPU might give different results.
+
+Transformers is imported the same way, and is working on GPU exclusively both times.
+
+- Ran the code on the exact same dataset used in the validation part during training. no differences.
+
+- There is a slight difference with the calculation. In the compute metrics function the prediction is only counted if the model uses a turnseparator. This could explain why the seemingly normal gap in accuracies occurred.
+
+After rerunning the training with the correction, the accuracy dropped a little (from 100% to 97%) at the end.
+
+- The pre-trained model obviously has a drop out and layer norms. The issue might be that the model is not in eval mode and is dropping out a lot of valuable data, this would explain the slightly worse performance.
+
+This was not the case, because after setting model.eval() this only increased the accuracy by around half a percent for the Gemma3 270M model, nothing really changed. + This should probably be on by default anyways.
+
+- A perfectly reasonable explanation would be, the model's weights aren't loaded in to the model properly, like it happened with FNN2.ipynb *see 4th of Oct Arbeitsprozess.
+
+This cannot be the case because loading in the hyperparameters is completely different to loading in the weights. A model with loaded-in weights is already trained (hence the name - pre-trained model). Additionally the model is showing signs of having learned from the fine-tuning process for example in the way it responds with the trained Int.0 instead of the traditional Int.
+}
+\end{quote}
+In case you find out why this happens, please contact the author of this 
+project.
+
+\newpage
+\section{Closing Remark}
+
+The author put a lot of work into this project, he would appreciate all 
+sorts of feedback anywhere: from email: anton.mukin@students.ksba.ch, to 
+discord: stantan2
+
+Please leave a star on the github repo if you found it interesting.
+\\[2em]
+I want to thank Herr Schneider for the great insights and quick responses.
 
 %sources for attention theory:
 %https://arxiv.org/abs/1409.0473

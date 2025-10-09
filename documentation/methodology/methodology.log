@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.7)  9 OCT 2025 22:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.7)  10 OCT 2025 00:46
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -402,30 +402,32 @@ Package biblatex Info: ... and expl3
 Package: xparse 2024-08-16 L3 Experimental document command parser
 )
 Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
-))
+)) (d:/texlive/2025/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2022/12/04 v6.7b set line spacing
+)
 \@quotelevel=\count435
 \@quotereset=\count436
  (./methodology.aux)
 \openout1 = `methodology.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
  (d:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count437
@@ -445,7 +447,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (d:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 20.
+Package hyperref Info: Link coloring OFF on input line 22.
  (./methodology.out) (./methodology.out)
 \@outlinefile=\write5
 \openout5 = `methodology.out'.
@@ -480,22 +482,22 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'methodology.bbl' found.
  (./methodology.bbl)
-Package biblatex Info: Reference section=0 on input line 20.
-Package biblatex Info: Reference segment=0 on input line 20.
+Package biblatex Info: Reference section=0 on input line 22.
+Package biblatex Info: Reference segment=0 on input line 22.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 23.
+(Font)              <12> on input line 25.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 23.
+(Font)              <8> on input line 25.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 23.
+(Font)              <6> on input line 25.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 57.
+(Font)              <7> on input line 59.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 57.
-<images/JetsonBoot.jpg, id=70, 3011.25pt x 4015.0pt>
+(Font)              <5> on input line 59.
+<images/JetsonBoot.jpg, id=86, 3011.25pt x 4015.0pt>
 File: images/JetsonBoot.jpg Graphic file (type jpg)
 <use images/JetsonBoot.jpg>
-Package pdftex.def Info: images/JetsonBoot.jpg  used on input line 68.
+Package pdftex.def Info: images/JetsonBoot.jpg  used on input line 70.
 (pdftex.def)             Requested size: 307.14749pt x 409.48782pt.
 
 
@@ -522,18 +524,18 @@ Package pdftex.def Info: images/JetsonBoot.jpg  used on input line 68.
 [8]
 
 [9]
-<images/transformerSeq2Seq.png, id=165, 1405.25pt x 747.79375pt>
+<images/transformerSeq2Seq.png, id=185, 1405.25pt x 747.79375pt>
 File: images/transformerSeq2Seq.png Graphic file (type png)
 <use images/transformerSeq2Seq.png>
-Package pdftex.def Info: images/transformerSeq2Seq.png  used on input line 393.
+Package pdftex.def Info: images/transformerSeq2Seq.png  used on input line 395.
 (pdftex.def)             Requested size: 307.14749pt x 163.44255pt.
 
 
 [10 <./images/transformerSeq2Seq.png>]
-<images/learningRate.png, id=179, 630.1944pt x 395.3169pt>
+<images/learningRate.png, id=199, 630.1944pt x 395.3169pt>
 File: images/learningRate.png Graphic file (type png)
 <use images/learningRate.png>
-Package pdftex.def Info: images/learningRate.png  used on input line 435.
+Package pdftex.def Info: images/learningRate.png  used on input line 437.
 (pdftex.def)             Requested size: 307.14749pt x 192.66945pt.
 
 
@@ -541,30 +543,42 @@ Package pdftex.def Info: images/learningRate.png  used on input line 435.
 
 [12]
 
-[13] (./methodology.aux)
+[13]
+
+[14]
+
+[15]
+
+[16] (./methodology.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-09-02>
  ***********
 Package rerunfilecheck Info: File `methodology.out' has not changed.
-(rerunfilecheck)             Checksum: E25C162975E000BF88E423C499DB9A8C;2749.
+(rerunfilecheck)             Checksum: 289929BA0478E0A8DCE086BD519E96CA;3376.
 Package logreq Info: Writing requests to 'methodology.run.xml'.
 \openout1 = `methodology.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17012 strings out of 467748
- 303446 string characters out of 5431138
- 1242799 words of memory out of 5000000
- 45522 multiletter control sequences out of 15000+600000
- 633123 words of font info for 58 fonts, out of 8000000 for 9000
+ 17072 strings out of 467748
+ 304574 string characters out of 5431138
+ 1243193 words of memory out of 5000000
+ 45569 multiletter control sequences out of 15000+600000
+ 633291 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,775b,5052s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on methodology.pdf (13 pages, 1229741 bytes).
+
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
+
+<d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on methodology.pdf (16 pages, 1255988 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
- 232 compressed objects within 3 object streams
- 42 named destinations out of 1000 (max. 500000)
- 144 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 340 PDF objects out of 1000 (max. 8388607)
+ 279 compressed objects within 3 object streams
+ 50 named destinations out of 1000 (max. 500000)
+ 176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
