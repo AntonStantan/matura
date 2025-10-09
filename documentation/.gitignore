@@ -1,0 +1,14 @@
+# Ignore everything in this directory by default
+*
+
+# --- Whitelist ---
+# Do not ignore subdirectories
+!*/
+
+# Whitelist specific file extensions
+!*.tex
+!*.bib
+!*.pdf
+!*.png
+!*.jpg
+!.gitignore
