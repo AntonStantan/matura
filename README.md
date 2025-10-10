@@ -2,13 +2,6 @@
 
 This project investigates why neural networks often struggle with simple arithmetic expressions. It involves building and evaluating various neural network architectures—including Feed-Forward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), attention-based RNNs, and Transformers—to assess their performance on arithmetic tasks.
 
-## Table of Contents
-* [Introduction](#introduction)
-* [Repository Structure](#repository-structure)
-* [Important Files](#important-files)
-* [Dependencies](#dependencies)
-* [Usage](#usage)
-
 ## Introduction
 The goal of this project is to evaluate the arithmetic capabilities of different neural network architectures and understand their limitations with simple arithmetic expressions. This is done by building and testing various models on arithmetic problems.
 
