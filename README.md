@@ -1,46 +1,56 @@
-# matura
+# Evaluating the Arithmetic Capabilities of Neural Networks
 
-**Table of Contents:**
-* [zwischenProdukt Folder](#zwischenprodukt-folder)
-* [Work Process](#work-process)
-* [zwischenPresentation Folder](#zwischenpresentation-folder)
+This project investigates why neural networks often struggle with simple arithmetic expressions. It involves building and evaluating various neural network architectures—including Feed-Forward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), attention-based RNNs, and Transformers—to assess their performance on arithmetic tasks.
 
----
+## Introduction
+The goal of this project is to evaluate the arithmetic capabilities of different neural network architectures and understand their limitations with simple arithmetic expressions. This is done by building and testing various models on arithmetic problems.
 
-# zwischenProdukt Folder
-Guide for the **zwischenProdukt** folder:
+## Repository Structure
+The repository is organized as follows:
+- [`FNN/`](./FNN/): Contains notebooks and code related to Feed-Forward Neural Networks.
+- [`RNN/`](./RNN/): Contains notebooks and code related to Recurrent Neural Networks.
+- [`attentional-RNN/`](./attentional-RNN/): Contains notebooks for RNNs with attention mechanisms.
+- [`transformer/`](./transformer/): Contains notebooks for Transformer-based models.
+- [`documentation/`](./documentation/): Contains project documentation, such as literature reviews.
+- [`pre-trained-tranformers/`](./pre-trained-tranformers/): Contains notebooks for pre-trained transformer models.
+- [`ArbeitsProzess/`](./ArbeitsProzess/): Contains PDFs documenting the work log.
+- [`zwischenPresentation/`](./zwischenPresentation/): Contains presentation materials.
+- [`zwischenProdukt/`](./zwischenProdukt/): Contains intermediate products and results.
 
-## Code & Notebooks
-The notebook for the code, which includes the graphics can be found in the raw files: **FNN1.py** and **FNN.ipynb**
+## Important Files
+Here are some of the most important notebooks and scripts in this repository, showcasing core implementations and utilities:
 
-The **TheFirst.ipynb** file is a pre-version of FNN.ipynb with slightly different results. **FNN1.ipynb** is the most recent version.
+- **Scripts:**
+  - [`GetXY.py`](./GetXY.py): A script for generating the dataset.
+  - [`FNN1_1.py`](./FNN1_1.py): A script version of the FNN model.
 
-or under the link: https://colab.research.google.com/github/AntonStantan/matura/blob/main/FNN.ipynb
-if this link doesn't work for some reason, please contact me. You shouldn't have any permissions for editing. (If you do, **please don't edit**)
+- **Notebooks:**
+  - **FNN:**
+    - [`FNN/FNN1.ipynb`](./FNN/FNN1.ipynb): Initial Feed-Forward Neural Network implementation.
+    - [`FNN/FNN2.ipynb`](./FNN/FNN2.ipynb): An iteration on the FNN model.
+  - **RNN:**
+    - [`RNN/RNN0.ipynb`](./RNN/RNN0.ipynb): A basic Recurrent Neural Network implementation for arithmetic tasks.
+    - [`RNN/RNN2.ipynb`](./RNN/RNN2.ipynb): An iteration on the RNN model.
+  - **Attentional RNN:**
+    - [`attentional-RNN/g4gLSTM.ipynb`](./attentional-RNN/g4gLSTM.ipynb): Implements an LSTM-based RNN with an attention mechanism.
+  - **Transformer:**
+    - [`transformer/transformer0.ipynb`](./transformer/transformer0.ipynb): A basic Transformer architecture for arithmetic tasks.
+    - [`transformer/transformer4.ipynb`](./transformer/transformer4.ipynb): Explores the use of a Transformer architecture for arithmetic tasks.
+    - [`transformer/transformer5.ipynb`](./transformer/transformer5.ipynb): A further iteration on the Transformer model.
+  - **Pre-trained Fine-tuned Transformers:**
+    - [`pre-trained-tranformers/gemma_huggingface.ipynb`](./pre-trained-tranformers/gemma_huggingface.ipynb): Fine-tuning the Gemma model from Hugging Face.
+    - [`pre-trained-tranformers/gemini_vertex.ipynb`](./pre-trained-tranformers/gemini_vertex.ipynb): Fine-tuning the Gemini model using Vertex AI.
 
-## Literature Review
-See the file **LiteraturstudieAnton.pdf** in this folder.
 
----
+## Dependencies
+The required Python packages for most of the project are listed in `requirements.txt`. They can be installed using pip:
+```bash
+pip install -r requirements.txt
+```
+**Note:** The notebooks within the [`pre-trained-transformers/`](./pre-trained-transformers/) directory have different dependency requirements. Please refer to the methodology documentation for more details.
 
-# Work Process
-See the folder **ArbeitsProzess** for PDFs documenting my work log.
-
----
-
-# zwischenPresentation Folder
-The folder **zwischenPresentation**:
-
-**roughLayout** is a file showing my first rough layout idea for the presentation.
-
-The **pre-version.pptx** is a pre-version of the powerpoint.
-
-**finalPresentation.pdf** is the final powerpoint in pdf format.
-
----
-
-# FNN1.ipynb
-Latest version of the Feed-forward neural network notebook.
-
-# FNN_Heatmaps
-A folder with some results of FNN heatmaps. (They take a while to generate)
+## Usage
+To get started with this project:
+1. Clone the repository to your local machine.
+2. Install the dependencies as described above.
+3. Explore the notebooks and scripts in their respective directories to see the different models in action.
