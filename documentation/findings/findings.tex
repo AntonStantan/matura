@@ -1,5 +1,8 @@
 \documentclass{article}
 \usepackage[backend=biber, style=apa]{biblatex}
+\usepackage{hyperref}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
 \addbibresource{references_find.bib}
 
 
@@ -33,7 +36,147 @@ will not be discussed in this document.
 
 Though, FNNs will make an appearance later on in this document.
 
+\newpage
+\tableofcontents
+\newpage
+
 \section{RNN}
+
+Recurrent Neural Networks (RNNs) work similar to FNNs with one key 
+difference: There is a vector called the hidden-state. This vector contains 
+information about previous inputs. The hidden-state of the previous 
+time-step, in addition to the input of the current time-step, is fed into a 
+model which computes the hidden-state of the present time-step. The output 
+of each time-step is calculated by feeding the respective hiddenstate to a 
+model.
+
+
+\subsection{Numerical Visualization of a RNN:}
+Let:
+\begin{itemize}
+    \item $x_t$: Input at time step $t$
+    \item $h_t$: Hidden state at time step $t$
+    \item $y_t$: Output at time step $t$
+    \item $W_{xh}$: Weight matrix connecting input to hidden state
+    \item $W_{hh}$: Weight matrix connecting previous hidden state to current hidden state (recurrent weights)
+    \item $W_{hy}$: Weight matrix connecting hidden state to output
+    \item $b_h$: Bias vector for the hidden layer
+    \item $b_y$: Bias vector for the output layer
+    \item $\sigma$: Activation function (in our case: PReLU)
+    \item $\sigma_{out}$: Activation function for the output (linear for regression)
+\end{itemize}
+
+
+
+$$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
+
+$$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
+
+\subsection{Relevant Takeaway}
+For us this means, the RNN doesn't process an expression as a whole, but 
+rather one part after another.
+Also, because of how the formula works, Tokens, which are later in the 
+sequence, play a more impactful role on the models prediction, than earlier 
+tokens. This means the output number will almost always be closer to the 
+last number of the expression, than the first.
+
+This is a common issue with RNNs, not only prevelant in this project. It is 
+more widely known as the vanishing gradient problem.
+
+\section{Other Types of RNNs}
+To solve the problem described above, different methods have been adopted 
+like for example the Long Short-Term Memory (LSTM) proposed by \cite{6795963}, 
+the Gated Recurrent Unit (GRU) proposed by \cite{cho2014propertiesneuralmachinetranslation} 
+or later even the concept of attention proposed by \cite{bahdanau2016neuralmachinetranslationjointly}.
+%https://www.geeksforgeeks.org/deep-learning/rnn-vs-lstm-vs-gru-vs-transformers
+
+\subsection{ Long Short-Term Memory (LSTM)}
+The LSTM architecture solves the gradient vanishing problem by using a memory 
+cell. The model can use this to store \eqref{eq:cell_update_lstm}, forget 
+\eqref{eq:forget_gate_lstm} and pass information from the 
+memory cell to the hidden state \eqref{eq:hidden_state_lstm}.
+
+Let: 
+\begin{itemize}
+    \item $\sigma(\cdot)$ denotes the sigmoid activation function,
+    \item $\tanh(\cdot)$ is the hyperbolic tangent function,
+    \item $\odot$ represents element-wise (Hadamard) multiplication,
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden state $h_{t-1}$ and the current input $x_t$,
+    \item $W_f, W_i, W_C, W_o$ are trainable weight matrices,
+    \item $b_f, b_i, b_C, b_o$ are trainable bias vectors,
+    \item $C_t$ is the current memory cell state,
+    \item $\tilde{C}_t$ is the candidate cell state,
+\end{itemize}
+
+\begin{align}
+    % Forget gate
+    f_t &= \sigma\!\left(W_f \cdot [h_{t-1}, x_t] + b_f\right) \label{eq:forget_gate_lstm} \\
+    % Input gate
+    i_t &= \sigma\!\left(W_i \cdot [h_{t-1}, x_t] + b_i\right) \label{eq:input_gate_lstm} \\
+    % Candidate cell state
+    \tilde{C}_t &= \tanh\!\left(W_C \cdot [h_{t-1}, x_t] + b_C\right) \label{eq:candidate_cell_state_lstm} \\
+    % Output gate
+    o_t &= \sigma\!\left(W_o \cdot [h_{t-1}, x_t] + b_o\right) \label{eq:output_gate_lstm}\\    
+    % Cell state update
+    C_t &= f_t \odot C_{t-1} + i_t \odot \tilde{C}_t \label{eq:cell_update_lstm}\\
+    % Hidden state (output)
+    h_t &= o_t \odot \tanh(C_t) \label{eq:hidden_state_lstm}
+\end{align}
+Source for the equations: \cite{geeksforgeeks_lstm}
+\\[2em]
+In the equations you can see the forget gate activation \eqref{eq:forget_gate_lstm}, 
+the input gate activation \eqref{eq:input_gate_lstm}, the candidate cell state 
+\eqref{eq:candidate_cell_state_lstm} and the output gate activation \eqref{eq:output_gate_lstm}.
+
+The cell state is calculated in \eqref{eq:cell_update_lstm}. There, the forget 
+gate which scales the previous cell state is combined with the input gate.
+
+The hidden state is calculated in \eqref{eq:hidden_state_lstm}, where the output 
+activation is applied to the cell state.
+
+\subsection{Gated Recurrent Unit (GRU)}
+
+The GRU architecture works in a similar way to the LSTM. Instead of utilizing 
+memory cells, they directly use the hiddenstate.
+
+Let:
+\begin{itemize}
+    \item $\sigma(\cdot)$ is the sigmoid activation function,
+    \item $\tanh(\cdot)$ is the hyperbolic tangent function,
+    \item $\odot$ denotes element-wise (Hadamard) multiplication,
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden state and current input,
+    \item $W_z, W_r, W_h$ are trainable weight matrices,
+    \item $b_z, b_r, b_h$ are trainable bias vectors,
+    \item $\tilde{h}_t$ is the candidate hidden step
+    \item $h_t$ is the current hiddenstep
+\end{itemize}
+
+\begin{align}
+    % Update gate
+    z_t &= \sigma\!\left(W_z [h_{t-1}, x_t] + b_z\right) \label{eq:update_gate_gru} \\
+    % Reset gate
+    r_t &= \sigma\!\left(W_r [h_{t-1}, x_t] + b_r\right) \label{eq:reset_gate_gru} \\
+    % Candidate hidden state
+    \tilde{h}_t &= \tanh\!\left(W_h [r_t \odot h_{t-1}, x_t] + b_h\right) \label{eq:candidate_hidden_state_gru} \\
+    % Final hidden state
+    h_t &= (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t \label{eq:update_hidden_state_gru}
+\end{align}
+Source for the equations: \cite{geeksforgeeks_gru}
+\\[2em]
+Above you can see the update gate activation \eqref{eq:update_gate_gru}, as well 
+as the reset gate activation \eqref{eq:reset_gate_gru}.
+
+Further down, the reset gate activation is applied to the previous hidden step 
+to calculate the candidate hidden state \eqref{eq:candidate_hidden_state_gru}. 
+
+Lastly the hidden step can be calculated by applying (1 - the update gate 
+activation) to the previous hidden step and combining it with the update gate 
+activation applied to the hidden state candidate \eqref{eq:update_hidden_state_gru}. 
+Depending on whether the update gate activation is larger or smaller, the 
+previous hidden step or the candidate hiddenstate will weigh in more on the 
+current hidden step.
+
+
 %sources for attention theory:
 %https://arxiv.org/abs/1409.0473
 %https://arxiv.org/abs/1508.04025

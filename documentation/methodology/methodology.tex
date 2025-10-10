@@ -280,36 +280,6 @@ deactivating a percentage of randomly chosen neurons in each layer.
 %THIS SHOULD GO INTO FINDINGS
 
 \section{Recurrent Neural Network (RNN)}
-Recurrent Neural Networks (RNNs) work similar to FNNs with one key 
-difference: There is a vector called the hidden-state. This vector contains 
-information about previous inputs. The hidden-state of the previous 
-time-step, in addition to the input of the current time-step, is fed into a 
-model which computes the hidden-state of the present time-step. The output 
-of each time-step is calculated by feeding the respective hiddenstate to a 
-model.
-
-
-\subsection{Numerical Visualization of a RNN:}
-Let:
-\begin{itemize}
-    \item $x_t$: Input at time step $t$
-    \item $h_t$: Hidden state at time step $t$
-    \item $y_t$: Output at time step $t$
-    \item $W_{xh}$: Weight matrix connecting input to hidden state
-    \item $W_{hh}$: Weight matrix connecting previous hidden state to current hidden state (recurrent weights)
-    \item $W_{hy}$: Weight matrix connecting hidden state to output
-    \item $b_h$: Bias vector for the hidden layer
-    \item $b_y$: Bias vector for the output layer
-    \item $\sigma$: Activation function (commonly tanh or ReLU for the hidden state)
-    \item $\sigma_{out}$: Activation function for the output (e.g. softmax for classification, or linear in our case of regression)
-\end{itemize}
-
-
-
-$$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
-
-$$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
-
 
 \subsection{RNN0 and RNN2}
 The RNN0 notebook includes a model built with the aformentioned architecture.
@@ -381,6 +351,16 @@ This bidirectional LSTM with attention was realized in \href{https://github.com/
 A number of 35 LSTM units were chosen for the Encoder because of it's previous 
 performance (with bootstrapping), visible in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/previousHeatmap.png}
 {a heatmap}.
+\\[2em]
+In the directory \href{https://github.com/AntonStantan/matura/tree/main/RNN/Heatmaps}
+{/RNN/Heatmaps} some Heatmaps are visible, these were used to evaluate which 
+model architecture to use to add attention to. Even though Gated Recurrent 
+Units (GRUs) showed better results, they weren't implemented, because of the 
+lack of documentation online using attentional GRUs. This lead to the choice 
+of attentional LSTMs.
+
+Nevertheless, GRU architecture is still discussed in the findings document.
+
 \newpage
 \subsection{Transformers}
 
