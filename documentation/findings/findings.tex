@@ -3,7 +3,10 @@
 \usepackage{hyperref}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
-\addbibresource{references_find.bib}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}\addbibresource{references_find.bib}
 
 
 \title{Findings}
@@ -175,6 +178,51 @@ activation applied to the hidden state candidate \eqref{eq:update_hidden_state_g
 Depending on whether the update gate activation is larger or smaller, the 
 previous hidden step or the candidate hiddenstate will weigh in more on the 
 current hidden step.
+
+\subsection{Bidirectional LSTM with Attention}
+
+An architecture of this type consists in part of a bidirectional LSTM, meaning 
+two LSTMs working in parallel, one of who process data from front to back, the 
+other from back to front, their results are afterwards concatenated together 
+and passed on.
+\\[2em]
+The other part of this architecture is the attention mechanism. Here it is, as 
+described by \cite{bahdanau2016neuralmachinetranslationjointly}.
+
+Let:
+\begin{itemize}
+    \item $\mathbf{h}_t \in \mathbb{R}^{128}$ are the hiddenstates for each 
+    timestep $t$, the output from the bidirectional LSTM,
+    \item $\mathbf{W} \in \mathbb{R}^{128 \times 128}$ is a trainable weight 
+    matrix,
+    \item $\mathbf{b} \in \mathbb{R}^{128}$ is a bias vector,
+    \item $\mathbf{u} \in \mathbb{R}^{128}$ is a trainable context vector.
+\end{itemize}
+
+For each time step $t$, compute:
+\begin{align}
+    \mathbf{v}_t &= \tanh\!\left( \mathbf{W} \mathbf{h}_t + \mathbf{b} \right) \label{eq:v_bahdanau} \\
+    e_t &= \mathbf{u}^\top \mathbf{v}_t \label{eq:attention_score}
+\end{align}
+
+Normalize scores using softmax:
+\begin{equation}
+    \alpha_t = \frac{\exp(e_t)}{\sum_{j=1}^{T} \exp(e_j)} \label{eq:alpha_score}
+\end{equation}
+The attention weights $\boldsymbol{\alpha} = [\alpha_1, \dots, \alpha_T]$ 
+indicate the importance of each time step.
+
+Then compute the context vector:
+\begin{equation}
+    \mathbf{c} = \sum_{t=1}^{T} \alpha_t \mathbf{h}_t \label{eq:attention_context}
+\end{equation}
+
+Source for equations: \cite{cristina_2023_bahdanau}
+\\[2em]
+An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, 
+\eqref{eq:attention_score}, it is then normalized \eqref{eq:alpha_score}. 
+Finally the attention weights scale their respective hiddenstates from the 
+LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
 
 %sources for attention theory:
