@@ -6,7 +6,10 @@
 \usepackage{amssymb}
 \usepackage{enumitem}
 \usepackage{geometry}
+\usepackage{wrapfig}
+
 \geometry{margin=1in}\addbibresource{references_find.bib}
+\setlength{\intextsep}{0pt} 
 
 
 \title{Findings}
@@ -224,11 +227,118 @@ An attention score is calculated for each timestep in \eqref{eq:v_bahdanau},
 Finally the attention weights scale their respective hiddenstates from the 
 LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
+\section{Transformers}
 
-%sources for attention theory:
-%https://arxiv.org/abs/1409.0473
-%https://arxiv.org/abs/1508.04025
-%https://www.tensorflow.org/api_docs/python/tf/keras/layers/Attention
+The best performing and widely used on most tasks to date are transformer 
+architectures, they formed the basis for LLM's.
+
+The key to their success: multi-head self-attention.
+\\[2em]
+In this document we will discuss the transformer architecture as first proposed 
+by \cite{vaswani2023attentionneed}.
+\subsection{Multi-Head Self-Attention}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\paperwidth]{images/dotproduct_1.png}
+    \caption{Two diagrams from \cite{vaswani2023attentionneed} with the scaled 
+    dot-product attention described on the left and multi-head attention on the 
+    right.}
+    \label{fig:MHAttention}
+\end{figure}
+
+Data is first split up eqally into multiple heads which will process it in 
+parallel. There, the tensors are linearly projected with trainable weights, 
+to obtain queries (Q), keys (K) and values (V) which you can see at the bottom 
+of the image.
+$$
+Q = X W_Q, \quad K = X W_K, \quad V = X W_V
+$$
+Afterwards, the dot-product between the queries and the keys is calculated and 
+scaled\footnote{According to \cite{vaswani2023attentionneed} this is done to 
+counteract dot-products growing too large and later overwhelming the softmax 
+function.} to determine how simmilar they are. This leaves us with a 
+number between 0 and 1 representing how much attention you have to pay. The 
+value $V$ represents the actual information of the token we just calculated the 
+attention for. This means our final step is to scale the value $V$ by it's 
+attention. Pay attention to the equation below. \eqref{eq:sdpAttention}
+\begin{equation}
+    \text{Attention}(Q, K, V) = \text{softmax}\left( \frac{Q K^\top}{\sqrt{d_k}} \right) V \label{eq:sdpAttention}
+\end{equation}
+
+This is done across all heads in parallel. The results are then concatenated\footnote{
+This means the are assembled or added back together, to have the same 
+dimensions as before they were split up.} back together and they undergo 
+a linear projection. As described below:
+
+\begin{gather*}
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h) W^O \\
+\text{where: } \text{head}_i = \text{Attention}(Q W_i^Q, K W_i^K, V W_i^V)
+\end{gather*}
+
+\newpage
+\subsection{The Encoder Layer}
+
+\begin{wrapfigure}{l}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.2\paperwidth]{images/encodingLayer.png}
+    \caption{Encoder Layer as described by \cite{vaswani2023attentionneed}}
+    \label{fig:encodingLayer}
+\end{wrapfigure}
+
+In figure \ref{fig:encodingLayer} the multi-head attention first undergoes 
+a residual connection as well as a layer normalization \footnote{Given an input 
+vector, layer normalization works by normalizing it's features and making it so 
+their mean is 0.}, as described below:
+
+\begin{gather}
+    \text{where Sublayer(x) is the function the residual connection is formed 
+    around:} \nonumber \\
+    \text{Output}(x) = \text{LayerNorm}\bigl(x + \text{Sublayer}(x)\bigr) \label{eq:ResConnect}
+\end{gather}
+
+Afterwards, all tokens are fed into a point-wise FNN, where they are processed 
+separately and independently. This part is crucial, to introduce non-linearity 
+into the system, as multi-head attention is linear, and non-linearity is needed 
+for a model to be able to learn.
+
+\subsection{Point-wise Feed-Forward Network}
+
+
+Equation \eqref{eq:pointwiseFNN} and figure \ref{fig:pointwiseFNN}:
+
+The pointwise FNN works by taking in a number of $d\_model$ tokens, then a 
+layer with a number of $d\_FNN$ neurons with weights and biases $W_1$ and $b_1$ 
+is applied to them individually. The activation function ReLU discards all 
+negative vlaues and the output layer with weights and biases $W_2$ and $b_1$ 
+resets the data back to it's original dimensionality.
+
+After undergoing a residual connection and layer normalization like after 
+multihead attention \eqref{eq:ResConnect}, this makes up a single layer of the 
+Encoder.
+
+A regressive transformer model, like the one used in this project, consists of 
+multiple such encoding layers and last but not least a FNN with a single neuron, 
+which works as the output layer.
+
+\begin{equation}
+    \text{pointwiseFNN}(x) = \max\bigl(0, \, x W_1 + b_1 \bigr) W_2 + b_2 \label{eq:pointwiseFNN}
+\end{equation}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.4\paperwidth]{images/pointwiseFNN.png}
+    \caption{A diagram representing the structure of a pointwise FNN. \href{https://datascience.stackexchange.com/questions/68020/what-is-the-feedforward-network-in-a-transformer-trained-on}{source for the figure}}
+    \label{fig:pointwiseFNN}
+\end{figure}
+
+\subsection{Positional Encoding}
+
+Something, that's special about the tranformer, is the fact that data is passed 
+through it as a whole. This means the model doesn't have positional understanding 
+on it's own. To counteract this effect, a positional encoding is applied to the 
+input sequences after the tokenizer.
+
 
 \newpage
 \printbibliography[heading=bibintoc]

@@ -121,6 +121,31 @@ range. e.g.,
 \]
 \end{itemize}
 
+\subsection{Tokenizer}
+
+Because only tensors with floats can be passed into a model, the train 
+and test data is always processed before entering a neural network in a 
+tokenizer.
+
+Traditionally a tokenizer assigns each character prevelant in data a number, 
+but because we are working with numbers this isn't the case for us. Only the 
+characters $+$ and $-$ need to be assigned a number.
+
+For this project: the decision was made to work with: $1.0$ replacing $+$ and 
+$0.0$ replacing $-$.
+\\[2em]
+
+Padding is also added, because a network that was trained on expressions with 
+up to 3 numbers won't be able to pass higher dimensional vectors.
+
+To differenciate it from all the other integers, a padding value of $0.5$ was 
+defined.
+\\[2em]
+With that being said, an expression, after being passed throught the tokenizer 
+would look something like this: 
+$$
+[1.\qquad 0.\qquad -2.\qquad 1.\qquad 3\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5]
+$$
 \subsection{Training a Neural Network Using Tensorflow}
 This subsection will show how the models used in this project were first 
 defined and then trained with tensorflow on the example of a simple FNN.
