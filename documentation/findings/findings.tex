@@ -8,6 +8,8 @@
 \usepackage{geometry}
 \usepackage{wrapfig}
 
+\usepackage[table,xcdraw]{xcolor}
+
 \geometry{margin=1in}\addbibresource{references_find.bib}
 \setlength{\intextsep}{0pt} 
 
@@ -386,6 +388,81 @@ amount from the state it was in before fine-tuning. The optimizer will find a
 new minima in which the model will have learned additional information from the 
 fine-tuning train-data. When evaluated on test-data the newly fine-tuned model 
 should now perform better, than it's pre-trained basemodel counterpart.
+
+\subsection{In Addition}
+Please note that these are not regression models, but sequence to sequence 
+models, which means that inside the model tokens are processed, not numbers, 
+like in the other models discussed. 
+
+For the task in this project Specifically, fine-tuned models will not output a 
+float number, but rather an integer, because tokens for floats haven't been 
+created. It is the reason why the only metric that makes sense for these models 
+is accuracy, which essentially evaluates how many times the model predicted 
+correctly.
+
+\newpage
+
+\section{Final Evaluation and Conclusion}
+
+Lastly, the most noteworthy architectures were evaluated and scored on a 
+benchmark. The results were documented in this table: 
+\\[0.5em]
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[htbp]
+\begin{tabular}{|lr|r|r|r|r|r|}
+\hline
+\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM\footnote{with bahdanau attention mechanism}} & \multicolumn{1}{l|}{transformer5} & \multicolumn{1}{l|}{transformer 4} \\ \hline
+\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 222’464                   & 19’535                                    & 1’494’724                         & 114’628                            \\
+\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 222,464                   & 6’511                                     & 498’241                           & 38’209                             \\
+\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         &                           & 13’024                                    & 996’483                           & 76’419                             \\
+\rowcolor[HTML]{F7C7AC} 
+MAE in Range:                              &                          & 0.0389406                 & 0.2730647                 & 0.5908327                                 & 0.0381983                         & 0.0448075                          \\
+\rowcolor[HTML]{F7C7AC} 
+MRE in Range:                              &                          & 0.0155504                 & 0.1135200                 & 0.2712299                                 & 0.0151836                         & 0.0188047                          \\
+\rowcolor[HTML]{94DCF8} 
+MAE out Range:                             &                          & 2.2301364                 & 3.5727410                 & 3.2350100                                 & 4.9287004                         & 4.5702314                          \\
+\rowcolor[HTML]{94DCF8} 
+MRE out Range:                             &                          & 0.2509270                 & 0.3472042                 & 0.3404062                                 & 0.5431157                         & 0.5201459                          \\
+\rowcolor[HTML]{FFDC6D} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.0766930                 & 2.7806435                                 & 6.0680327                         & 6.1630590                          \\ \hline
+\rowcolor[HTML]{D86DCD} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 0.4793787                 & 1.7374969                                 & 5.2896368                         & 2.8882827                          \\ \hline
+\end{tabular}
+\end{table}
+
+And the fine-tuned Language Models, evaluated on their accuracy:
+\\[0.5em]
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[htbp]
+\begin{tabular}{|ll|l|l|l|}
+\hline
+\multicolumn{2}{|l|}{fine-tuned Language Models:}                          & Gemini 2.5 Pro & Gemma 3 1B & Gemma 3 270M \\ \hline
+Parameter size:                               &                            & 1.4E+11        & 1.00E+09   & 2.70E+08     \\
+\rowcolor[HTML]{F7C7AC} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{F7C7AC}Accuracy   in Range:}         & 95.17          & 93.41      & 54.22        \\
+\rowcolor[HTML]{94DCF8} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{94DCF8}Accuracy   out Range:}        & 99.51          & 63.33      & 9.67         \\
+\rowcolor[HTML]{FFDC6D} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}Accuracy   long expressions:} & 90             & 39.57      & 28           \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Conclusion}
+
+Notes: no correlation between number of total parameters and benchmark across 
+different architectures.
+
+bidirectional LSTMs with attention are the best for long expressions, because 
+they process information sequentially with a low gradient decay. They are also 
+the most consistent across the categories, meaning they don't have categories, 
+where they perform extraordinarily well and other categories where they perform 
+extraordinarily bad, but are consistent across all categories.
 
 \newpage
 \printbibliography[heading=bibintoc]
