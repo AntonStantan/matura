@@ -227,7 +227,7 @@ An attention score is calculated for each timestep in \eqref{eq:v_bahdanau},
 Finally the attention weights scale their respective hiddenstates from the 
 LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
-\section{Transformers}
+\section{Transformers} \label{sec:transformers}
 
 The best performing and widely used on most tasks to date are transformer 
 architectures, they formed the basis for LLM's.
@@ -340,6 +340,52 @@ through it as a whole. This means the model doesn't have positional understandin
 on it's own. To counteract this effect, a positional encoding is applied to the 
 input sequences after the tokenizer.
 
+\newpage
+\section{Fine-Tuned Pre-Trained LLMs}
+
+The last model type used for this project are fine-tuned Large 
+Language Models (LLMs).
+For sources and further reading on this section see (in chronological order; 
+left to right): \cite{geeksforgeeks_2024,Stryker_LLM,srinivasan2024transformer,Bergmann_Fine_Tuning}
+
+
+\subsection{LLM}
+
+LLMs adopt the transformer architecture\footnote{The transformer architecture 
+discussed in the previous section \ref{sec:transformers}. It not only consists 
+but also a decoder, which is responsible for the model's output} and adapt it 
+to imense sizes, by increasing the architecture's hyperparameters, as well as 
+employing new technological advancements. The number of parameters used by a 
+LLM varies from model to model, but lies in the hundreds of billions per 
+popular high-end LLM.
+
+The large size allows large architectures to excell at complicated tasks like 
+mostly Natural Language Processing (NLP).
+
+To facilitate, training and predicting on such large architectures, massive super-
+computers are used, consisting of thousands of GPUs. They mainly work by utilizing 
+parallel processing to distribute the load across multiple powerful GPUs. 
+
+While by far not a super-computer, a tiny replica was used for this project: 
+The Nvidia Jetson Orin Nano Super Developer Kit.
+
+
+\subsection{Fine-Tuning Process}
+
+Most of the time LLMs are trained on huge dumps of unlabeled data, which 
+we call unsupervised, or on unlabelled data from which ground truth can be 
+inferred, which we call self-supervised data. 
+
+The fine-tuning process on the other hand is mostly done on smaller datasets 
+with supervised data, meaning it is labeled.
+\\[2em]
+In fine-tuning a pre-trained model, with all of it's weights and biases being 
+set to an optimized value after the training, is trained again on additional 
+data. This will mean, that the models weights will move and change by a little 
+amount from the state it was in before fine-tuning. The optimizer will find a 
+new minima in which the model will have learned additional information from the 
+fine-tuning train-data. When evaluated on test-data the newly fine-tuned model 
+should now perform better, than it's pre-trained basemodel counterpart.
 
 \newpage
 \printbibliography[heading=bibintoc]
