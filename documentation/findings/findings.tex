@@ -36,6 +36,25 @@ what truly propelled this project.
 This document presents the findings, which have been learned with the 
 project: A Predictive Calculator.
 
+\subsection{Hypothesis}
+After a writing a \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}
+{literature review}, following results were expected:
+
+Feed-forward Neural Networks (FNNs) should be the weakest architecture type, 
+the Recurrent Neural Networks (RNNs) should be better, transformers and 
+pre-trained transformers should perform the best.
+
+Technologies such as positional embeddings, a seq2grid pre-processor\footnote{
+This was skipped because in theory it wouldn't have a big impact if any, mainly 
+only helping with rounding errors.} and a 
+PReLU activation function are expected to help a model to generalize simple 
+arithmetic rules.
+
+
+\newpage
+\tableofcontents
+\newpage
+
 \subsection{Feed-forward Neural Networks (FNNs)}
 Since the functionality of a FNN has already been discussed in the 
 literature study, were mentioned in the methodology document and no new 
@@ -43,10 +62,6 @@ information on FNNs has been found since then by the author, this topic
 will not be discussed in this document. 
 
 Though, FNNs will make an appearance later on in this document.
-
-\newpage
-\tableofcontents
-\newpage
 
 \section{RNN}
 
@@ -402,7 +417,7 @@ correctly.
 
 \newpage
 
-\section{Final Evaluation and Conclusion}
+\section{Findings}
 
 Lastly, the most noteworthy architectures were evaluated and scored on a 
 benchmark. The results were documented in this table: 
@@ -414,22 +429,22 @@ benchmark. The results were documented in this table:
 \begin{table}[htbp]
 \begin{tabular}{|lr|r|r|r|r|r|}
 \hline
-\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM\footnote{with bahdanau attention mechanism}} & \multicolumn{1}{l|}{transformer5} & \multicolumn{1}{l|}{transformer 4} \\ \hline
-\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 222’464                   & 19’535                                    & 1’494’724                         & 114’628                            \\
-\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 222,464                   & 6’511                                     & 498’241                           & 38’209                             \\
-\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         &                           & 13’024                                    & 996’483                           & 76’419                             \\
+\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM} & \multicolumn{1}{l|}{transformer4} & \multicolumn{1}{l|}{transformer5} \\ \hline
+\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 222’464                   & 19’535                                    & 114’628                           & 1’494’724                         \\
+\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 222,464                   & 6’511                                     & 38’209                            & 498’241                           \\
+\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         &                           & 13’024                                    & 76’419                            & 996’483                           \\
 \rowcolor[HTML]{F7C7AC} 
-MAE in Range:                              &                          & 0.0389406                 & 0.2730647                 & 0.5908327                                 & 0.0381983                         & 0.0448075                          \\
+MAE in Range:                              &                          & 0.0389406                 & 0.2730647                 & 0.5908327                                 & 0.0448075                         & 0.0381983                         \\
 \rowcolor[HTML]{F7C7AC} 
-MRE in Range:                              &                          & 0.0155504                 & 0.1135200                 & 0.2712299                                 & 0.0151836                         & 0.0188047                          \\
+MRE in Range:                              &                          & 0.0155504                 & 0.1135200                 & 0.2712299                                 & 0.0188047                         & 0.0151836                         \\
 \rowcolor[HTML]{94DCF8} 
-MAE out Range:                             &                          & 2.2301364                 & 3.5727410                 & 3.2350100                                 & 4.9287004                         & 4.5702314                          \\
+MAE out Range:                             &                          & 2.2301364                 & 3.5727410                 & 3.2350100                                 & 4.5702314                         & 4.9287004                         \\
 \rowcolor[HTML]{94DCF8} 
-MRE out Range:                             &                          & 0.2509270                 & 0.3472042                 & 0.3404062                                 & 0.5431157                         & 0.5201459                          \\
+MRE out Range:                             &                          & 0.2509270                 & 0.3472042                 & 0.3404062                                 & 0.5201459                         & 0.5431157                         \\
 \rowcolor[HTML]{FFDC6D} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.0766930                 & 2.7806435                                 & 6.0680327                         & 6.1630590                          \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.0766930                 & 2.7806435                                 & 6.1630590                         & 6.0680327                         \\ \hline
 \rowcolor[HTML]{D86DCD} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 0.4793787                 & 1.7374969                                 & 5.2896368                         & 2.8882827                          \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 0.4793787                 & 1.7374969                                 & 2.8882827                         & 5.2896368                         \\ \hline
 \end{tabular}
 \end{table}
 
@@ -452,6 +467,42 @@ Parameter size:                               &                            & 1.4
 \multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}Accuracy   long expressions:} & 90             & 39.57      & 28           \\ \hline
 \end{tabular}
 \end{table}
+
+Firstly, observe how the main point of the thesis, which was that more complex 
+models will perform better, isn't the case. There are clear outliers like the 
+outstanding performance of the FNN2 or the poor performance of the RNN2.
+
+\subsection{Conclusion}
+
+\subsubsection{Regression Models}
+All of the 3 or 4 architectures discussed here are very different and all of 
+them have different strengths and weaknesses as you can tell by their 
+performances on different sets of test data.
+
+Recurrent Neural networks excell at long Expresions, due to the way data is 
+passed through these models sequentially in hiddensteps. They are designed for 
+handling longer inputs.
+
+Simillarly, Bidirectional LSTMs with attention are even better, when having to 
+adjust to a longer input. They can confidently predict longer expressions the 
+best out of all the models studied in this project. This is because vanishing 
+gradients are punished heavily when solving arithmetic expressions by nature and 
+this model combats this well, as opposed to the simplistic RNN architecture. 
+Additionally the attention mechanism not only helps with vanishing gradients in 
+longer expressions, but also emphasising outstandingly large numbers and their 
+corresponding signs.
+
+When it comes to transformers, they perform best on data just like the one they 
+are trained on, but not exactly the same - the classical definition of 
+validation data. There are too many different types of different parameters, 
+which all have been trained to process training data, this means even the 
+smallest differences in input will lead to the model processing them wrong.
+Thanks to positional encoding, transformers can handle longer inputs better, 
+than FNNs.
+
+The FNN architecture performed with the best benchmark. While it's ability to 
+generalize laws is bad, the FNN2 model was good at expressions of the same 
+length with numbers not encountered in the training data.
 
 \subsection{Conclusion}
 
