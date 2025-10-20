@@ -422,39 +422,41 @@ correctly.
 Lastly, the most noteworthy architectures were evaluated and scored on a 
 benchmark. The results were documented in this table: 
 \\[0.5em]
-
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
 \begin{table}[htbp]
-\begin{tabular}{|lr|r|r|r|r|r|}
+\centering %why does this not work?
+\footnotesize
+\begin{tabular}{|lr|r|r|r|r|r|r|}
 \hline
-\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM} & \multicolumn{1}{l|}{transformer4} & \multicolumn{1}{l|}{transformer5} \\ \hline
-\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 222’464                   & 19’535                                    & 114’628                           & 1’494’724                         \\
-\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 222,464                   & 6’511                                     & 38’209                            & 498’241                           \\
-\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         &                           & 13’024                                    & 76’419                            & 996’483                           \\
+\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{FNN3}        & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM} & \multicolumn{1}{l|}{transformer4} & \multicolumn{1}{l|}{transformer5} \\ \hline
+\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 8’893                            & 222’464                   & 19’535                                    & 114’628                           & 1’494’724                         \\
+\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 8’893                            & 222,464                   & 6’511                                     & 38’209                            & 498’241                           \\
+\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         & -                                & -                         & 13’024                                    & 76’419                            & 996’483                           \\
 \rowcolor[HTML]{F7C7AC} 
-MAE in Range:                              &                          & 0.0389406                 & 0.2730647                 & 0.5908327                                 & 0.0448075                         & 0.0381983                         \\
+MAE in Range:                              &                          & 0.0389406                 & 0.034600                         & 0.2730647                 & 0.5908327                                 & 0.0448075                         & 0.0381983                         \\
 \rowcolor[HTML]{F7C7AC} 
-MRE in Range:                              &                          & 0.0155504                 & 0.1135200                 & 0.2712299                                 & 0.0188047                         & 0.0151836                         \\
+MRE in Range:                              &                          & 0.0155504                 & 0.013438                         & 0.1135200                 & 0.2712299                                 & 0.0188047                         & 0.0151836                         \\
 \rowcolor[HTML]{94DCF8} 
-MAE out Range:                             &                          & 2.2301364                 & 3.5727410                 & 3.2350100                                 & 4.5702314                         & 4.9287004                         \\
+MAE out Range:                             &                          & 2.2301364                 & \cellcolor[HTML]{83CCEB}2.504607 & 3.5727410                 & 3.2350100                                 & 4.5702314                         & 4.9287004                         \\
 \rowcolor[HTML]{94DCF8} 
-MRE out Range:                             &                          & 0.2509270                 & 0.3472042                 & 0.3404062                                 & 0.5201459                         & 0.5431157                         \\
+MRE out Range:                             &                          & 0.2509270                 & \cellcolor[HTML]{83CCEB}0.290885 & 0.3472042                 & 0.3404062                                 & 0.5201459                         & 0.5431157                         \\
 \rowcolor[HTML]{FFDC6D} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.0766930                 & 2.7806435                                 & 6.1630590                         & 6.0680327                         \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.116872                         & 6.0766930                 & 2.7806435                                 & 6.1630590                         & 6.0680327                         \\ \hline
 \rowcolor[HTML]{D86DCD} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 0.4793787                 & 1.7374969                                 & 2.8882827                         & 5.2896368                         \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 6.672521                         & 0.4793787                 & 1.7374969                                 & 2.8882827                         & 5.2896368                         \\ \hline
 \end{tabular}
 \end{table}
 
 And the fine-tuned Language Models, evaluated on their accuracy:
 \\[0.5em]
-
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
 \begin{table}[htbp]
+\centering
+\footnotesize
 \begin{tabular}{|ll|l|l|l|}
 \hline
 \multicolumn{2}{|l|}{fine-tuned Language Models:}                          & Gemini 2.5 Pro & Gemma 3 1B & Gemma 3 270M \\ \hline
@@ -470,9 +472,31 @@ Parameter size:                               &                            & 1.4
 
 Firstly, observe how the main point of the thesis, which was that more complex 
 models will perform better, isn't the case. There are clear outliers like the 
-outstanding performance of the FNN2 or the poor performance of the RNN2.
+outstanding performance of the FNN2 or the poor performance of the RNN2 model.
+
+Also, notice the minimal improvement between FNN2 and FNN3 which includes a 
+positional embedding layer.
+
+The FNN models show the best performance on the benchmark, meaning they are 
+crowned the winners.
 
 \subsection{Conclusion}
+
+Adding positional Embedding barely makes a difference for FNNs.
+
+RNNs are weak models, outclassed by bidirectional LSTMs with attention, and 
+shouldn't be used
+
+Transformers excell at accurately learning the training data, but struggle with 
+generalization more than other models.
+
+FNNs are overall best at generalizing and perform best on the defined benchmark. 
+They are the best architecture for solving simple arithmetic expressions with 
+a reasonable supply of computational recources.
+
+If maximum performance with unlimited computational recources is asked, a 
+fine-tuned cutting-edge pre-trained model will yield  the best results i.e., 
+Gemini 2.5 Pro.
 
 \subsubsection{Regression Models}
 All of the 3 or 4 architectures discussed here are very different and all of 
@@ -502,18 +526,31 @@ than FNNs.
 
 The FNN architecture performed with the best benchmark. While it's ability to 
 generalize laws is bad, the FNN2 model was good at expressions of the same 
-length with numbers not encountered in the training data.
+length with numbers not encountered in the training data. Even after adding 
+positional embedding in FNN3, the model struggles at grasping expressions of 
+different sizes.
 
-\subsection{Conclusion}
+\subsubsection{Pre-trained Fine-tuned Transformers}
 
-Notes: no correlation between number of total parameters and benchmark across 
-different architectures.
+The models in the table below are all very large, with Gemini 2.5 being massive. 
+because we know, that these models have the same transformer architecture and 
+the sweet-spot for hyper-parameters is much smaller, than their parameter size, 
+we expect a weaker performance.\footnote{Since these are seq2seq models, their 
+hyper-parameters sweet-spot wouldn't be the same as the regression transformers. 
+And their Decoder multiplies the number of parameters roughly by 2x. This is 
+still not comparable to the jump in complexity between the largest optimized 
+transformer regression model and the smalles pre-trained model, which is a 
+factor of 180x.}. Additionally they predict on tokens, rather than numerical 
+values, which is not optimal for the task in this project.
 
-bidirectional LSTMs with attention are the best for long expressions, because 
-they process information sequentially with a low gradient decay. They are also 
-the most consistent across the categories, meaning they don't have categories, 
-where they perform extraordinarily well and other categories where they perform 
-extraordinarily bad, but are consistent across all categories.
+The performance of these models also depends heavily on the pre-training they 
+previously underwent, because it also involves arithmetics. This explains why 
+the bigger pre-trained models perform better.
+
+The Gemini 2.5 Pro model performed the best out of all models evaluated in this 
+project on generalization tests, but this is due to previous training including 
+expressions similar to those in the training data.
+
 
 \newpage
 \printbibliography[heading=bibintoc]

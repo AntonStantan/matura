@@ -289,6 +289,14 @@ formula defines a model with the same performance as the baseline model to
 have a benchmark of 1. Models performing worse or better on the test data 
 yield scores below or above 1, respectively.
 
+\subsection{Positional Embedding}
+
+In the notebook \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}
+{FNN3} a positional embedding layer is added to the model and a keras tuner 
+tunes the hyper parameters of the model to an optimum. The formula used, is the 
+one from \cite{vaswani2023attentionneed}. A similar performance to the notebook 
+FNN2 is observed.
+
 
 \subsection{Drop-Out}
 When introducing a Drop-Out with an industry standard value of 0.3, contrary 

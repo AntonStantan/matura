@@ -223,5 +223,237 @@ I have completed the final pre-commit steps, including a code review and recordi
 ---->>docs-final-readme-update branch
 \end{verbatim}
 
+Input: Notebook and "how to implement the posEncoding function to the model?"
+
+\begin{verbatim}
+    To implement the posEncoding function into your Keras model, you'll need to add it as a layer or an operation within your model that modifies the input embeddings. Positional encoding is typically added to the input embeddings to provide the model with information about the relative or absolute position of the tokens in the sequence.
+
+Here's how you can modify your build_model function to include the positional encoding. Since you are using a feed-forward neural network, the positional encoding needs to be added to your input data before it's fed into the first dense layer.
+
+First, you need to ensure your posEncoding and get_angles functions are correctly defined. It appears you have a posEncoding function defined in a cell, but it's not being used in your model building process. Here's a recap of those functions with slight modifications for standalone use with NumPy:
+
+code
+Python
+download
+content_copy
+expand_less
+import numpy as np
+import tensorflow as tf
+
+def get_angles(pos, i, d_model):
+    angle_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d_model))
+    return pos * angle_rates
+
+def posEncoding(max_seq_len, d_model):
+    angle_rads = get_angles(np.arange(max_seq_len)[:, np.newaxis],
+                          np.arange(d_model)[np.newaxis, :],
+                          d_model)
+
+    # Apply sine to even indices in the array; 2i
+    angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
+
+    # Apply cosine to odd indices in the array; 2i+1
+    angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
+
+    pos_encoding = angle_rads[np.newaxis, ...]
+
+    return tf.cast(pos_encoding, dtype=tf.float32)
+
+Now, you can integrate this into your build_model function. A common way to do this is to create a custom layer for adding the positional encoding. However, a simpler approach for your sequential model is to use a Lambda layer or to add the positional encoding directly to the input tensor.
+
+Here's an updated build_model function:
+
+code
+Python
+download
+content_copy
+expand_less
+from tensorflow.keras.layers import Input, Flatten, Dense, PReLU, Dropout, Add
+from tensorflow.keras.models import Model
+from tensorflow.keras import backend as K
+
+def build_model(hp, input_shape):
+    K.clear_session()
+    
+    # Hyperparameters
+    num_neurons = hp.Int("num_neurons", 32, 512, step=32)
+    num_layers = hp.Int("num_layers", 1, 10)
+    dropoutTF = hp.Boolean("dropoutT/F")
+    dropout_rate = hp.Float("dropout_rate", 0.1, 0.5, step=0.1)
+
+    # Input Layer
+    inputs = Input(shape=input_shape)
+    
+    # Assuming input_shape is (sequence_length, feature_dimension)
+    # If your input is already flat, you'll need to reshape it to add positional encoding
+    sequence_length = input_shape[0] 
+    d_model = input_shape[1] if len(input_shape) > 1 else 1
+    
+    # Add positional encoding
+    positional_encoding = posEncoding(sequence_length, d_model)
+    x = Add()([inputs, positional_encoding])
+    
+    x = Flatten()(x)
+
+    # Hidden Layers
+    for i in range(num_layers):
+        x = Dense(num_neurons)(x)
+        x = PReLU()(x)
+        if dropoutTF:
+            x = Dropout(dropout_rate)(x)
+
+    # Output Layer
+    outputs = Dense(1, activation='linear')(x)
+
+    # Create and compile the model
+    lil_model = Model(inputs=inputs, outputs=outputs)
+    lil_model.compile(optimizer="adam", loss="mse")
+
+    return lil_model
+Explanation of Changes and How to Use It:
+
+Functional API: I've switched to the Keras Functional API (Input and Model) instead of Sequential. This provides more flexibility, which is useful when dealing with multiple inputs or more complex model architectures like this.
+
+Determining sequence_length and d_model: The posEncoding function requires the maximum sequence length and the model's depth (or feature dimension). I'm inferring this from the input_shape. Make sure your input_shape is appropriate. If your x_train has a shape like (num_samples, 15), then sequence_length would be 15 and d_model would be 1 if each is a single feature, or you'd adjust as needed. If x_train is (num_samples, 15, 1), sequence_length is 15 and d_model is 1.
+
+Adding Positional Encoding:
+
+positional_encoding = posEncoding(sequence_length, d_model): This creates the positional encoding matrix.
+
+x = Add()([inputs, positional_encoding]): The positional encodings are added directly to the input tensor. The Add layer performs element-wise addition.
+
+Flatten Layer: After adding the positional encoding, the data is flattened before being passed to the Dense layers, just as it was in your original model.
+
+To use this new build_model function, you just need to pass the input_shape as you were doing before. The rest of your keras_tuner setup should work the same.
+
+Important Considerations:
+
+Input Shape: The most critical part is ensuring input_shape is correctly interpreted. Positional encoding makes sense when you have a sequence of data. If your input data x_train is just a flat vector of features without a sequence order, adding positional encoding might not be beneficial. Positional encoding is designed for data where the order of elements is important (like words in a sentence or time-series data).
+
+Broadcasting: The Add layer will broadcast the positional encoding matrix to match the batch size of your input data. The shape of positional_encoding will be (1, sequence_length, d_model), and the inputs will have a shape of (batch_size, sequence_length, d_model). Broadcasting will correctly add the positional encoding to each sample in the batch.
+\end{verbatim}
+
+Input: "Input 0 of layer "dense" is incompatible with the layer: expected axis -1 of input shape to have value 225, but received input with shape (None, 15)
+
+Arguments received by Functional.call():
+• inputs=tf.Tensor(shape=(None, 15), dtype=float32)
+• training=True
+• mask=None
+• kwargs=<class 'inspect.\_empty'>"
+
+
+\begin{verbatim}
+    You've run into a very common and insightful error in Keras. Let's break down what's happening and how to fix it.
+
+Understanding the Error
+
+The error message Input 0 of layer "dense" is incompatible with the layer: expected axis -1 of input shape to have value 225, but received input with shape (None, 15) is telling you two things:
+
+What the model received: During training or prediction (.fit() or .predict()), the first Dense layer received data with a shape of (None, 15). None is the batch size, and 15 is the number of features. This is correct, as your input data has 15 features.
+
+What the model expected: When the model was built, the first Dense layer was somehow configured to expect 225 features.
+
+The root cause of this mismatch is a shape incompatibility when trying to add the positional encoding to your input data. Your input for each sample is a flat vector of shape (15,), but the positional encoding is a 3D matrix. They cannot be added directly.
+
+The Solution: Reshaping the Input
+
+To make this work, we need to treat your input vector of 15 features as a sequence of 15 steps, where each step has a dimension of 1. We can do this by adding a Reshape layer.
+
+Here is the corrected build_model function that properly integrates the positional encoding:
+
+code
+Python
+download
+content_copy
+expand_less
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Flatten, Dense, PReLU, Dropout, Add, Reshape
+from tensorflow.keras.models import Model
+from tensorflow.keras import backend as K
+
+# --- Make sure these functions are defined in your notebook ---
+def get_angles(pos, i, d_model):
+    angle_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d_model))
+    return pos * angle_rates
+
+def posEncoding(max_seq_len, d_model):
+    angle_rads = get_angles(np.arange(max_seq_len)[:, np.newaxis],
+                          np.arange(d_model)[np.newaxis, :],
+                          d_model)
+    # Apply sine to even indices
+    angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
+    # Apply cosine to odd indices
+    angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
+    pos_encoding = angle_rads[np.newaxis, ...]
+    return tf.cast(pos_encoding, dtype=tf.float32)
+
+# --- Updated build_model function ---
+def build_model(hp, input_shape):
+    K.clear_session()
+    
+    # Hyperparameters
+    num_neurons = hp.Int("num_neurons", 1, 512)
+    num_layers = hp.Int("num_layers", 1, 16)
+    dropoutTF = hp.Boolean("dropoutT/F")
+
+    # --- Model Architecture ---
+    inputs = Input(shape=input_shape) # Expects shape like (15,)
+
+    # The input shape is (batch, 15). We need to treat it as a sequence.
+    # Reshape to (batch, 15, 1) to represent a sequence of 15 steps with 1 feature each.
+    # This is the key step to make shapes compatible.
+    sequence_length = input_shape[0]
+    d_model = 1
+    x = Reshape((sequence_length, d_model))(inputs)
+
+    # Add positional encoding
+    positional_encoding = posEncoding(sequence_length, d_model)
+    x = Add()([x, positional_encoding])
+    
+    # Flatten the sequence back into a vector of shape (batch, 15) for the Dense layers.
+    x = Flatten()(x)
+
+    # Add the dense layers as before
+    for i in range(num_layers):
+        x = Dense(num_neurons)(x)
+        x = PReLU()(x)
+        if dropoutTF:
+            x = Dropout(0.1)(x)
+
+    # Output Layer
+    outputs = Dense(1, activation='linear')(x)
+
+    # Create and compile the model
+    model = Model(inputs=inputs, outputs=outputs)
+    model.compile(optimizer="adam", loss="mse")
+
+    return model
+
+# You can now use this build_model function with your Keras Tuner
+# Re-run the tuner search after updating the function.
+How to Use the New Function
+
+Replace the old build_model function in your notebook with the new, corrected version above.
+
+Make sure the get_angles and posEncoding functions are also present in a cell before build_model is defined.
+
+Re-run the Keras Tuner search. Because you've changed the model's architecture by adding new layers (Reshape, Add), the previously found "best" hyperparameters are no longer valid. You need to run the search again to find the optimal parameters for this new model structure.
+
+code
+Python
+download
+content_copy
+expand_less
+# Re-initialize the tuner and run the search again
+tuner = keras_tuner.BayesianOptimization(
+    hypermodel=lambda hp: build_model(hp, input_shape),
+    # ... other tuner parameters ...
+)
+
+tuner.search(train_dataset, epochs=num_epochs, validation_data=val_dataset)
+\end{verbatim}
+
+
 
 \end{document}
