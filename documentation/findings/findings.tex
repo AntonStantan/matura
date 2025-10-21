@@ -480,24 +480,8 @@ positional embedding layer.
 The FNN models show the best performance on the benchmark, meaning they are 
 crowned the winners.
 
-\subsection{Conclusion}
 
-Adding positional Embedding barely makes a difference for FNNs.
-
-RNNs are weak models, outclassed by bidirectional LSTMs with attention, and 
-shouldn't be used
-
-Transformers excell at accurately learning the training data, but struggle with 
-generalization more than other models.
-
-FNNs are overall best at generalizing and perform best on the defined benchmark. 
-They are the best architecture for solving simple arithmetic expressions with 
-a reasonable supply of computational recources.
-
-If maximum performance with unlimited computational recources is asked, a 
-fine-tuned cutting-edge pre-trained model will yield  the best results i.e., 
-Gemini 2.5 Pro.
-
+\section{Discussion}
 \subsubsection{Regression Models}
 All of the 3 or 4 architectures discussed here are very different and all of 
 them have different strengths and weaknesses as you can tell by their 
@@ -550,6 +534,44 @@ the bigger pre-trained models perform better.
 The Gemini 2.5 Pro model performed the best out of all models evaluated in this 
 project on generalization tests, but this is due to previous training including 
 expressions similar to those in the training data.
+
+\subsection{Conclusion}
+
+Adding positional Embedding barely makes a difference for FNNs.
+
+RNNs are weak models, outclassed by bidirectional LSTMs with attention, and 
+shouldn't be used
+
+Transformers excell at accurately learning the training data, but struggle with 
+generalization more than other models.
+
+FNNs are overall best at generalizing and perform best on the defined benchmark. 
+They are the best architecture for solving simple arithmetic expressions with 
+a reasonable supply of computational recources.
+
+If maximum performance with unlimited computational recources is asked, a 
+fine-tuned cutting-edge pre-trained model will yield  the best results i.e., 
+Gemini 2.5 Pro.
+
+\subsection{Possible Future Work}
+
+The topic chosen for this project is very grand and current. A logical and 
+important continuation on this project is using the benchmark as the loss 
+function, this might lead to the training of better performing models. 
+
+Another possible direction is improving models by evaluating different 
+activation functions, optimizers or training data and using the best one or 
+even designing ones own.
+
+Training data and it's tokenizer and padding, is an area with lots of 
+potential for improvement. I.e., by using an additional embedding.
+
+Also, consider this a proposal to evaluate a model architecture: a FNN with 
+attention, seems to be promising. Judging by the results in this study, this 
+model is expected to improve the FNN's performance with longer expressions, 
+than in training, as well as strengthen it's ability to accurately and 
+confidently predict test data inside of the number range, previously reffered 
+to as the classical validation data.
 
 
 \newpage
