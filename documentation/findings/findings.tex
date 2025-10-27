@@ -292,6 +292,22 @@ Parameter size:                               &                            & 1.4
 Firstly, it is notable that the main hypothesis—that more complex models would perform better—is not supported by the results. There are clear outliers, such as the outstanding performance of the FNN2 or the poor performance of the RNN2 model. Also, notice the minimal improvement between FNN2 and FNN3, which includes a positional embedding layer.
 It's visible that the FNN models show the best performance on the benchmark, meaning they are crowned the winners.
 
+\subsection{Guided Discussion}
+
+After conducting an open presentation for a colleague, his feedback was collected and his knowledge of the presented topics graded. 
+
+The starting hypothesis and the reason for conducting this discussion was to test if regression models (like the ones in this project) are easier to teach and understand for people interested in neural networks, who already posses some basic knowledge.
+
+The Results from the questionaire yield that the discussion partner didn't fully understand either topic\footnote{The FNN and transformer architectures of regression models were taught.}, but was able to answer basic questions. The topic of FNNs was easier to grasp than transformers.
+
+According to the subject, the direct examples from this project which were delivered in accordance to theory, were the most helpful in forming an understanding. 
+
+The use of Regression models in stead of sequence to sequence (seq2seq) models also helped. The reasons listed by the subject were the similarities between the regression in the output layer and linear regression as taught in school, as well as the usage of mostly numbers throughout the whole model architecture, from input to output. The subject also stated that the latter helped with the understanding of tokens or vectors and how they are processed. Prior to this discussion this was not apparent to the subject.
+
+Some criticism found in the feedback includes the lack of information recieved was the lack of explanation for how the optimization process works. This is understandable, because the focus for this project was placed elsewhere.
+
+In conclusion, though only evaluated on a very small dataset, it can be said that it is benefitial to explain the basic workings of FNNs and transformers on the basis of models for regression, because of the wider use of numbers, as well as better connections to topics like linear regression, discussed as a part of the standard curriculum in school.
+
 \section{Discussion}
 \subsection{Regression Models}
 All of the 3 or 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as you can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden steps. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
