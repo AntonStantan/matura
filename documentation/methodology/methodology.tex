@@ -5,6 +5,7 @@
 \usepackage[backend=biber, style=apa]{biblatex}
 \addbibresource{references.bib}
 \usepackage{setspace} % Add this to your preamble
+\usepackage{wrapfig}
 
 
 % Set smaller font size for all Verbatim environments
@@ -26,7 +27,7 @@
 \subsection{Brief Summary of the Project}
 This Matura project investigates and evaluates the arithmetic capabilities of different neural networks.
 
-The project began with a literature review to generate a hypothesis regarding the weaknesses of neural networks in performing simple arithmetic. This literature review was submitted as the Zwischenprodukt, alongside a proof-of-concept notebook featuring a comparison of Feed-forward Neural Networks (FNNs) of different sizes.
+The project began with a literature review to generate a hypothesis regarding the weaknesses of neural networks in performing simple arithmetic calculations. This literature review was submitted as the Zwischenprodukt, alongside a proof-of-concept notebook featuring a comparison of Feed-forward Neural Networks (FNNs) of different sizes.
 
 The next step was to build a Recurrent Neural Network (RNN) and similar attention-based RNNs to investigate their arithmetic capabilities and compare them to those of the FNN using a benchmark.
 
@@ -40,34 +41,41 @@ To sum things up, all findings were collected and evaluated comprehensively.
 
 
 \subsection{Introduction to this document}
-The goal of this document is to assist in reproducibility and to demonstrate how the findings discussed in the related document were obtained.
+The goal of this document is to describe methodology applied in the current project, assist in reproducibility and to demonstrate how the findings discussed in the related document were obtained.
 
-All of the code written for this project is available in the GitHub repository:
+All of the code written for this project is available in the following GitHub repository:
 
 \url{https://github.com/AntonStantan/matura}
 
+\newpage
+
+\subsection{Software and Hardware specifications}
+
+\begin{wrapfigure}{htbp}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/JetsonBoot.jpg}
+    \caption{Nvidia Jetson device during its boot sequence.}
+    \label{fig:JetsonBoot}
+\end{wrapfigure}
+
 All code for this project is written in Python notebooks (Jupyter Lab). The preferred library used was \href{https://www.tensorflow.org/guide/keras}{tensorflow keras}.
 
-Most of the models were trained locally on an Nvidia GPU device: \textit{Nvidia Jetson Orin Nano Super Developer Kit}.
+Most of the models were trained locally on an Nvidia GPU device: \textit{Nvidia Jetson Orin Nano Super Developer Kit}, or alternatively on a Laptop: \textit{ThinkPad Z16 Gen 1} with a \textit{AMD Ryzen 7 PRO 6850H} CPU, which was used for calculations.
 
-Or alternatively on a Laptop: \textit{ThinkPad Z16 Gen 1} with a \textit{AMD Ryzen 7 PRO 6850H} CPU, which was used for calculations.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\paperwidth]{images/JetsonBoot.jpg}
-    \caption{The aforementioned Nvidia Jetson device during its boot sequence.}
-    \label{fig:JetsonBoot}
-\end{figure}
+
+
+
 
 \newpage
 \tableofcontents
 \newpage
 
-\section{Feed-forward Neural Networks (FNN)}
-For details on how an FNN works, please refer to section two in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature study}.
+\section{Feed-forward Neural Networks (FNNs)}
+For details on how an FNNs works, please refer to section 2 in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature study}.
 
-This section refers to the \href{https://github.com/AntonStantan/matura/tree/main/FNN}{/FNN directory} in the GitHub repository.
+This section corresponds with the \href{https://github.com/AntonStantan/matura/tree/main/FNN}{/FNN directory} in the GitHub repository.
 
-There are two notebooks here: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1}, \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}{FNN2} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}.
+There are three notebooks here: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1}, \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}{FNN2} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}.
 
 \subsection{Train and Test data}
 To define the training data, the decision was made to exclusively use subtraction and addition. The arithmetic expressions were defined to consist of two operators (+ or -) and three integers within the range $[-5, 5]$.
@@ -95,18 +103,17 @@ The test data is also defined in a slightly unconventional manner. It is split i
 
 \subsection{Tokenizer}
 
-Because only tensors with floats can be passed into a model, the train and test data are always processed by a tokenizer before entering a neural network.
+Because only tensors with floats can be passed into a model, the train and test data are always processed by a tokenizer before entering a neural network, as described by \cite{geeksforgeeks_nlp_tokenizing}.
 
-Traditionally, a tokenizer assigns each prevalent character in the data a number, but because this project works with numerical data, this is not the case. Only the characters $+$ and $-$ need to be assigned a number.
+Traditionally, a tokenizer assigns each prevalent character in the data a number, but because this project works with numerical data, this is not needed. Only the characters $+$ and $-$ need to be assigned a number.
 
 For this project, the decision was made to work with: $1.0$ replacing $+$ and $0.0$ replacing $-$.
-\\[2em]
-
-Padding is also added, because a network trained on expressions with up to 3 numbers cannot pass higher-dimensional vectors.
+\\[1em]
+Padding is also added, because a network trained on short expressions with only 3 numbers cannot process long expressions with more numbers (higher-dimensional vectors). Padding increases the length of those short expressions, by inflating them with values that dont represent any information.
 
 To differentiate it from all other integers, a padding value of $0.5$ was defined.
-\\[2em]
-Consequently, an expression, after being passed through the tokenizer, would appear as follows:
+\\[1em]
+Consequently, an expression that was passed through the tokenizer and extended with padding would appear as follows:
 $$
 [1.\qquad 0.\qquad -2.\qquad 1.\qquad 3\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5\quad 0.5]
 $$
@@ -212,12 +219,14 @@ The baseline values are defined to be from an FNN model with 30 neurons and two 
 
 As is clearly observable in the code for calculating the benchmark, using this formula defines a model with the same performance as the baseline model to have a benchmark of 1. Models performing worse or better on the test data yield scores below or above 1, respectively.
 
-\subsection{Positional Embedding}
+\subsection{FNN3 with Positional Encoding}
 
-In the notebook \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}, a positional embedding layer is added to the model, and a Keras tuner tunes the hyperparameters of the model to an optimum. The formula used is the one from \cite{vaswani2023attentionneed}. A similar performance to the notebook FNN2 is observed.
+In the notebook \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}, a positional embedding layer is added to the model, and a Keras tuner tunes the hyperparameters of the model to an optimum. The formula used is the one from \cite{vaswani2023attentionneed}.
 
 
 \section{Recurrent Neural Network (RNN)}
+
+RNNs process sequential data by calculating a hidden state value, which is passed from one timestep to the next. For details on how RNNs work, refer to the corresponding section in \href{https://github.com/AntonStantan/matura/blob/main/documentation/findings/findings.pdf}{the findings document}.
 
 \subsection{RNN0 and RNN2}
 The \href{https://github.com/AntonStantan/matura/blob/main/RNN/RNN0.ipynb}{RNN0} notebook is a simplistic model with RNN architecture.
@@ -268,16 +277,18 @@ model = Model(inputs = encoder_inputs, outputs = output)
 
 This bidirectional LSTM with attention was realized in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/g4gLSTM.ipynb}{the g4gLSTM notebook}. It contains a model built with the help of code from \cite{geeksforgeeks_attention_bilstm}.
 
-A number of 35 LSTM units were chosen for the Encoder because of its previous performance (with bootstrapping), visible in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/previousHeatmap.png}{a heatmap}.
+A number of 35 LSTM units were chosen for the encoder because of its previous performance (with bootstrapping), visible in \href{https://github.com/AntonStantan/matura/blob/main/attentional-RNN/previousHeatmap.png}{a heatmap}.
 \\[2em]
-In the directory \href{https://github.com/AntonStantan/matura/tree/main/RNN/Heatmaps}{/RNN/Heatmaps}, some heatmaps are visible; these were used to evaluate which model architecture to use to add attention to. Even though Gated Recurrent Units (GRUs) showed better results, they were not implemented because of the lack of online documentation for using attentional GRUs. This led to the choice of attentional LSTMs.
+In the directory \href{https://github.com/AntonStantan/matura/tree/main/RNN/Heatmaps}{/RNN/Heatmaps}, some heatmaps are presented; these were used to evaluate which model architecture to add attention to. Even though Gated Recurrent Units (GRUs) showed better results, they were not implemented because of the lack of online documentation for using attentional GRUs. This led to the choice of attentional LSTMs.
 
 Nevertheless, the GRU architecture is still discussed in the findings document.
 
 \newpage
 \subsection{Transformers}
 
-For an example of which architecture to use for building a transformer, we turn to the original paper by \cite{vaswani2023attentionneed}. The architecture used in this project resembles the one that first introduced the transformer architecture, with one small difference: it is a Regression model, not the sequence-to-sequence type from the paper.
+The original paper by \cite{vaswani2023attentionneed} was used as an example for building a replica model, which later was adjusted for better performance on the specific tasks in this project. The architectures used in this project resemble the one that first introduced the transformer architecture with one small difference: They are Regression models, not the sequence-to-sequence (seq2seq) type from the paper.
+
+
 
 \begin{figure}[htbp]
     \centering
@@ -297,11 +308,12 @@ Below is the hierarchy:
     \item Encoder containing encoding layers and dropout.
     \item Encoding layer consisting of the MHA and pointwise-FNN, as well as layer normalization and dropout (included in the original paper to prevent dropout)
     \item Multi-Head Attention (MHA) and pointwise-FNN
+    \item Scaled Dot-Product (SDP) Attention
 \end{itemize}
 
 A model with the same hyperparameters as the ones used by \cite{vaswani2023attentionneed} can be found in \href{https://github.com/AntonStantan/matura/blob/main/transformer/transformer0.ipynb}{transformer0}.
 
-Unfortunately, this model becomes stuck in a local minimum during training, as can be seen at the bottom of its notebook. The minimum is simply predicting a number close to 0 for every expression.
+Unfortunately, this model gets stuck in a local minimum during training, as can be seen at the bottom of its notebook. The minimum is simply predicting a number close to 0 for every expression.
 
 This is an undesirable outcome, necessitating the tuning of the model's hyperparameters. This is done with the help of KerasTuner.
 
@@ -331,7 +343,7 @@ The difference between them is that Transformer5 is a larger model than Transfor
 
 \section{Pre-trained Transformers}
 
-The final model type to be analyzed was fine-tuned pre-trained LLMs. Since working with them is completely different than working with your own locally trained neural networks, extensive research was required before commencing the work.
+The final model type to be analyzed was fine-tuned pre-trained LLMs. Since working with them is completely different than working with locally trained neural networks, extensive research was required before commencing the work.
 \\[1em]
 Significant effort was dedicated to resolving library compatibility issues for the amd64 architecture system on the Jetson device. The final solution was using \href{https://github.com/dusty-nv/jetson-containers}{jetson-containers}, which offer a Docker container optimized for the Jetson system. Specifically, the container called `bitsandbytes` has most of the libraries needed for this project; the few remaining ones can be installed manually using: \texttt{pip install}.
 
@@ -349,7 +361,7 @@ To access the new, fine-tuned model and be able to evaluate it, a fairly simplis
 There, the model is loaded in from its endpoint and used to predict test data.
 
 \subsection{Gemma 3}
-For diversity, a smaller (Gemma3 1B parameters) and a tiny (Gemma3 270M parameters) model were chosen.
+For diversity, a small (Gemma3 1B parameters) and a tiny (Gemma3 270M parameters) model were chosen.
 
 Because of their size, they can be fine-tuned locally on the Jetson device. They are fine-tuned with the SFTTrainer provided by `trl`.\footnote{We cannot use the standard Trainer from Hugging Face because the fine-tuning we do is supervised; hence the name: Supervised Fine-Tuning (SFT)} \href{https://huggingface.co/docs/trl/en/sft_trainer}{The guide on Hugging Face} was used as help for this.
 
@@ -397,7 +409,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 
     \item \textbf{Model Overfitting:} The model might be overfitted to the training data.
         \begin{itemize}
-            \item \textit{Result:} Definitely not, that's not what the definition of overfitting means, but just to be sure; Predicting on the training data yielded nearly identical (or slightly better) results, which does not support severe overfitting as the primary cause of the discrepancy.
+            \item \textit{Result:} Definitely not, that's not what the definition of overfitting means, but just to be sure; Predicting on the training data yielded nearly identical (or slightly better) results, to those calculated from test data, which does not support overfitting as the cause of the discrepancy.
         \end{itemize}
     
     \item \textbf{Calculation Discrepancy:} There might be a subtle difference in how predictions are processed. In the `compute\_metrics` function, the prediction is only counted if the model uses a turn separator. This could explain the gap in accuracies.
@@ -417,7 +429,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 \end{itemize}
 }
 \end{quote}
-Should a reader identify the cause of this discrepancy, they are encouraged to contact the author of this project.
+Should a reader identify the cause of this discrepancy, they are kindly encouraged to contact the author of this project.
 
 \section{Guided Discussion}
 After having evaluated all data collected on the performance of various models, a guided discussion with a colleague was organized. The goal was to interpret a hypothesis formed at the very start of the project: Isn't it simpler to explain how models for regression (like the ones used for this project) work than the usual sequence to sequence (seq2seq) models.
