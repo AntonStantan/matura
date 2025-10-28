@@ -220,10 +220,25 @@ A regressive transformer model, like the one used in this project, consists of m
     \label{fig:pointwiseFNN}
 \end{figure}
 
+\newpage
+
 \subsection{Positional Encoding}
 A special characteristic of the transformer is that data is passed through it as a whole. This means the model does not have positional understanding on its own. To counteract this effect, a positional encoding is applied to the input sequences after the tokenizer.
 
-\newpage
+Let:
+\begin{itemize}
+    \item $d_model$: dimensionality of the sequences passed to the model
+    \item $pos$: index of the token inside the sequence
+    \item $i$ an integer that indexes half of the model's dimensions
+\end{itemize}
+Formulas as described by \cite{vaswani2023attentionneed}: 
+\begin{align}
+PE_{(pos, 2i)} &= \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \\
+PE_{(pos, 2i+1)} &= \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\end{align}
+
+This project implements positional encoding as described by \cite{vaswani2023attentionneed}. Vaguely described, it assigns a number to each token, based on it's position in the sequence.
+
 \section{Fine-Tuned Pre-Trained LLMs}
 The last model type used for this project are fine-tuned Large Language Models (LLMs).
 For sources and further reading on this section see (in chronological order; left to right): \cite{geeksforgeeks_2024,Stryker_LLM,srinivasan2024transformer,Bergmann_Fine_Tuning}
