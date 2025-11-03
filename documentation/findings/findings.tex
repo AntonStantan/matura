@@ -7,6 +7,7 @@
 \usepackage{enumitem}
 \usepackage{geometry}
 \usepackage{wrapfig}
+\usepackage{titling}
 
 \usepackage[table,xcdraw]{xcolor}
 
@@ -14,10 +15,15 @@
 \addbibresource{references_find.bib}
 \setlength{\intextsep}{0pt} 
 
-
-\title{Findings}
-\author{Anton Mukin}
-\date{October 21, 2025}
+\title{\huge Neural Predictive Calculator
+\\[0em]
+{\LARGE Findings}
+\\[0em]
+{\large Maturitätsarbeit, Kantonsschule Baden}
+\\[-0.5em]
+{\large Michael Schneider, Julia Smits}}
+\author{Anton Mukin G4h}
+\date{June 2025}
 
 \setlength{\parindent}{0pt}
 
@@ -29,11 +35,11 @@
 \subsection{Abstract}
 
 \subsection{Introduction}
-This project began with a simple idea: a calculator that predicts answers using a neural network rather than performing systematic calculations. The central question that propelled this project was determining the most suitable neural network architecture for this task. This document presents the findings from the "A Predictive Calculator" project.
+This project began with a simple idea: a calculator that predicts answers using a neural network rather than performing systematic calculations. The central question that propelled this project was determining the most suitable neural network architecture for this task. The current document presents the findings from the "Neural Predictive Calculator" project.
 
 \subsection{Hypothesis}
 Following a \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{literature review}, the expected results were as follows: 
-It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional embeddings, a seq2grid pre-processor\footnote{This was skipped because in theory it wouldn't have a big impact if any, mainly only helping with rounding errors.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
+It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional embeddings, a seq2grid pre-processor\footnote{Upon further research into the preprocessor; It's architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This doesn't fit the requirements for this project. Even though it's not systematic, the preprocessor effectively just increases the model complexity, by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
 
 
 \newpage
@@ -41,44 +47,52 @@ It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakes
 \newpage
 
 \subsection{Feed-forward Neural Networks (FNNs)}
-The functionality of FNNs has been previously discussed in the literature study and methodology document. As no new information has been found, this topic will not be further discussed here. However, FNNs will be referenced later in this document.
+The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document.
 
 \section{RNN}
-Recurrent Neural Networks (RNNs) work similarly to FNNs with one key difference: There is a vector called the hidden-state. This vector contains information about previous inputs. The hidden-state of the previous time-step, in addition to the input of the current time-step, is fed into a model which computes the hidden-state of the present time-step. The output of each time-step is calculated by feeding the respective hidden state to a model.
+Recurrent Neural Networks (RNNs) work similarly to FNNs with one key difference: There is a vector called the hidden-state. This vector contains information about previous time-steps. The hidden-state of the previous time-step, in addition to the input of the current time-step, is fed into a model which computes the hidden-state of the present time-step. The output of each time-step is calculated by feeding the respective hidden-state to a model.
 
 \subsection{Numerical Visualization of a RNN:}
+
+\begin{wrapfigure}{r}{0.35\textwidth}
+    \centering
+    \includegraphics[width=0.35\textwidth]{images/RNN.png}
+    \caption{RNN diagram as described by \cite{inproceedings}}
+    \label{fig:RNNarchitecture}
+\end{wrapfigure}
+
 Let:
 \begin{itemize}
-    \item $x_t$: Input at time step $t$
-    \item $h_t$: Hidden state at time step $t$
-    \item $y_t$: Output at time step $t$
-    \item $W_{xh}$: Weight matrix connecting input to hidden state
-    \item $W_{hh}$: Weight matrix connecting previous hidden state to current hidden state (recurrent weights)
-    \item $W_{hy}$: Weight matrix connecting hidden state to output
-    \item $b_h$: Bias vector for the hidden layer
-    \item $b_y$: Bias vector for the output layer
-    \item $\sigma$: Activation function (in our case: PReLU)
-    \item $\sigma_{out}$: Activation function for the output (linear for regression)
+    \item $x_t$: input at time step $t$
+    \item $h_t$: hidden-state at time step $t$
+    \item $y_t$: output at time step $t$
+    \item $W_{xh}$: weight matrix connecting input to hidden-state
+    \item $W_{hh}$: weight matrix connecting previous hidden-state to current hidden-state (recurrent weights)
+    \item $W_{hy}$: weight matrix connecting hidden-state to output
+    \item $b_h$: bias vector for the hidden layer
+    \item $b_y$: bias vector for the output layer
+    \item $\sigma$: activation function (in our case: PReLU)
+    \item $\sigma_{out}$: activation function for the output (linear for the regression task in this project)
 \end{itemize}
 
 $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
 
 \subsection{Relevant Takeaway}
-For this project, this means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs, not only prevalent in this project. It is more widely known as the vanishing gradient problem.
+For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs, not only prevalent in this project. It is widely known as the vanishing gradient problem.
 
 \section{Other Types of RNNs}
 To address the vanishing gradient problem, several architectures have been developed, for example, the Long Short-Term Memory (LSTM) proposed by \cite{6795963}, the Gated Recurrent Unit (GRU) proposed by \cite{cho2014propertiesneuralmachinetranslation} or later, the concept of attention proposed by \cite{bahdanau2016neuralmachinetranslationjointly}.
 
 \subsection{Long Short-Term Memory (LSTM)}
-The LSTM architecture solves the gradient vanishing problem by using a memory cell. The model can use this to store \eqref{eq:cell_update_lstm}, forget \eqref{eq:forget_gate_lstm} and pass information from the memory cell to the hidden state \eqref{eq:hidden_state_lstm}.
+The LSTM architecture solves the gradient vanishing problem by using a memory cell. The model can use this to store \eqref{eq:cell_update_lstm}, forget \eqref{eq:forget_gate_lstm} and pass information from the memory cell to the hidden-state \eqref{eq:hidden_state_lstm}.
 
 Let: 
 \begin{itemize}
     \item $\sigma(\cdot)$ denotes the sigmoid activation function,
     \item $\tanh(\cdot)$ is the hyperbolic tangent function,
     \item $\odot$ represents element-wise (Hadamard) multiplication,
-    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden state $h_{t-1}$ and the current input $x_t$,
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state $h_{t-1}$ and the current input $x_t$,
     \item $W_f, W_i, W_C, W_o$ are trainable weight matrices,
     \item $b_f, b_i, b_C, b_o$ are trainable bias vectors,
     \item $C_t$ is the current memory cell state,
@@ -95,25 +109,25 @@ Let:
 \end{align}
 Source for the equations: \cite{geeksforgeeks_lstm}
 \\[2em]
-In the equations you can see the forget gate activation \eqref{eq:forget_gate_lstm}, the input gate activation \eqref{eq:input_gate_lstm}, the candidate cell state \eqref{eq:candidate_cell_state_lstm} and the output gate activation \eqref{eq:output_gate_lstm}.
+In the equations one can see the forget gate activation \eqref{eq:forget_gate_lstm}, the input gate activation \eqref{eq:input_gate_lstm}, the candidate cell state \eqref{eq:candidate_cell_state_lstm} and the output gate activation \eqref{eq:output_gate_lstm}.
 
 The cell state is calculated in \eqref{eq:cell_update_lstm}. There, the forget gate which scales the previous cell state is combined with the input gate.
 
-The hidden state is calculated in \eqref{eq:hidden_state_lstm}, where the output activation is applied to the cell state.
+The hidden-state is calculated in \eqref{eq:hidden_state_lstm}, where the output activation is applied to the cell state.
 
 \subsection{Gated Recurrent Unit (GRU)}
-The GRU architecture works in a similar way to the LSTM. Instead of utilizing memory cells, GRUs directly use the hidden state.
+The GRU architecture works in a similar way to the LSTM. Instead of utilizing memory cells, GRUs directly use the hidden-state.
 
 Let:
 \begin{itemize}
     \item $\sigma(\cdot)$ is the sigmoid activation function,
     \item $\tanh(\cdot)$ is the hyperbolic tangent function,
     \item $\odot$ denotes element-wise (Hadamard) multiplication,
-    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden state and current input,
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state and current input,
     \item $W_z, W_r, W_h$ are trainable weight matrices,
     \item $b_z, b_r, b_h$ are trainable bias vectors,
-    \item $\tilde{h}_t$ is the candidate hidden step
-    \item $h_t$ is the current hiddenstep
+    \item $\tilde{h}_t$ is the candidate hidden-state
+    \item $h_t$ is the current hidden-state
 \end{itemize}
 
 \begin{align}
@@ -126,9 +140,9 @@ Source for the equations: \cite{geeksforgeeks_gru}
 \\[2em]
 Above you can see the update gate activation \eqref{eq:update_gate_gru}, as well as the reset gate activation \eqref{eq:reset_gate_gru}.
 
-Further down, the reset gate activation is applied to the previous hidden step to calculate the candidate hidden state \eqref{eq:candidate_hidden_state_gru}. 
+Further down, the reset gate activation is applied to the previous hidden-state to calculate the candidate hidden-state \eqref{eq:candidate_hidden_state_gru}. 
 
-Lastly the hidden step can be calculated by applying (1 - the update gate activation) to the previous hidden step and combining it with the update gate activation applied to the hidden state candidate \eqref{eq:update_hidden_state_gru}. Depending on whether the update gate activation is larger or smaller, the previous hidden step or the candidate hiddenstate will weigh in more on the current hidden step.
+Lastly the hidden-state can be calculated by applying (1 - the update gate activation) to the previous hidden-state and combining it with the update gate activation applied to the hidden-state candidate \eqref{eq:update_hidden_state_gru}. Depending on whether the update gate activation is larger or smaller, the previous hidden-state or the candidate hidden-state will weigh in more on the current hidden-state.
 
 \subsection{Bidirectional LSTM with Attention}
 An architecture of this type consists in part of a bidirectional LSTM, meaning two LSTMs working in parallel, one of which processes data from front to back, the other from back to front; their results are then concatenated and passed on.
@@ -137,7 +151,7 @@ The other part of this architecture is the attention mechanism. Here it is, as d
 
 Let:
 \begin{itemize}
-    \item $\mathbf{h}_t \in \mathbb{R}^{128}$ are the hiddenstates for each timestep $t$, the output from the bidirectional LSTM,
+    \item $\mathbf{h}_t \in \mathbb{R}^{128}$ are the hidden-states for each timestep $t$, the output from the bidirectional LSTM,
     \item $\mathbf{W} \in \mathbb{R}^{128 \times 128}$ is a trainable weight matrix,
     \item $\mathbf{b} \in \mathbb{R}^{128}$ is a bias vector,
     \item $\mathbf{u} \in \mathbb{R}^{128}$ is a trainable context vector.
@@ -162,7 +176,7 @@ Then compute the context vector:
 
 Source for equations: \cite{cristina_2023_bahdanau}
 \\[2em]
-An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, \eqref{eq:attention_score}, it is then normalized \eqref{eq:alpha_score}. Finally the attention weights scale their respective hiddenstates from the LSTMs, to compute the context vector \eqref{eq:attention_context}.
+An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, \eqref{eq:attention_score}, it is then normalized \eqref{eq:alpha_score}. Finally the attention weights scale their respective hidden-states from the LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
 \section{Transformers} \label{sec:transformers}
 The best performing and most widely used architectures for most tasks to date are transformers; they form the basis for LLMs. The key to their success is multi-head self-attention.
@@ -198,25 +212,27 @@ This is done across all heads in parallel. The results are then concatenated\foo
     \caption{Encoder Layer as described by \cite{vaswani2023attentionneed}}
     \label{fig:encodingLayer}
 \end{wrapfigure}
-In figure \ref{fig:encodingLayer} the multi-head attention first undergoes a residual connection as well as a layer normalization \footnote{Given an input vector, layer normalization works by normalizing its features and making it so their mean is 0.}, as described below:
+In figure \ref{fig:encodingLayer} the multi-head attention first undergoes a residual connection as well as a layer normalization\footnote{Given an input vector, layer normalization works by normalizing its features and making it so their mean is 0.}, as described below:
 \begin{gather}
-    \text{where Sublayer(x) is the function the residual connection is formed around:} \nonumber \\
+    \text{where Sublayer(x) is the function, the residual connection is formed by:} \nonumber \\
     \text{Output}(x) = \text{LayerNorm}\bigl(x + \text{Sublayer}(x)\bigr) \label{eq:ResConnect}
 \end{gather}
 Afterwards, all tokens are fed into a point-wise FNN, where they are processed separately and independently. This part is crucial, to introduce non-linearity into the system, as multi-head attention is linear, and non-linearity is needed for a model to be able to learn.
 
 \subsection{Point-wise Feed-Forward Network}
 Equation \eqref{eq:pointwiseFNN} and figure \ref{fig:pointwiseFNN}:
-The pointwise FNN works by taking in a number of $d\_model$ tokens, then a layer with a number of $d\_FNN$ neurons with weights and biases $W_1$ and $b_1$ is applied to them individually. The activation function ReLU discards all negative vlaues and the output layer with weights and biases $W_2$ and $b_1$ resets the data back to it's original dimensionality.
-After undergoing a residual connection and layer normalization like after multihead attention \eqref{eq:ResConnect}, this makes up a single layer of the Encoder.
-A regressive transformer model, like the one used in this project, consists of multiple such encoding layers and last but not least a FNN with a single neuron, which works as the output layer.
+The pointwise FNN works by taking in a number of $d\_model$ tokens, then a layer with a number of $d\_FNN$ neurons with weights and biases $W_1$ and $b_1$ is applied to them individually. The activation function ReLU discards all negative values and the output layer with weights and biases $W_2$ and $b_2$ resets the data back to it's original dimensionality.
+
+Please trun your attention to figure \ref{fig:encodingLayer}. After the resulting residual connection from the MHAttention \eqref{eq:ResConnect} is processed by a pointwise FNN, it's residual connection will be the output of a single Encoder Layer as shown in figure \ref{fig:encodingLayer}. 
+
+A regressive transformer model, like the one used in this project, consists of multiple such encoding layers and last but not least a single neuron, which works as the output layer.
 \begin{equation}
     \text{pointwiseFNN}(x) = \max\bigl(0, \, x W_1 + b_1 \bigr) W_2 + b_2 \label{eq:pointwiseFNN}
 \end{equation}
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.4\paperwidth]{images/pointwiseFNN.png}
-    \caption{A diagram representing the structure of a pointwise FNN. \href{https://datascience.stackexchange.com/questions/68020/what-is-the-feedforward-network-in-a-transformer-trained-on}{source for figure}}
+    \caption{A diagram from \cite{emil2020what} representing the structure of a pointwise FNN.}
     \label{fig:pointwiseFNN}
 \end{figure}
 
@@ -325,7 +341,7 @@ In conclusion, though only evaluated on a very small dataset, it can be said tha
 
 \section{Discussion}
 \subsection{Regression Models}
-All of the 3 or 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as you can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden steps. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
+All of the 3 or 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as you can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden-states. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
 
 When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same—the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data. Thanks to positional encoding, transformers can handle longer inputs better than FNNs.
 
