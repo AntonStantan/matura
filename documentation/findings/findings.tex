@@ -8,11 +8,14 @@
 \usepackage{geometry}
 \usepackage{wrapfig}
 \usepackage{titling}
+\usepackage{xurl}
 
 \usepackage[table,xcdraw]{xcolor}
 
 \geometry{margin=1in}
 \addbibresource{references_find.bib}
+\setlength{\bibitemsep}{1\baselineskip}
+
 \setlength{\intextsep}{0pt} 
 
 \title{\huge Neural Predictive Calculator
@@ -32,6 +35,10 @@
 
 \maketitle
 
+\begin{abstract}
+    anton
+\end{abstract}
+
 \subsection{Abstract}
 
 \subsection{Introduction}
@@ -43,10 +50,11 @@ It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakes
 
 
 \newpage
+\listoffigures
 \tableofcontents
 \newpage
 
-\subsection{Feed-forward Neural Networks (FNNs)}
+\section{Feed-forward Neural Networks (FNNs)}
 The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document.
 
 \section{RNN}
@@ -79,7 +87,7 @@ $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
 
 \subsection{Relevant Takeaway}
-For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs, not only prevalent in this project. It is widely known as the vanishing gradient problem.
+For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs, it was well documented by \cite{pascanu2013difficultytrainingrecurrentneural}. It is widely known as the vanishing gradient problem.
 
 \section{Other Types of RNNs}
 To address the vanishing gradient problem, several architectures have been developed, for example, the Long Short-Term Memory (LSTM) proposed by \cite{6795963}, the Gated Recurrent Unit (GRU) proposed by \cite{cho2014propertiesneuralmachinetranslation} or later, the concept of attention proposed by \cite{bahdanau2016neuralmachinetranslationjointly}.
@@ -193,10 +201,13 @@ In this document, we will discuss the transformer architecture as first proposed
 
 Data is first split equally into multiple heads, which process it in parallel. There, the tensors are linearly projected with trainable weights to obtain queries (Q), keys (K), and values (V), which can be seen at the bottom of the image.
 $$ Q = X W_Q, \quad K = X W_K, \quad V = X W_V $$
-Afterwards, the dot-product between the queries and the keys is calculated and scaled\footnote{According to \cite{vaswani2023attentionneed} this is done to counteract dot-products growing too large and later overwhelming the softmax function.} to determine how similar they are. This leaves us with a number between 0 and 1, representing how much attention to pay. The value $V$ represents the actual information of the token for which we just calculated the attention. This means our final step is to scale the value $V$ by its attention. Pay attention to the equation below. \eqref{eq:sdpAttention}
+Afterwards, the dot-product between the queries and the keys is calculated and scaled\footnote{According to \cite{vaswani2023attentionneed} this is done to counteract dot-products growing too large and later overwhelming the softmax function.} to determine how similar they are. This leaves us with a number between 0 and 1, representing how much attention to pay. The value $V$ represents the actual information of the token for which we just calculated the attention. This means our final step is to scale the value $V$ by its attention. Pay attention to the equation below.\footnote{K has a T, this means the matrix is transposed. This is necessary for multiplication because the Q and K matrices have the same number of rows and columns.} \eqref{eq:sdpAttention}
 \begin{equation}
     \text{Attention}(Q, K, V) = \text{softmax}\left( \frac{Q K^\top}{\sqrt{d_k}} \right) V \label{eq:sdpAttention}
 \end{equation}
+
+$$\text{where}\footnotemark\text{: }\text{softmax}(\mathbf{z})_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}} \quad \text{for } i=1, \dots, K$$
+\footnotetext{Effectively the softmax function sets the biggest element in a set to 1 and the smallest element in the set to 0. All elements in between are scaled appropriately so all elements add up to 1.}
 
 This is done across all heads in parallel. The results are then concatenated\footnote{This means they are reassembled to have the same dimensions as before they were split up.} back together and they undergo a linear projection. As described below:
 \begin{gather*}
@@ -206,9 +217,10 @@ This is done across all heads in parallel. The results are then concatenated\foo
 
 \newpage
 \subsection{The Encoder Layer}
-\begin{wrapfigure}{l}{0.3\textwidth}
+
+\begin{wrapfigure}{l}{0.25\textwidth}
     \centering
-    \includegraphics[width=0.2\paperwidth]{images/encodingLayer.png}
+    \includegraphics[width=0.25\textwidth]{images/encodingLayer.png}
     \caption{Encoder Layer as described by \cite{vaswani2023attentionneed}}
     \label{fig:encodingLayer}
 \end{wrapfigure}
@@ -243,7 +255,7 @@ A special characteristic of the transformer is that data is passed through it as
 
 Let:
 \begin{itemize}
-    \item $d_model$: dimensionality of the sequences passed to the model
+    \item $d_{model}$: dimensionality of the sequences passed to the model
     \item $pos$: index of the token inside the sequence
     \item $i$ an integer that indexes half of the model's dimensions
 \end{itemize}
@@ -253,7 +265,7 @@ PE_{(pos, 2i)} &= \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \\
 PE_{(pos, 2i+1)} &= \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
 \end{align}
 
-This project implements positional encoding as described by \cite{vaswani2023attentionneed}. Vaguely described, it assigns a number to each token, based on it's position in the sequence.
+This project implements positional encoding as described by \cite{vaswani2023attentionneed}. Very vaguely put, it assigns a number to each token, based on it's position in the sequence.
 
 \section{Fine-Tuned Pre-Trained LLMs}
 The last model type used for this project are fine-tuned Large Language Models (LLMs).
@@ -277,7 +289,10 @@ Please note that these are not regression models but sequence-to-sequence models
 \newpage
 
 \section{Findings}
-Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. The results were documented in this table: 
+Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see the methodology section: 1.5 The Benchmark. 
+
+The results\footnotemark were documented in this table: 
+\footnotetext{Mean Absolute Error (MAE) is the average deviation of the predicted answer, to the correct answer. And Mean Relative Error (MRE) is the deviation of the predicted answer, to the correct answer devided by the correct answer.}
 \\[0.5em]
 \begin{table}[htbp]
 \centering

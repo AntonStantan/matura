@@ -7,6 +7,7 @@
 \usepackage{setspace} % Add this to your preamble
 \usepackage{wrapfig}
 \usepackage{titling}
+\usepackage{xurl}
 
 % Set smaller font size for all Verbatim environments
 \fvset{
@@ -30,16 +31,14 @@
 \setlength{\droptitle}{-1cm}
 \maketitle
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/JetsonBoot.jpg}
-    \caption{Nvidia Jetson device during its boot sequence.}
-    \label{fig:JetsonBoot}
-\end{figure}
+\begin{abstract}
+    anton
+\end{abstract}
 
 \newpage
 
 \subsection{Brief Summary of the Project}
+
 This Matura project investigates and evaluates the arithmetic capabilities of different neural networks.
 
 The project began with a literature review to generate a hypothesis regarding the weaknesses of neural networks in performing simple arithmetic calculations. This literature review was submitted as the Zwischenprodukt, alongside a proof-of-concept notebook featuring a comparison of Feed-forward Neural Networks (FNNs) of different sizes.
@@ -54,6 +53,12 @@ A similar workflow was repeated for larger, pre-trained models.
 
 To sum things up, all findings were collected and evaluated comprehensively.
 
+\begin{wrapfigure}{r}{0.35\textwidth}
+    \centering
+    \includegraphics[width=0.35\textwidth]{images/JetsonBoot.jpg}
+    \caption{Nvidia Jetson device during its boot sequence.}
+    \label{fig:JetsonBoot}
+\end{wrapfigure}
 
 \subsection{Introduction to this document}
 The goal of this document is to describe methodology applied in the current project, assist in reproducibility and to demonstrate how the findings discussed in the related document were obtained.
@@ -67,8 +72,6 @@ All of the code written for this project is available in the following GitHub re
 All code for this project is written in Python notebooks (Jupyter Lab). The preferred library used was \href{https://www.tensorflow.org/guide/keras}{tensorflow keras}.
 
 Most of the models were trained locally on an Nvidia GPU device: \textit{Nvidia Jetson Orin Nano Super Developer Kit}, or alternatively on a Laptop: \textit{ThinkPad Z16 Gen 1} with a \textit{AMD Ryzen 7 PRO 6850H} CPU, which was used for calculations.
-
-
 
 
 
