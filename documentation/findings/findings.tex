@@ -12,9 +12,9 @@
 
 \usepackage[table,xcdraw]{xcolor}
 
-\geometry{margin=1in}
+\geometry{margin=2.5cm}
 \addbibresource{references_find.bib}
-\setlength{\bibitemsep}{1\baselineskip}
+\setlength{\bibitemsep}{0.5\baselineskip}
 
 \setlength{\intextsep}{0pt} 
 
@@ -36,17 +36,29 @@
 \maketitle
 
 \begin{abstract}
-    anton
-\end{abstract}
+    This study investigates which Neural Network architecture is optimal for predicting 
+    simple arithmetic expressions. 
+    Various architectures built for regression tasks were evaluated: Feedforward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), transformers, 
+    as well as fine-tuned Large Language Models (LLMs). Evaluations were performed to measure 
+    if the models were able to learn arithmetic rules by assessing their generalization 
+    capabilities with a custom made benchmark. The best performance on the previously 
+    defined benchmark was achieved by the simple FNN architecture. Still, no model performed 
+    well enough to be classified as \textit{having learned} arithmetic rules.
 
-\subsection{Abstract}
+    The regression models were presented to a colleague in a guided discussion. Though only on a 
+    small and insignificant dataset, it was found to be beneficial to explain the basic 
+    workings of FNNs and transformers.
+
+
+
+\end{abstract}
 
 \subsection{Introduction}
 This project began with a simple idea: a calculator that predicts answers using a neural network rather than performing systematic calculations. The central question that propelled this project was determining the most suitable neural network architecture for this task. The current document presents the findings from the "Neural Predictive Calculator" project.
 
 \subsection{Hypothesis}
 Following a \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{literature review}, the expected results were as follows: 
-It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional embeddings, a seq2grid pre-processor\footnote{Upon further research into the preprocessor; It's architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This doesn't fit the requirements for this project. Even though it's not systematic, the preprocessor effectively just increases the model complexity, by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
+It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional embeddings, a seq2grid pre-processor\footnote{Upon further research into the preprocessor; Its architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This does not fit the requirements for this project. Even though it is not systematic, the preprocessor effectively just increases the model complexity by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
 
 
 \newpage
@@ -87,7 +99,7 @@ $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
 
 \subsection{Relevant Takeaway}
-For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs, it was well documented by \cite{pascanu2013difficultytrainingrecurrentneural}. It is widely known as the vanishing gradient problem.
+For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs. It was well documented by \cite{pascanu2013difficultytrainingrecurrentneural} and is widely known as the vanishing gradient problem.
 
 \section{Other Types of RNNs}
 To address the vanishing gradient problem, several architectures have been developed, for example, the Long Short-Term Memory (LSTM) proposed by \cite{6795963}, the Gated Recurrent Unit (GRU) proposed by \cite{cho2014propertiesneuralmachinetranslation} or later, the concept of attention proposed by \cite{bahdanau2016neuralmachinetranslationjointly}.
@@ -233,9 +245,9 @@ Afterwards, all tokens are fed into a point-wise FNN, where they are processed s
 
 \subsection{Point-wise Feed-Forward Network}
 Equation \eqref{eq:pointwiseFNN} and figure \ref{fig:pointwiseFNN}:
-The pointwise FNN works by taking in a number of $d\_model$ tokens, then a layer with a number of $d\_FNN$ neurons with weights and biases $W_1$ and $b_1$ is applied to them individually. The activation function ReLU discards all negative values and the output layer with weights and biases $W_2$ and $b_2$ resets the data back to it's original dimensionality.
+The pointwise FNN works by taking in a number of $d\_model$ tokens, then a layer with a number of $d\_FNN$ neurons with weights and biases $W_1$ and $b_1$ is applied to them individually. The activation function ReLU discards all negative values and the output layer with weights and biases $W_2$ and $b_2$ resets the data back to its original dimensionality.
 
-Please trun your attention to figure \ref{fig:encodingLayer}. After the resulting residual connection from the MHAttention \eqref{eq:ResConnect} is processed by a pointwise FNN, it's residual connection will be the output of a single Encoder Layer as shown in figure \ref{fig:encodingLayer}. 
+Please turn your attention to figure \ref{fig:encodingLayer}. After the resulting residual connection from the MHAttention \eqref{eq:ResConnect} is processed by a pointwise FNN, its residual connection will be the output of a single Encoder Layer as shown in figure \ref{fig:encodingLayer}. 
 
 A regressive transformer model, like the one used in this project, consists of multiple such encoding layers and last but not least a single neuron, which works as the output layer.
 \begin{equation}
@@ -265,7 +277,7 @@ PE_{(pos, 2i)} &= \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \\
 PE_{(pos, 2i+1)} &= \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
 \end{align}
 
-This project implements positional encoding as described by \cite{vaswani2023attentionneed}. Very vaguely put, it assigns a number to each token, based on it's position in the sequence.
+This project implements positional encoding as described by \cite{vaswani2023attentionneed}. Very vaguely put, it assigns a number to each token, based on its position in the sequence.
 
 \section{Fine-Tuned Pre-Trained LLMs}
 The last model type used for this project are fine-tuned Large Language Models (LLMs).
@@ -273,7 +285,7 @@ For sources and further reading on this section see (in chronological order; lef
 
 \subsection{LLM}
 LLMs adopt the transformer architecture\footnote{The transformer architecture discussed in the previous section \ref{sec:transformers}. But now it not only consists of an encoder but also has a decoder, which is responsible for the model's output} and adapt it to imense sizes, by increasing the architecture's hyperparameters, as well as employing new technological advancements. The number of parameters used by a LLM varies from model to model, but lies in the hundreds of billions per popular high-end LLM.
-The large size allows large architectures to excell at complicated tasks like mostly Natural Language Processing (NLP).
+The large size allows large architectures to excel at complicated tasks like mostly Natural Language Processing (NLP).
 To facilitate training and prediction on such large architectures, massive supercomputers are used, consisting of thousands of GPUs. They mainly work by utilizing parallel processing to distribute the load across multiple powerful GPUs. While by far not a supercomputer, a tiny replica was used for this project: The Nvidia Jetson Orin Nano Super Developer Kit.
 
 \subsection{Fine-Tuning Process}
@@ -292,7 +304,7 @@ Please note that these are not regression models but sequence-to-sequence models
 Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see the methodology section: 1.5 The Benchmark. 
 
 The results\footnotemark were documented in this table: 
-\footnotetext{Mean Absolute Error (MAE) is the average deviation of the predicted answer, to the correct answer. And Mean Relative Error (MRE) is the deviation of the predicted answer, to the correct answer devided by the correct answer.}
+\footnotetext{Mean Absolute Error (MAE) is the average deviation of the predicted answer, to the correct answer. And Mean Relative Error (MRE) is the deviation of the predicted answer, to the correct answer divided by the correct answer.}
 \\[0.5em]
 \begin{table}[htbp]
 \centering
@@ -336,8 +348,9 @@ Parameter size:                               &                            & 1.4
 \end{tabular}
 \end{table}
 
-Firstly, it is notable that the main hypothesis—that more complex models would perform better—is not supported by the results. There are clear outliers, such as the outstanding performance of the FNN2 or the poor performance of the RNN2 model. Also, notice the minimal improvement between FNN2 and FNN3, which includes a positional embedding layer.
-It's visible that the FNN models show the best performance on the benchmark, meaning they are crowned the winners.
+Firstly, it is notable that the main hypothesis—that more complex\footnotemark models would perform better—is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 or the poor performance of the RNN2 model. Also, notice the minimal improvement between FNN2 and FNN3, which includes a positional embedding layer.
+\footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture. Where a large number of parameters and a more advanced architecture correlate to a higher complexity}
+It is visible that the FNN models show the best performance on the benchmark, meaning they are crowned the winners.
 
 \subsection{Guided Discussion}
 
@@ -345,26 +358,27 @@ After conducting an open presentation for a colleague, his feedback was collecte
 
 The starting hypothesis and the reason for conducting this discussion was to test if regression models (like the ones in this project) are easier to teach and understand for people interested in neural networks, who already posses some basic knowledge.
 
-The Results from the questionaire yield that the discussion partner didn't fully understand either topic\footnote{The FNN and transformer architectures of regression models were taught.}, but was able to answer basic questions. The topic of FNNs was easier to grasp than transformers.
+The Results from the questionnaire yield that the discussion partner did not fully understand either topic\footnote{The FNN and transformer architectures of regression models were taught.}, but was able to answer basic questions. The topic of FNNs was easier to grasp than transformers.
 
 According to the subject, the direct examples from this project which were delivered in accordance to theory, were the most helpful in forming an understanding. 
 
-The use of Regression models in stead of sequence to sequence (seq2seq) models also helped. The reasons listed by the subject were the similarities between the regression in the output layer and linear regression as taught in school, as well as the usage of mostly numbers throughout the whole model architecture, from input to output. The subject also stated that the latter helped with the understanding of tokens or vectors and how they are processed. Prior to this discussion this was not apparent to the subject.
+The use of Regression models instead of sequence to sequence (seq2seq) models also helped. The reasons listed by the subject were the similarities between the regression in the output layer and linear regression as taught in school, as well as the usage of mostly numbers throughout the whole model architecture, from input to output. The subject also stated that the latter helped with the understanding of tokens or vectors and how they are processed. Prior to this discussion this was not apparent to the subject.
 
-Some criticism found in the feedback includes the lack of information recieved was the lack of explanation for how the optimization process works. This is understandable, because the focus for this project was placed elsewhere.
+The feedback included criticism about the lack of information and explanation regarding the optimization process. This is understandable, because the focus for this project was placed elsewhere.
 
-In conclusion, though only evaluated on a very small dataset, it can be said that it is benefitial to explain the basic workings of FNNs and transformers on the basis of models for regression, because of the wider use of numbers, as well as better connections to topics like linear regression, discussed as a part of the standard curriculum in school.
+In conclusion, though only evaluated on a very small dataset, it can be said that it is beneficial to explain the basic workings of FNNs and transformers on the basis of models for regression, because of the wider use of numbers, as well as better connections to topics like linear regression, discussed as a part of the standard curriculum in school.
 
 \section{Discussion}
 \subsection{Regression Models}
-All of the 3 or 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as one can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden-states. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
+All of the 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as one can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden-states. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
 
-When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same—the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data. Thanks to positional encoding, transformers can handle longer inputs better than FNNs.
+When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same; the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data. transformer5 with more parameters than transformer4 only shows a significant performance improvement on the classical validation data. Thanks to positional encoding, transformers can handle longer inputs better than FNNs.
 
-The FNN architecture performed with the best benchmark. The FNN2 model was good at expressions of the same length with numbers not encountered in the training data. Still, it's abilities will not suffice to label it as 'able to generalize', primarily also because of it's weakness at longer expressions. Even after adding positional embedding in FNN3, the model struggles at grasping expressions of different sizes.
+The FNN architecture performed with the best benchmark. The FNN2 model was good at expressions of the same length with numbers not encountered in the training data. Still, its abilities will not suffice to label it as 'able to generalize', primarily also because of its weakness at longer expressions. Even after adding positional embedding in FNN3, the model struggles at grasping expressions of different sizes.
 
+In addition it can also be said, that the number of parameters in a specific model architecture does not directly correlate to its benchmark performance, rather there are sweetspots for the number of parameters that can be found using the Keras-Tuner or a heatmap of differently sized models and their performances. It can be the case sometimes that there are multiple sweetspots, like it was the case for transformer4 and transformer5, who both were trained with Keras-Tuner.
 \subsection{Pre-trained Fine-tuned Transformers}
-The models in the lower table of the two are all very large, with Gemini 2.5 being particularly massive. Because we know that these models have the same transformer architecture and the sweet spot for hyperparameters is much smaller than their parameter size, we expect a weaker performance.\footnote{Since these are seq2seq models, their hyper-parameters sweet-spot wouldn't be the same as the regression transformers. And their Decoder multiplies the number of parameters roughly by 2x. This is still not comparable to the jump in complexity between the largest optimized transformer regression model and the smallest pre-trained model, which is a factor of 180x.}. Additionally, they predict on tokens rather than numerical values, which is not optimal for the task in this project. The performance of these models also depends heavily on the pre-training they previously underwent because it also involves arithmetics. This explains why the bigger pre-trained models perform better. The Gemini 2.5 Pro model performed the best out of all models evaluated in this project on generalization tests, but this is due to previous training, including expressions similar to those in the training data. For this reason it cannot be said that it is able to generalize.
+The models in the lower table of the two are all very large, with Gemini 2.5 being particularly massive. Because we know that these models have the same transformer architecture and the sweet spot for hyperparameters is much smaller than their parameter size, we expect a weaker performance.\footnote{Since these are seq2seq models, their hyper-parameters sweet-spot would not be the same as the regression transformers. And their Decoder multiplies the number of parameters roughly by 2x. This is still not comparable to the jump in complexity between the largest optimized transformer regression model and the smallest pre-trained model, which is a factor of roughly 180x.}. Additionally, they predict on tokens rather than numerical values, which is not optimal for the task in this project. The performance of these models also depends heavily on the pre-training they previously underwent because it also involves arithmetics. This explains why the bigger pre-trained models perform better. The Gemini 2.5 Pro model performed the best out of all models evaluated in this project on generalization tests, but this is due to previous training, including expressions similar to those in the training data. For this reason it cannot be said that it is able to generalize.
 
 \subsection{Drop-Out}
 When introducing a Dropout with industry-standard values, contrary to the expectation of reducing overfitting (which is present to some extent, according to literature discussed in the literature review), the models are not able to generalize beyond the training range, this is different to overfitting because validation data is being predicted with a simillar loss as training data.
@@ -376,9 +390,11 @@ The MSEs of models with Dropout are higher than those of the previous models wit
 Adding positional embedding barely makes a difference for FNNs.
 RNNs are weak models, outclassed by bidirectional LSTMs with attention, and should not be used.
 Transformers excel at accurately learning the training data but struggle with generalization more than other models.
-FNNs are, overall, the best at generalizing and perform best on the defined benchmark. They are the best architecture for solving simple arithmetic expressions with a reasonable supply of computational resources.
-
+FNNs are, overall, the best at generalizing and perform best on the defined benchmark. They are the best architecture for solving simple arithmetic expressions with a reasonable\footnotemark supply of computational resources.
+\footnotetext{Publicly available, affordable hardware e.g., The Nvidia Jetson Orin Nano Super Developer Kit GPU used in this project.}
 If maximum performance with unlimited computational resources is the goal, a fine-tuned, cutting-edge pre-trained model such as Gemini 2.5 Pro will yield the best results.
+
+Despite the chance factor playing a role, the conclusion will hold true. Conclusions were reached with significant margins and are backed by logical explanations. All results are reproducible with \href{https://github.com/AntonStantan/matura/tree/main}{publicly available notebooks}.
 
 \subsection{Possible Future Work}
 The topic chosen for this project is very grand and current. A logical and important continuation of this project is using the benchmark as the loss function; this might lead to the training of better-performing models, as well as a struggle with overfitting. 
