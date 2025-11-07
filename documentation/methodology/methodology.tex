@@ -118,18 +118,18 @@ For example, the first three entries are:
 \\[2em]
 The test data is also defined in a slightly unconventional manner. It is split into three categories.
 \begin{itemize}
-    \item Inside of the number range: Expressions identical in structure to the training data but not present in the training set.
-    \item Outside of the number range: The same expression structures, but with numbers in the ranges $[-8, -5]$ and $[5, 8]$, e.g.,
+    \item Inside of the number range (1457 expressions): Expressions identical in structure to the training data but not present in the training set.
+    \item Outside of the number range (2048 expressions): The same expression structures, but with numbers in the ranges $[-8, -5]$ and $[5, 8]$, e.g.,
 \[
 -6 + 6 + 8 \qquad -7 + 6 + 7 \qquad 5 - -6 - 6
 \]
-    \item Longer expressions: Expressions of different lengths. Specifically, there are between 2 and 8 numbers inside of the $[-5, 5]$ range, e.g.,
+    \item Longer expressions (700 expressions): Expressions of different lengths. Specifically, there are between 2 and 8 numbers inside of the $[-5, 5]$ range, e.g.,
 \[
 -5 + 1 \qquad 3 + -1 + 4 + -2 + -4 \qquad -2 + 1 + 5 + -5 - -2 + -1 - 2 - 5
 \]
 \end{itemize}
 
-During training, later on, the model will require a small validation dataset, which will be used to evaluate the model during training on data not in the training dataset. Based on the model's performance on this datset, it will be either rewarded or punished.
+During training, later on, the model will require a small validation dataset (636 expressions), which will be used to evaluate the model during training on data not in the training dataset. Based on the model's performance on this datset, it will be either rewarded or punished.
 The validation data is generated the exact same way as the training data, so that there is 3 times as much training data as there is validation data.
 
 \subsection{Tokenizer}
@@ -375,7 +375,7 @@ Unfortunately, this model gets stuck in a local minimum during training, as can 
 
 This is an undesirable outcome, necessitating the tuning of the model's hyperparameters. This is done with the help of KerasTuner.
 
-A couple of additional minor adjustments were made to the model before applying the KerasTuner, mainly switching to the AdamW optimizer, because it is better than Adam for transformers \cite{loshchilov2019decoupledweightdecayregularization}. A learning rate scheduler with warmup and cosine decay was also used. This means that, unlike before when the learning rate stayed constant throughout the training, the learning rate now changes. It is higher in the beginning and decays towards the end. This assists the model in taking larger optimization steps initially, thereby overcoming local minima, before proceeding with more precise, smaller steps towards the end of the training.
+A couple of additional minor adjustments were made to the model before applying the KerasTuner, mainly switching to the AdamW optimizer, because it is better than Adam for transformers according to \cite{loshchilov2019decoupledweightdecayregularization}. A learning rate scheduler with warmup and cosine decay was also used. This means that, unlike before when the learning rate stayed constant throughout the training, the learning rate now changes. It is higher in the beginning and decays towards the end. This assists the model in taking larger optimization steps initially, thereby overcoming local minima, before proceeding with more precise, smaller steps towards the end of the training.
 
 \begin{figure}[htbp]
     \centering
