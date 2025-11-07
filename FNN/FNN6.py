@@ -116,11 +116,11 @@ for progress in range(10):
 
     diffLongRange = []
     for i in range(200, 300):
-        diffLongRange.append(np.array(np.abs(long_y_test[i]) - np.array(predsInRange[i])))
+        diffLongRange.append(np.array(np.abs(long_y_test[i]) - np.array(predsLongRange[i])))
         
     NEEDdiffLongRange = []
     for i in range(len(long_y_test)):
-        NEEDdiffLongRange.append(np.array(np.abs(long_y_test[i]) - np.array(predsInRange[i])))
+        NEEDdiffLongRange.append(np.array(np.abs(long_y_test[i]) - np.array(predsLongRange[i])))
     print("MAE longer Expressions: ", np.mean(NEEDdiffLongRange))
     MAElongRange.append(np.mean(NEEDdiffLongRange))
     
@@ -165,21 +165,30 @@ for progress in range(10):
     print(f"progress: {progress}")
 
 
-from scipy.stats import kstest
+from scipy.stats import kstest, uniform
 
-stats1, p_value1 = kstest(MAEinRange, 'uniform')
-stats2, p_value2 = kstest(MREinRange, 'uniform')
-stats3, p_value3 = kstest(MAEoutRange, 'uniform')
-stats4, p_value4 = kstest(MREoutRange, 'uniform')
-stats5, p_value5 = kstest(MAElongRange, 'uniform')
-stats6, p_value6 = kstest(benchmarks, 'uniform')
+def ks_uniform_custom(data):
+    data = np.asarray(data)
+    if data.size == 0:
+        raise ValueError("Input data is empty.")
+    max_val = np.max(data)
+    if max_val <= 0:
+        raise ValueError("Maximum value must be positive for Uniform(0, max).")
+    return kstest(data, uniform(loc=0, scale=max_val).cdf)
 
-print(f"MAE in Range P-value for normality: {p_value1}")
-print(f"MRE in Range P-value for normality: {p_value2}")
-print(f"MAE out Range P-value for normality: {p_value3}")
-print(f"MRE out Range P-value for normality: {p_value4}")
-print(f"MAE long Range P-value for normality: {p_value5}")
-print(f"benchmark P-value for normality: {p_value6}")
+stats1, p_value1 = ks_uniform_custom(MAEinRange)
+stats2, p_value2 = ks_uniform_custom(MREinRange)
+stats3, p_value3 = ks_uniform_custom(MAEoutRange)
+stats4, p_value4 = ks_uniform_custom(MREoutRange)
+stats5, p_value5 = ks_uniform_custom(MAElongRange)
+stats6, p_value6 = ks_uniform_custom(benchmarks)
+
+print(f"MAE in Range P-value: {p_value1}")
+print(f"MRE in Range P-value: {p_value2}")
+print(f"MAE out Range P-value: {p_value3}")
+print(f"MRE out Range P-value: {p_value4}")
+print(f"MAE long Range P-value: {p_value5}")
+print(f"benchmark P-value: {p_value6}")
 
 print(f"average MAE in Range: {np.mean(MAEinRange)}")
 print(f"average MRE in Range: {np.mean(MREinRange)}")
