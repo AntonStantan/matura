@@ -454,6 +454,131 @@ tuner = keras_tuner.BayesianOptimization(
 tuner.search(train_dataset, epochs=num_epochs, validation_data=val_dataset)
 \end{verbatim}
 
+Input: "there is a lot of code, that isn't necessary in this fle. make this file shorter." (attached file)
+
+\begin{verbatim}
+    Of course, the provided Python script contains a significant amount of code for training, tuning, and evaluation that isn't necessary for its final purpose as a "Neural Predictive Calculator." Below is a refactored, shorter version of the file that exclusively focuses on loading the pre-trained model and using it for prediction.
+
+Key Changes:
+
+Removed Data Loading: All code related to loading and batching x_train, y_train, x_val, y_val, and test datasets has been removed.
+
+Removed Model Training and Tuning: The keras_tuner implementation, including the build_model function, the BayesianOptimization tuner, and the tuner.search() call, has been deleted.
+
+Removed Evaluation Metrics: All sections calculating Mean Absolute Error (MAE) and Mean Relative Error (MRE) on the test sets, along with the final benchmarking logic, have been removed.
+
+Combined Model Creation and Loading: A new function, create_and_load_model, is introduced. This function defines the model architecture with the best hyperparameters that would have been found by the tuner, and then loads the saved weights into it. You may need to adjust the hyperparameters in this function to match the ones discovered during your actual training session.
+
+Kept Essential Components: The script retains the necessary imports, the path additions for custom modules, the tokenizer import, the model loading logic, and the final user-facing prediction loop.
+
+Shortened FNN5reciever.py
+code
+Python
+download
+content_copy
+expand_less
+import sys
+import os
+import tensorflow as tf
+from tensorflow.keras.layers import Dense, PReLU, Dropout, Flatten
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import Input
+
+# --- Setup Project Path ---
+# This allows the script to find the custom 'GetXY' module in the parent directory.
+try:
+    # Get the absolute path of the current script's directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    # Fallback for interactive environments like Jupyter
+    current_dir = os.path.dirname(os.path.abspath("FNN5reciever.py"))
+
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
+# --- Import Custom Tokenizer ---
+# This tokenizer is required to preprocess user input.
+from GetXY import tokenizer
+
+def create_and_load_model(weights_path):
+    """
+    Defines the model architecture, compiles it, and loads the pre-trained weights.
+    
+    NOTE: You must define the model with the *exact* same architecture and
+    hyperparameters as the model that was saved. Adjust the values below if needed.
+    """
+    # Define the model's input shape. This should match the shape of the tokenized input.
+    # Example: if your tokenizer creates vectors of length 50, shape would be (50,)
+    input_shape = (15,) # <--- IMPORTANT: SET THIS TO MATCH YOUR TOKENIZER'S OUTPUT SHAPE
+
+    # Best hyperparameters found during tuning (replace with your actual best values)
+    best_hps = {
+        "num_layers": 8,
+        "num_neurons": 269,
+        "dropout": True,
+        "dropout_rate": 0.1
+    }
+
+    # Re-create the model with the best hyperparameters
+    model = Sequential()
+    model.add(Input(shape=input_shape))
+    model.add(Flatten())
+    
+    for _ in range(best_hps["num_layers"]):
+        model.add(Dense(best_hps["num_neurons"]))
+        model.add(PReLU())
+        if best_hps["dropout"]:
+            model.add(Dropout(best_hps["dropout_rate"]))
+            
+    model.add(Dense(1, activation='linear'))
+    
+    # Compile the model (optimizer and loss are needed for loading, but not for inference)
+    model.compile(optimizer="adam", loss="mse")
+    
+    # Load the trained weights
+    model.load_weights(weights_path)
+    
+    print("Model architecture created and weights loaded successfully.")
+    model.summary()
+    
+    return model
+
+# --- Main Application ---
+if __name__ == "__main__":
+    # Path to the saved model weights
+    WEIGHTS_FILE = "FNN2_weights.weights.h5"
+    
+    # Create the model and load the weights
+    best_model = create_and_load_model(WEIGHTS_FILE)
+
+    # --- Interactive Calculator Loop ---
+    print("\n---------------------------------------------------")
+    print("HELLO AND WELCOME TO THE NEURAL PREDICTIVE CALCULATOR - NPC")
+    print("---------------------------------------------------")
+
+    while True:
+        try:
+            user_expr = input("What do you want me to calculate? (or type 'exit' to quit): ")
+            if user_expr.lower() == 'exit':
+                break
+            
+            # The tokenizer converts the string expression into a numerical vector
+            tokenized_input = tokenizer([user_expr])
+            
+            # Use the model to predict the result
+            model_pred = best_model.predict(tokenized_input)
+            
+            print(f"what you asked: {user_expr}")
+            print(f"This should be the answer: {model_pred[0][0]:.4f}")
+            print("---------------------------------------------------")
+            
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            print("Please ensure your input is a valid mathematical expression.")
+            print("---------------------------------------------------")
+\end{verbatim}
+
+
 
 \section{AI assistance with grammar errors on documentation documents.}
 Input: "Correct the attached document for grammar errors and give me feedback.
