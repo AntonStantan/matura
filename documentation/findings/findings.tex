@@ -330,7 +330,10 @@ MRE out Range:                             &                          & 0.250927
 \end{tabular}
 \end{table}
 
-And the fine-tuned Language Models, evaluated on their accuracy:
+The p-values\footnote{two-sided one-sample t-test} calculated symbolize the propability that the benchmark will be $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
+for this project, the small p-values ($<0.05$) mean that the models will perform better than the baseline model (or respectively worse in the case of RNN2). This proves the significance of the results.
+
+The fine-tuned Language Models were also evaluated, but on their accuracy:
 \\[0.5em]
 \begin{table}[htbp]
 \centering
@@ -348,7 +351,11 @@ Parameter size:                               &                            & 1.4
 \end{tabular}
 \end{table}
 
-Firstly, it is notable that the main hypothesis -- that more complex\footnotemark models would perform better -- is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 or the poor performance of the RNN2 model. Also, notice the minimal improvement between FNN2 and FNN3, which includes a positional embedding layer.
+Firstly, notice how the FNNs dominate the benchmark, with the FNN2 being the best model out of the bunch. 
+
+It is also notable that the main hypothesis -- that more complex\footnotemark models would perform better -- is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 (which is small in complexity) or the poor performance of the RNN2 model, which consists of the second to most parameters. 
+
+Also, notice the minimal improvement of the long expressions MAE between FNN2 and FNN3, which includes a positional embedding layer.
 \footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture. Where a large number of parameters and a more advanced architecture correlate to a higher complexity}
 It is visible that the FNN models show the best performance on the benchmark, meaning they are crowned the winners.
 

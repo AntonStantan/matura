@@ -419,7 +419,7 @@ To access the new, fine-tuned model and be able to evaluate it, a fairly simplis
 There, the model is loaded in from its endpoint and used to predict test data.
 
 \subsection{Gemma 3}
-For diversity, a small (Gemma3 1B parameters) and a tiny (Gemma3 270M parameters) model were chosen.
+For diversity, a small (Gemma3 1B parameters by \cite{gemma1b_2025}) and a tiny (Gemma3 270M parameters by \cite{gemma270m_2025}) model were chosen. They have been provided by Google on Huggingface.
 
 Because of their size, they can be fine-tuned locally on the Jetson device. They are fine-tuned with the SFTTrainer provided by `trl`.\footnote{We cannot use the standard Trainer from Hugging Face because the fine-tuning we do is supervised; hence the name: Supervised Fine-Tuning (SFT)} \href{https://huggingface.co/docs/trl/en/sft_trainer}{The guide on Hugging Face} was used as help for this.
 
@@ -488,6 +488,37 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 }
 \end{quote}
 Should a reader identify the cause of this discrepancy, they are kindly encouraged to contact the author of this project.
+
+\section{Findings Table}
+To finish this project, and sum up all results, a table is used to present all the important regression-based-models and their performances.
+
+FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4 aswell as transformer5 were the chosen models. They were chosen so that all major different architectures were used. The strongest performing models (of the ones considered in this project) were chosen for each architecture.
+All of them were evaluated on:
+\begin{itemize}
+    \item Mean Absolute Error (MAE) on all three of the test datasets separately
+    \item Mean Relative Error (MRE) on the test datasets, excluding the one with longer expressions
+    \item The Benchmark score
+    \item P-value of the Benchmark score
+\end{itemize}
+
+Each model was trained 5 times separately on the same training data, and then evaluated on the same test data. The average performance of the 5 evaluations was used in the table.
+
+\subsection{p-Value}
+The p-value was calculated using the \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_1samp.html}{scipy-stats library}.
+
+The p-values used are two-sided one-sample t-test. They were calculated using the list of 5 benchmarks computed in the 5 trainings performed for each model.
+
+\begin{Verbatim}
+    from scipy.stats import ttest_1samp
+    stats, p_value = ttest_1samp(benchmarks_list, popmean=1)
+\end{Verbatim}
+
+\subsection{Fine-Tuned Models}
+
+The accuracy of the Small and Large Langauage Models was calculated with accuracy, not deviation, because these types of models issue tokens to the each number. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
+\\[1em]
+While the Gemma3 models are open-sourced and their parameter sizes published, the Gemini 2.5 Pro and it's parameters on the other hand aren't open-sourced to the public.
+An estimation for the number of parameters of the Gemini 2.5 Pro model was published by \cite{chadha2025gemini}. This estimate was adopted for the table
 
 \section{Guided Discussion}
 After having evaluated all data collected on the performance of various models, a guided discussion with a colleague was organized. The goal was to interpret a hypothesis formed at the very start of the project: Isn't it simpler to explain how models for regression (like the ones used for this project) work than the usual sequence to sequence (seq2seq) models.
