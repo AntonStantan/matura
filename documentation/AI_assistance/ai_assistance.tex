@@ -579,6 +579,124 @@ if __name__ == "__main__":
 \end{verbatim}
 
 
+Input: 
+create one more cell in the transformer5 notebook, where it uses the same logic as in FNN6.py to calculate the pvalue among others. answer with the code.
+
+Output:
+\begin{verbatim}
+    #this was generated based on the FNN6.py script, which was made by myself. (Gemini 2.5 Pro)
+
+import numpy as np
+from scipy.stats import ttest_1samp
+
+# Initialize lists to store metrics for each bootstrap run
+MAEinRange_list = []
+MREinRange_list = []
+MAEoutRange_list = []
+MREoutRange_list = []
+MAElongRange_list = []
+benchmarks_list = []
+
+
+# Loop through the predictions from each bootstrap run
+for i in range(n_bootstrap):
+    # Extract predictions for the current run
+    current_preds_in_range = bootstrap_predsInRange[i]
+    current_preds_out_range = bootstrap_predsOutRange[i]
+    current_preds_long_range = bootstrap_predsLongRange[i]
+
+    # --- In-Range Metrics ---
+    diffInRange = np.abs(y_test - current_preds_in_range.flatten())
+    safe_y_test = np.where(np.isclose(y_test, 0.0), 1.0, y_test)
+    reldiffInRange = diffInRange / np.abs(safe_y_test)
+    
+    mean_mae_in_range = np.mean(diffInRange)
+    mean_mre_in_range = np.mean(reldiffInRange)
+    MAEinRange_list.append(mean_mae_in_range)
+    MREinRange_list.append(mean_mre_in_range)
+
+    # --- Out-of-Range Metrics ---
+    diffOutRange = np.abs(out_y_test - current_preds_out_range.flatten())
+    safe_out_y_test = np.where(np.isclose(out_y_test, 0.0), 1.0, out_y_test)
+    reldiffOutRange = diffOutRange / np.abs(safe_out_y_test)
+
+    mean_mae_out_range = np.mean(diffOutRange)
+    mean_mre_out_range = np.mean(reldiffOutRange)
+    MAEoutRange_list.append(mean_mae_out_range)
+    MREoutRange_list.append(mean_mre_out_range)
+
+    # --- Long-Range Metrics ---
+    diffLongRange = np.abs(long_y_test - current_preds_long_range.flatten())
+    mean_mae_long_range = np.mean(diffLongRange)
+    MAElongRange_list.append(mean_mae_long_range)
+    
+    # --- Benchmark Calculation ---
+    # This part replicates the specific slicing and filtering from FNN6.py for the benchmark score
+    
+    # Specific filter for out-of-range benchmark
+    placeholder = absSum(outsideExpr)
+    indices_with_placeholder_22 = [i for i, val in enumerate(placeholder) if val == 22]
+    diffOutRange_for_benchmark = []
+    for idx in indices_with_placeholder_22:
+        diffOutRange_for_benchmark.append(np.abs(out_y_test[idx] - current_preds_out_range[idx]))
+    
+    meanDiff_OutRange_for_benchmark = np.mean(diffOutRange_for_benchmark)
+
+    # Specific slice for long-range benchmark
+    diffLongRange_for_benchmark = []
+    for j in range(200, 300):
+         diffLongRange_for_benchmark.append(np.abs(long_y_test[j] - current_preds_long_range[j]))
+
+    meanDiff_LongRange_for_benchmark = np.mean(diffLongRange_for_benchmark)
+
+    # Calculate the benchmark score for the current run
+    benchmark = 0
+    benchmark += baseline_deviation / (mean_mae_in_range**2) / 4
+    benchmark += baseline_out_deviation / (meanDiff_OutRange_for_benchmark**2) / 4
+    benchmark += baseline_long_deviation / (meanDiff_LongRange_for_benchmark**2) / 4
+    benchmark += baseline_relError / (mean_mre_out_range**2) / 4
+    benchmarks_list.append(benchmark)
+
+# --- Statistical Analysis and Final Output ---
+
+# Perform one-sample t-test against a population mean of 1
+# Note: A t-test is meaningful only if n_bootstrap > 1
+if n_bootstrap > 1:
+    stats1, p_value1 = ttest_1samp(MAEinRange_list, popmean=1)
+    stats2, p_value2 = ttest_1samp(MREinRange_list, popmean=1)
+    stats3, p_value3 = ttest_1samp(MAEoutRange_list, popmean=1)
+    stats4, p_value4 = ttest_1samp(MREoutRange_list, popmean=1)
+    stats5, p_value5 = ttest_1samp(MAElongRange_list, popmean=1)
+    stats6, p_value6 = ttest_1samp(benchmarks_list, popmean=1)
+
+    print(f"MAE in Range P-value: {p_value1}")
+    print(f"MRE in Range P-value: {p_value2}")
+    print(f"MAE out Range P-value: {p_value3}")
+    print(f"MRE out Range P-value: {p_value4}")
+    print(f"MAE long Range P-value: {p_value5}")
+    print(f"benchmark P-value: {p_value6}\n")
+else:
+    print("Cannot calculate p-values with n_bootstrap=1. Run more bootstraps for statistical tests.\n")
+
+
+# Print average metrics across all runs
+print(f"Average MAE in Range: {np.mean(MAEinRange_list)}")
+print(f"Average MRE in Range: {np.mean(MREinRange_list)}")
+print(f"Average MAE out Range: {np.mean(MAEoutRange_list)}")
+print(f"Average MRE out Range: {np.mean(MREoutRange_list)}")
+print(f"Average MAE long Range: {np.mean(MAElongRange_list)}")
+print(f"Average benchmark: {np.mean(benchmarks_list)}\n")
+
+# Print the lists of metrics
+print(f"MAE in Range List: {MAEinRange_list}")
+print(f"MRE in Range List: {MREinRange_list}")
+print(f"MAE out Range List: {MAEoutRange_list}")
+print(f"MRE out Range List: {MREoutRange_list}")
+print(f"MAE long Range List: {MAElongRange_list}")
+print(f"Benchmark List: {benchmarks_list}")
+\end{verbatim}
+
+
 
 \section{AI assistance with grammar errors on documentation documents.}
 Input: "Correct the attached document for grammar errors and give me feedback.
