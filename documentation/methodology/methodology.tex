@@ -492,7 +492,7 @@ Should a reader identify the cause of this discrepancy, they are kindly encourag
 \section{Findings Table}
 To finish this project, and sum up all results, a table is used to present all the important regression-based-models and their performances.
 
-FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4 aswell as transformer5 were the chosen models. They were chosen so that all major different architectures were used. The strongest performing models (of the ones considered in this project) were chosen for each architecture.
+FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4 aswell as transformer5 were the chosen models. They were chosen so that all major different architectures were covered. The strongest performing models (of the ones considered in this project) were chosen for each architecture.
 All of them were evaluated on:
 \begin{itemize}
     \item Mean Absolute Error (MAE) on all three of the test datasets separately
@@ -508,14 +508,34 @@ The p-value was calculated using the \href{https://docs.scipy.org/doc/scipy/refe
 
 The p-values used are two-sided one-sample t-test. They were calculated using the list of 5 benchmarks computed in the 5 trainings performed for each model.
 
+The null-hypthesis is defined as benchmark value 1, the performance of the baseline model.
+
+In the notebooks, the p-value was computed with a slight inaccuracy (it also accounted for negative benchmarks which are not possible by definition.)
+The \href{https://github.com/AntonStantan/matura/blob/main/get_p-value.py}{p-value calculation script} calculates the p-values correctly by applying a logarithmic transformation on the individual benchmarks first.
+
 \begin{Verbatim}
-    from scipy.stats import ttest_1samp
-    stats, p_value = ttest_1samp(benchmarks_list, popmean=1)
+from scipy.stats import ttest_1samp
+import math
+
+#values taken from the notebooks, where the p-value was calculated slightly inaccurately.
+benchmark_list = ['10.600075', '12.701344', '10.435802', '10.592991', '9.183982']
+[int(i) for i in benchmark_list]
+
+log_transform = math.log(benchmark_list)
+
+print(log_transform)
+
+stats, p_value = ttest_1samp(benchmark_list, popmean = 0)
+
+print(f"p-value of the benchmarks: {p_value}")
 \end{Verbatim}
 
-\subsection{Fine-Tuned Models}
+The p-value is a velue between $[0,1]$. It is the probability of observing my benchmark results or more extreme if the model being evaluated performs the same as the baseline model.
 
-The accuracy of the Small and Large Langauage Models was calculated with accuracy, not deviation, because these types of models issue tokens to the each number. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
+\subsection{Fine-Tuned Models}
+In addition to regression-based architectures, a table was also drawn for fine-tuned language models.
+
+The performance of the Small and Large Langauage Models was evaluated with accuracy, not deviation, because these types of models issue discrete tokens to the each number. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
 \\[1em]
 While the Gemma3 models are open-sourced and their parameter sizes published, the Gemini 2.5 Pro and it's parameters on the other hand aren't open-sourced to the public.
 An estimation for the number of parameters of the Gemini 2.5 Pro model was published by \cite{chadha2025gemini}. This estimate was adopted for the table
