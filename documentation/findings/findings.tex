@@ -295,44 +295,84 @@ The fine-tuning process on the other hand is mostly done on smaller datasets wit
 \\[2em]
 In the fine-tuning process, a pre-trained model, with its weights and biases already optimized, is trained again on additional data. This means that the model's weights will be slightly adjusted from their pre-trained state. The optimizer will find a new minimum in which the model will have learned additional information from the fine-tuning training data. When evaluated on test data, the newly fine-tuned model is expected to perform better than its pre-trained counterpart.
 
-\subsection{In Addition}
-Please note that these are not regression models but sequence-to-sequence models, which means that inside the model, tokens are processed, not numbers, as in the other models discussed. For the task in this project, specifically, fine-tuned models will output an integer rather than a float, because tokens for floats have not been created. This is the reason why the only metric that makes sense for these models is accuracy, which essentially evaluates how many times the model predicted correctly.
+\subsection{Regression vs. seq2seq Models}
+Please note that the models fine-tuned in this section are not regression models but sequence-to-sequence models, which means that inside the model, tokens are processed, not numbers, like in the other models discussed. For the task in this project, specifically, fine-tuned models will output an integer rather than a float, because for seq2seq models solving an expression is a classification task, rather than a regression task. 
+
+This is the reason why the only metric that makes sense for these models is accuracy, which is the percentage of correctly answered expressions from test data.
 
 \newpage
 
 \section{Findings}
 Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see the methodology section: 1.5 The Benchmark. 
 
-The results\footnotemark were documented in this table: 
+An evaluation was performed on 5 training runs of each model, where the average of the 5 performances yielded the results in the following table\footnotemark: 
 \footnotetext{Mean Absolute Error (MAE) is the average deviation of the predicted answer, to the correct answer. And Mean Relative Error (MRE) is the deviation of the predicted answer, to the correct answer divided by the correct answer.}
 \\[0.5em]
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
 \begin{table}[htbp]
 \centering
 \footnotesize
 \begin{tabular}{|lr|r|r|r|r|r|r|}
 \hline
-\multicolumn{2}{|l|}{Regression models:}                              & \multicolumn{1}{l|}{FNN2} & \multicolumn{1}{l|}{FNN3}        & \multicolumn{1}{l|}{RNN2} & \multicolumn{1}{l|}{Bidirectional   LSTM} & \multicolumn{1}{l|}{transformer4} & \multicolumn{1}{l|}{transformer5} \\ \hline
-\multicolumn{2}{|l|}{Total   Parameters:}                             & 6’211                     & 8’893                            & 222’464                   & 19’535                                    & 114’628                           & 1’494’724                         \\
-\multicolumn{2}{|l|}{Architecture   Parameters:}                      & 6’211                     & 8’893                            & 222,464                   & 6’511                                     & 38’209                            & 498’241                           \\
-\multicolumn{2}{|l|}{Optimizer   Parameters:}                         & -                         & -                                & -                         & 13’024                                    & 76’419                            & 996’483                           \\
+\multicolumn{2}{|l|}{Regression models:}                                 & \multicolumn{1}{l|}{FNN2}                          & \multicolumn{1}{l|}{FNN3}                          & \multicolumn{1}{l|}{RNN2}                          & \multicolumn{1}{l|}{Bidirectional   LSTM}          & \multicolumn{1}{l|}{transformer4}                  & \multicolumn{1}{l|}{transformer5}                  \\ \hline
+\multicolumn{2}{|l|}{Total   Parameters:}                                & 6’211                                              & \multicolumn{1}{l|}{8’893}                         & 222’464                                            & 19’535                                             & 114’628                                            & 1’494’724                                          \\
+\multicolumn{2}{|l|}{Architecture   Parameters:}                         & 6’211                                              & \multicolumn{1}{l|}{8’893}                         & 222,464                                            & 6’511                                              & 38’209                                             & 498’241                                            \\
+\multicolumn{2}{|l|}{Optimizer   Parameters:}                            & -                                                  & \multicolumn{1}{l|}{-}                             & -                                                  & 13’024                                             & 76’419                                             & 996’483                                            \\
 \rowcolor[HTML]{F7C7AC} 
-MAE in Range:                              &                          & 0.0389406                 & 0.034600                         & 0.2730647                 & 0.5908327                                 & 0.0448075                         & 0.0381983                         \\
+MAE in Range:                                &                           & 0.026854                                           & 0.027486                                           & 0.244980                                           & 0.814113                                           & 0.039309                                           & 0.036588                                           \\
 \rowcolor[HTML]{F7C7AC} 
-MRE in Range:                              &                          & 0.0155504                 & 0.013438                         & 0.1135200                 & 0.2712299                                 & 0.0188047                         & 0.0151836                         \\
+MRE in Range:                                &                           & 0.010966                                           & 0.011122                                           & 0.093975                                           & 0.302951                                           & 0.016319                                           & 0.014936                                           \\
 \rowcolor[HTML]{94DCF8} 
-MAE out Range:                             &                          & 2.2301364                 & \cellcolor[HTML]{83CCEB}2.504607 & 3.5727410                 & 3.2350100                                 & 4.5702314                         & 4.9287004                         \\
+MAE out Range:                               &                           & 2.178343                                           & \cellcolor[HTML]{83CCEB}2.371700                   & 3.737668                                           & 3.970515                                           & 4.419579                                           & 4.901888                                           \\
 \rowcolor[HTML]{94DCF8} 
-MRE out Range:                             &                          & 0.2509270                 & \cellcolor[HTML]{83CCEB}0.290885 & 0.3472042                 & 0.3404062                                 & 0.5201459                         & 0.5431157                         \\
+MRE out Range:                               &                           & 0.250031                                           & \cellcolor[HTML]{83CCEB}0.275299                   & 0.363630                                           & 0.433860                                           & 0.495377                                           & 0.539891                                           \\
 \rowcolor[HTML]{FFDC6D} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:} & 6.2929916                 & 6.116872                         & 6.0766930                 & 2.7806435                                 & 6.1630590                         & 6.0680327                         \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}MAE   long Expressions:}    & 6.155671                                           & 5.647490                                           & 5.519240                                           & 2.931804                                           & 3.886400                                           & 3.801507                                           \\ \hline
 \rowcolor[HTML]{D86DCD} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}      & 6.6345832                 & 6.672521                         & 0.4793787                 & 1.7374969                                 & 2.8882827                         & 5.2896368                         \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}         & 10.702839                                          & 8.908331                                           & 0.665370                                           & 2.202380                                           & 5.023883                                           & 4.771119                                           \\ \hline
+\rowcolor[HTML]{B5E6A2} 
+\multicolumn{2}{|l|}{\cellcolor[HTML]{B5E6A2}Benchmark   score p-value:} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.001} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.147} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.001} \\ \hline
 \end{tabular}
 \end{table}
 
-The p-values\footnote{two-sided one-sample t-test} calculated symbolize the propability that the benchmark will be $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
-for this project, the small p-values ($<0.05$) mean that the models will perform better than the baseline model (or respectively worse in the case of RNN2). This proves the significance of the results.
+\subsection{p-Value}
 
+The p-values\footnote{Two-sided one-sample t-test was calculated on the natural logarithmic transformation of 5 benchmarks.} calculated symbolize the propability that the next benchmark calculated will be $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
+Small p-values ($<0.05$) signify that the models will perform better than the baseline model (or respectively worse in the case of RNN2). This proves the significance of the results.
+\\[1em]
+To formalize this, let:
+\begin{itemize}
+
+    \item $x_1, x_2, ..., x_n$ be the benchmark values where $n = 5$
+    \item $y_i = \ln(x_i)$ be the log-transformed values for $i = 1, 2, ..., n$
+    \item $\bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$ be the sample mean of the log-transformed values
+    \item $s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(y_i - \bar{y})^2}$ be the sample standard deviation
+    \item $\mu_0 = 0$ be the hypothesized population mean
+    \item $t$ be the test statistic
+    \item $P(condition)$ be the propability of a condition being true
+    \item $T_{n-1}$ follow a t-distribution with $n-1$ degrees of freedom
+
+\end{itemize}
+First described by \cite{87464e34-37bc-3288-807c-e421e5a0d7a6}, the p-value is calculated as:
+
+$$t = \frac{\bar{y} - \mu_0}{s/\sqrt{n}} = \frac{\bar{y}}{s/\sqrt{n}}$$
+
+$$p\text{-value} = 2 \cdot P(T_{n-1} \geq |t|)$$
+
+\subsection{Interpretaion}
+
+Firstly, notice how the FNNs dominate the benchmark, with the FNN2 being the best model out of the bunch. 
+
+The bi-directional LSTM with attention is a very interesting model, because it performs bad on most datasets in comparison to other models, but it excels at longer expressions, which only slightly hinder the model's performance.
+
+It is also notable that the main hypothesis -- that more complex\footnotemark models would perform better -- is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 (which is small in complexity) or the poor performance of the RNN2 model, which consists of the second to most parameters. 
+\footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture. Where a large number of parameters and a more advanced architecture correlate to a higher complexity}
+
+Also, notice the minimal improvement of the long expressions MAE between FNN2 and FNN3, which includes a positional embedding layer. It can be derived that applying a positional encoding to the input only improves the model's performance when predicting longer expressions, on other test datasets used in this evaluation it only lead to a decrease in performance.
+
+\subsection{Fine-Tuned Models}
 The fine-tuned Language Models were also evaluated, but on their accuracy:
 \\[0.5em]
 \begin{table}[htbp]
@@ -350,14 +390,6 @@ Parameter size:                               &                            & 1.4
 \multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}Accuracy   long expressions:} & 90             & 39.57      & 28           \\ \hline
 \end{tabular}
 \end{table}
-
-Firstly, notice how the FNNs dominate the benchmark, with the FNN2 being the best model out of the bunch. 
-
-It is also notable that the main hypothesis -- that more complex\footnotemark models would perform better -- is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 (which is small in complexity) or the poor performance of the RNN2 model, which consists of the second to most parameters. 
-
-Also, notice the minimal improvement of the long expressions MAE between FNN2 and FNN3, which includes a positional embedding layer.
-\footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture. Where a large number of parameters and a more advanced architecture correlate to a higher complexity}
-It is visible that the FNN models show the best performance on the benchmark, meaning they are crowned the winners.
 
 \subsection{Guided Discussion}
 

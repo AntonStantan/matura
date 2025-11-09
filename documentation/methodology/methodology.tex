@@ -490,15 +490,15 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 Should a reader identify the cause of this discrepancy, they are kindly encouraged to contact the author of this project.
 
 \section{Findings Table}
-To finish this project, and sum up all results, a table is used to present all the important regression-based-models and their performances.
+This section presents a comprehensive summary of all model performances. A table is used to present all the important regression-based-models and their performances.
 
-FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4 aswell as transformer5 were the chosen models. They were chosen so that all major different architectures were covered. The strongest performing models (of the ones considered in this project) were chosen for each architecture.
+FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4, as well as transformer5 were the chosen models. They were chosen so that all major different architectures were covered. The strongest performing models\footnote{The best performing models were determined with Keras-Tuner.} were chosen for each architecture.
 All of them were evaluated on:
 \begin{itemize}
     \item Mean Absolute Error (MAE) on all three of the test datasets separately
     \item Mean Relative Error (MRE) on the test datasets, excluding the one with longer expressions
     \item The Benchmark score
-    \item P-value of the Benchmark score
+    \item p-value of the Benchmark score
 \end{itemize}
 
 Each model was trained 5 times separately on the same training data, and then evaluated on the same test data. The average performance of the 5 evaluations was used in the table.
@@ -506,12 +506,12 @@ Each model was trained 5 times separately on the same training data, and then ev
 \subsection{p-Value}
 The p-value was calculated using the \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_1samp.html}{scipy-stats library}.
 
-The p-values used are two-sided one-sample t-test. They were calculated using the list of 5 benchmarks computed in the 5 trainings performed for each model.
+The p-values used are two-sided one-sample t-test\footnotemark as first described by \cite{87464e34-37bc-3288-807c-e421e5a0d7a6}. They were calculated using the list of 5 benchmarks computed in the 5 trainings performed for each model.
+\footnotetext{A t-test was chosen over a gaussian normality curve because of the small sample size as suggested by \cite{de2013students}.}
 
-The null-hypthesis is defined as benchmark value 1, the performance of the baseline model.
+The null hypothesis is defined as benchmark value 1, the performance of the baseline model.
 
-In the notebooks, the p-value was computed with a slight inaccuracy (it also accounted for negative benchmarks which are not possible by definition.)
-The \href{https://github.com/AntonStantan/matura/blob/main/get_p-value.py}{p-value calculation script} calculates the p-values correctly by applying a logarithmic transformation on the individual benchmarks first.
+The p-value is a value between $[0,1]$. It represents the probability of observing these benchmark results or more extreme ones, if the model being evaluated performs the same as the baseline model.
 
 \begin{Verbatim}
 from scipy.stats import ttest_1samp
@@ -528,25 +528,26 @@ stats, p_value = ttest_1samp(log_transform, popmean = 0)
 
 print(f"p-value of the benchmarks: {p_value}")
 \end{Verbatim}
-
-The p-value is a velue between $[0,1]$. It is the probability of observing my benchmark results or more extreme if the model being evaluated performs the same as the baseline model.
+In the notebooks, the p-value was computed with a slight inaccuracy (it also accounted for negative benchmarks which are not possible by definition.)
+The \href{https://github.com/AntonStantan/matura/blob/main/get_p-value.py}{p-value calculation script} (seen above) calculates the p-values correctly by applying a logarithmic transformation on the individual benchmarks first.
+This is necessary because the benchmark can only be positive by defintion and a two-sided t-test also accounts for negative numbers. The logarithmic transformation allows values between $(0,1)$ to be negative. It also changes baseline benchmark: $ln(1) = 0$
 
 \subsection{Fine-Tuned Models}
 In addition to regression-based architectures, a table was also drawn for fine-tuned language models.
 
-The performance of the Small and Large Langauage Models was evaluated with accuracy, not deviation, because these types of models issue discrete tokens to the each number. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
+The performance of the Small and Large Language Models was evaluated with accuracy, not deviation, because these types of models generate discrete tokens for each number in an expression. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
 \\[1em]
 While the Gemma3 models are open-sourced and their parameter sizes published, the Gemini 2.5 Pro and it's parameters on the other hand aren't open-sourced to the public.
-An estimation for the number of parameters of the Gemini 2.5 Pro model was published by \cite{chadha2025gemini}. This estimate was adopted for the table
+An estimation for the number of parameters of the Gemini 2.5 Pro model was published by \cite{chadha2025gemini}. This estimate was adopted for the table.
 
 \section{Guided Discussion}
 After having evaluated all data collected on the performance of various models, a guided discussion with a colleague was organized. The goal was to interpret a hypothesis formed at the very start of the project: Isn't it simpler to explain how models for regression (like the ones used for this project) work than the usual sequence to sequence (seq2seq) models.
 
 The discussion partner was selected because he fit the criteria for the target audience of this project: Basic prior knowledge in both the theory, as well as the application and implementation of neural networks.
 
-The discussion took form as an open presentation where the author explains the functionalities of FNN and transformer regression models with a focus on their architecture. To support the explanation, clear examples from the main project were used to illustrate the point.
+The discussion was structured as an open presentation where the author explains the functionalities of FNN and transformer regression models with a focus on their architecture. To support the explanation, clear examples from the main project were used to illustrate the point.
 
-After the roughly 1hr long discussion, feedback was collected through a questionnaire, which also consisted of a quiz. The goal was to see if regression models helped my discussion partner understand the new topics, as well as evaluate his understanding.
+After the approximately one hour long discussion, feedback was collected through a questionnaire, which also consisted of a quiz. The goal was to see if regression models helped the participant understand the new topics, as well as evaluate his understanding.
 
 \newpage
 \section{Closing Remark}
