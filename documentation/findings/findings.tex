@@ -69,6 +69,29 @@ It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakes
 \section{Feed-forward Neural Networks (FNNs)}
 The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document.
 
+\subsection{Optimization}
+FNNs as well as other models have hyper parameters (i.e. the number of layers or neuronsper layer) that have to be optimized for the specific task the models are being trained on.
+To do this, an optimizer tries to find the global minimum of the loss landscape shown below. 
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/landscape.png}
+        \caption{}
+        \label{fig:landscape}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/landscape_top.png}
+        \caption{}
+        \label{fig:landscape_top}
+    \end{minipage}
+\end{figure}
+
+
+
 \section{RNN}
 Recurrent Neural Networks (RNNs) work similarly to FNNs with one key difference: There is a vector called the hidden-state. This vector contains information about previous time-steps. The hidden-state of the previous time-step, in addition to the input of the current time-step, is fed into a model which computes the hidden-state of the present time-step. The output of each time-step is calculated by feeding the respective hidden-state to a model.
 
@@ -373,7 +396,7 @@ It is also notable that the main hypothesis -- that more complex\footnotemark mo
 Also, notice the minimal improvement of the long expressions MAE between FNN2 and FNN3, which includes a positional embedding layer. It can be derived that applying a positional encoding to the input only improves the model's performance when predicting longer expressions, on other test datasets used in this evaluation it only lead to a decrease in performance.
 
 \subsection{Fine-Tuned Models}
-The fine-tuned Language Models were also evaluated, but on their accuracy:
+The fine-tuned language models were also assessed based on their accuracy, here are the results from one training run each:
 \\[0.5em]
 \begin{table}[htbp]
 \centering
@@ -390,6 +413,9 @@ Parameter size:                               &                            & 1.4
 \multicolumn{2}{|l|}{\cellcolor[HTML]{FFDC6D}Accuracy   long expressions:} & 90             & 39.57      & 28           \\ \hline
 \end{tabular}
 \end{table}
+
+Notice how the less complex models with fewer parameters are less accurate. Additionally, only the performance of smaller models seems to be impacted by longer expressions and expressions with numbers outside of the range the models were fine-tuned on, Gemini 2.5 Pro even shows a better performance on the latter.
+
 
 \subsection{Guided Discussion}
 
@@ -411,7 +437,7 @@ In conclusion, though only evaluated on a very small dataset, it can be said tha
 \subsection{Regression Models}
 All of the 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as one can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden-states. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
 
-When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same; the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data. transformer5 with more parameters than transformer4 only shows a significant performance improvement on the classical validation data. Thanks to positional encoding, transformers can handle longer inputs better than FNNs.
+When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same; the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data. transformer5 with more parameters than transformer4 doesn't show a performance improvement on the benchmark.
 
 The FNN architecture performed with the best benchmark. The FNN2 model was good at expressions of the same length with numbers not encountered in the training data. Still, its abilities will not suffice to label it as 'able to generalize', primarily also because of its weakness at longer expressions. Even after adding positional embedding in FNN3, the model struggles at grasping expressions of different sizes.
 
