@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\title{ai_assistance}
+\title{ai\_assistance}
 \author{Anton Mukin}
 \date{\today}
 
@@ -39,42 +39,42 @@ class WarmupCosineDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
     A custom learning rate schedule that implements a linear warmup
     followed by a cosine decay.
     """
-    def __init__(self, peak_lr, warmup_steps, decay_steps, alpha=0.0, name=None):
-        super().__init__()
-        self.peak_lr = peak_lr
-        self.warmup_steps = warmup_steps
-        self.decay_steps = decay_steps
+    def \_\_init\_\_(self, peak\_lr, warmup\_steps, decay\_steps, alpha=0.0, name=None):
+        super().\_\_init\_\_()
+        self.peak\_lr = peak\_lr
+        self.warmup\_steps = warmup\_steps
+        self.decay\_steps = decay\_steps
         self.alpha = alpha
         self.name = name
 
-    def __call__(self, step):
-        with tf.name_scope(self.name or "WarmupCosineDecay"):
+    def \_\_call\_\_(self, step):
+        with tf.name\_scope(self.name or "WarmupCosineDecay"):
             # Ensure step is a float for calculations
             step = tf.cast(step, tf.float32)
             
             # --- 1. Warmup Phase ---
-            # Linearly increase the learning rate from 0 to peak_lr
-            warmup_lr = self.peak_lr * (step / self.warmup_steps)
+            # Linearly increase the learning rate from 0 to peak\_lr
+            warmup\_lr = self.peak\_lr * (step / self.warmup\_steps)
 
             # --- 2. Cosine Decay Phase ---
             # Define the cosine decay schedule
-            cosine_decay_schedule = tf.keras.optimizers.schedules.CosineDecay(
-                initial_learning_rate=self.peak_lr,
-                decay_steps=self.decay_steps,
+            cosine\_decay\_schedule = tf.keras.optimizers.schedules.CosineDecay(
+                initial\_learning\_rate=self.peak\_lr,
+                decay\_steps=self.decay\_steps,
                 alpha=self.alpha
             )
             # Calculate the learning rate for the decay phase.
             # Note: The 'step' for the cosine part must be relative to its start.
-            decay_lr = cosine_decay_schedule(step - self.warmup_steps)
+            decay\_lr = cosine\_decay\_schedule(step - self.warmup\_steps)
 
             # --- 3. Choose the correct phase ---
             # Use tf.where to select the learning rate based on the current step
-            learning_rate = tf.where(
-                step < self.warmup_steps,
-                warmup_lr,
-                decay_lr
+            learning\_rate = tf.where(
+                step < self.warmup\_steps,
+                warmup\_lr,
+                decay\_lr
             )
-            return learning_rate
+            return learning\_rate
 \end{verbatim}
 
 google jules:
@@ -83,10 +83,10 @@ Input: make a gitignore file for this repository. do not remove the direcotries 
 \begin{verbatim}
 Output:
 # Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
+.ipynb\_checkpoints/
 
 # Ignore Python bytecode
-__pycache__/
+\_\_pycache\_\_/
 \end{verbatim}
 Input: all the irrelevant files except for .tex, .bib, .pdf, .png, .jpg should be ignored too. also ignore gitattributes
 \begin{verbatim}
@@ -115,7 +115,7 @@ Input:update the README.md file
 Output:
 Update the .gitignore file.
 
-Add entries to ignore .ipynb_checkpoints/, __pycache__/, and .gitattributes.
+Add entries to ignore .ipynb\_checkpoints/, \_\_pycache\_\_/, and .gitattributes.
 
 Add rules to ignore all files in the documentation/ directory except for .tex, .bib, .pdf, .png, and .jpg files.
 Update the README.md file.
@@ -138,7 +138,7 @@ Input:why update the gitignore?
 Output:
 I'm updating the .gitignore file to incorporate the preferences you shared earlier. Specifically, I'll be adding rules to:
 
-Ignore the .ipynb_checkpoints/, __pycache__/, and .gitattributes files.
+Ignore the .ipynb\_checkpoints/, \_\_pycache\_\_/, and .gitattributes files.
 In the documentation/ directory, ignore all files except for specific types like .tex, .bib, .pdf, .png, and .jpg.
 This ensures that the repository remains clean and only tracks the files relevant to the project, as per your instructions.
 
@@ -148,7 +148,7 @@ Does the plan I've laid out seem right to you? Once you approve, I'll start work
 Input:but this already is in the repository.
 \begin{verbatim}
 Output:
-You're right, my apologies. I see that .ipynb_checkpoints/ and __pycache__/ are already in the .gitignore file.
+You're right, my apologies. I see that .ipynb\_checkpoints/ and \_\_pycache\_\_/ are already in the .gitignore file.
 
 My plan was to also add rules to ignore the .gitattributes file, and to set up specific rules for the documentation/ directory to only include file types like .tex, .bib, .pdf, .png, and .jpg.
 
@@ -228,109 +228,109 @@ Input: Notebook and "how to implement the posEncoding function to the model?"
 \begin{verbatim}
     To implement the posEncoding function into your Keras model, you'll need to add it as a layer or an operation within your model that modifies the input embeddings. Positional encoding is typically added to the input embeddings to provide the model with information about the relative or absolute position of the tokens in the sequence.
 
-Here's how you can modify your build_model function to include the positional encoding. Since you are using a feed-forward neural network, the positional encoding needs to be added to your input data before it's fed into the first dense layer.
+Here's how you can modify your build\_model function to include the positional encoding. Since you are using a feed-forward neural network, the positional encoding needs to be added to your input data before it's fed into the first dense layer.
 
-First, you need to ensure your posEncoding and get_angles functions are correctly defined. It appears you have a posEncoding function defined in a cell, but it's not being used in your model building process. Here's a recap of those functions with slight modifications for standalone use with NumPy:
+First, you need to ensure your posEncoding and get\_angles functions are correctly defined. It appears you have a posEncoding function defined in a cell, but it's not being used in your model building process. Here's a recap of those functions with slight modifications for standalone use with NumPy:
 
 code
 Python
 download
-content_copy
-expand_less
+content\_copy
+expand\_less
 import numpy as np
 import tensorflow as tf
 
-def get_angles(pos, i, d_model):
-    angle_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d_model))
-    return pos * angle_rates
+def get\_angles(pos, i, d\_model):
+    angle\_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d\_model))
+    return pos * angle\_rates
 
-def posEncoding(max_seq_len, d_model):
-    angle_rads = get_angles(np.arange(max_seq_len)[:, np.newaxis],
-                          np.arange(d_model)[np.newaxis, :],
-                          d_model)
+def posEncoding(max\_seq\_len, d\_model):
+    angle\_rads = get\_angles(np.arange(max\_seq\_len)[:, np.newaxis],
+                          np.arange(d\_model)[np.newaxis, :],
+                          d\_model)
 
     # Apply sine to even indices in the array; 2i
-    angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
+    angle\_rads[:, 0::2] = np.sin(angle\_rads[:, 0::2])
 
     # Apply cosine to odd indices in the array; 2i+1
-    angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
+    angle\_rads[:, 1::2] = np.cos(angle\_rads[:, 1::2])
 
-    pos_encoding = angle_rads[np.newaxis, ...]
+    pos\_encoding = angle\_rads[np.newaxis, ...]
 
-    return tf.cast(pos_encoding, dtype=tf.float32)
+    return tf.cast(pos\_encoding, dtype=tf.float32)
 
-Now, you can integrate this into your build_model function. A common way to do this is to create a custom layer for adding the positional encoding. However, a simpler approach for your sequential model is to use a Lambda layer or to add the positional encoding directly to the input tensor.
+Now, you can integrate this into your build\_model function. A common way to do this is to create a custom layer for adding the positional encoding. However, a simpler approach for your sequential model is to use a Lambda layer or to add the positional encoding directly to the input tensor.
 
-Here's an updated build_model function:
+Here's an updated build\_model function:
 
 code
 Python
 download
-content_copy
-expand_less
+content\_copy
+expand\_less
 from tensorflow.keras.layers import Input, Flatten, Dense, PReLU, Dropout, Add
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 
-def build_model(hp, input_shape):
-    K.clear_session()
+def build\_model(hp, input\_shape):
+    K.clear\_session()
     
     # Hyperparameters
-    num_neurons = hp.Int("num_neurons", 32, 512, step=32)
-    num_layers = hp.Int("num_layers", 1, 10)
+    num\_neurons = hp.Int("num\_neurons", 32, 512, step=32)
+    num\_layers = hp.Int("num\_layers", 1, 10)
     dropoutTF = hp.Boolean("dropoutT/F")
-    dropout_rate = hp.Float("dropout_rate", 0.1, 0.5, step=0.1)
+    dropout\_rate = hp.Float("dropout\_rate", 0.1, 0.5, step=0.1)
 
     # Input Layer
-    inputs = Input(shape=input_shape)
+    inputs = Input(shape=input\_shape)
     
-    # Assuming input_shape is (sequence_length, feature_dimension)
+    # Assuming input\_shape is (sequence\_length, feature\_dimension)
     # If your input is already flat, you'll need to reshape it to add positional encoding
-    sequence_length = input_shape[0] 
-    d_model = input_shape[1] if len(input_shape) > 1 else 1
+    sequence\_length = input\_shape[0] 
+    d\_model = input\_shape[1] if len(input\_shape) > 1 else 1
     
     # Add positional encoding
-    positional_encoding = posEncoding(sequence_length, d_model)
-    x = Add()([inputs, positional_encoding])
+    positional\_encoding = posEncoding(sequence\_length, d\_model)
+    x = Add()([inputs, positional\_encoding])
     
     x = Flatten()(x)
 
     # Hidden Layers
-    for i in range(num_layers):
-        x = Dense(num_neurons)(x)
+    for i in range(num\_layers):
+        x = Dense(num\_neurons)(x)
         x = PReLU()(x)
         if dropoutTF:
-            x = Dropout(dropout_rate)(x)
+            x = Dropout(dropout\_rate)(x)
 
     # Output Layer
     outputs = Dense(1, activation='linear')(x)
 
     # Create and compile the model
-    lil_model = Model(inputs=inputs, outputs=outputs)
-    lil_model.compile(optimizer="adam", loss="mse")
+    lil\_model = Model(inputs=inputs, outputs=outputs)
+    lil\_model.compile(optimizer="adam", loss="mse")
 
-    return lil_model
+    return lil\_model
 Explanation of Changes and How to Use It:
 
 Functional API: I've switched to the Keras Functional API (Input and Model) instead of Sequential. This provides more flexibility, which is useful when dealing with multiple inputs or more complex model architectures like this.
 
-Determining sequence_length and d_model: The posEncoding function requires the maximum sequence length and the model's depth (or feature dimension). I'm inferring this from the input_shape. Make sure your input_shape is appropriate. If your x_train has a shape like (num_samples, 15), then sequence_length would be 15 and d_model would be 1 if each is a single feature, or you'd adjust as needed. If x_train is (num_samples, 15, 1), sequence_length is 15 and d_model is 1.
+Determining sequence\_length and d\_model: The posEncoding function requires the maximum sequence length and the model's depth (or feature dimension). I'm inferring this from the input\_shape. Make sure your input\_shape is appropriate. If your x\_train has a shape like (num\_samples, 15), then sequence\_length would be 15 and d\_model would be 1 if each is a single feature, or you'd adjust as needed. If x\_train is (num\_samples, 15, 1), sequence\_length is 15 and d\_model is 1.
 
 Adding Positional Encoding:
 
-positional_encoding = posEncoding(sequence_length, d_model): This creates the positional encoding matrix.
+positional\_encoding = posEncoding(sequence\_length, d\_model): This creates the positional encoding matrix.
 
-x = Add()([inputs, positional_encoding]): The positional encodings are added directly to the input tensor. The Add layer performs element-wise addition.
+x = Add()([inputs, positional\_encoding]): The positional encodings are added directly to the input tensor. The Add layer performs element-wise addition.
 
 Flatten Layer: After adding the positional encoding, the data is flattened before being passed to the Dense layers, just as it was in your original model.
 
-To use this new build_model function, you just need to pass the input_shape as you were doing before. The rest of your keras_tuner setup should work the same.
+To use this new build\_model function, you just need to pass the input\_shape as you were doing before. The rest of your keras\_tuner setup should work the same.
 
 Important Considerations:
 
-Input Shape: The most critical part is ensuring input_shape is correctly interpreted. Positional encoding makes sense when you have a sequence of data. If your input data x_train is just a flat vector of features without a sequence order, adding positional encoding might not be beneficial. Positional encoding is designed for data where the order of elements is important (like words in a sentence or time-series data).
+Input Shape: The most critical part is ensuring input\_shape is correctly interpreted. Positional encoding makes sense when you have a sequence of data. If your input data x\_train is just a flat vector of features without a sequence order, adding positional encoding might not be beneficial. Positional encoding is designed for data where the order of elements is important (like words in a sentence or time-series data).
 
-Broadcasting: The Add layer will broadcast the positional encoding matrix to match the batch size of your input data. The shape of positional_encoding will be (1, sequence_length, d_model), and the inputs will have a shape of (batch_size, sequence_length, d_model). Broadcasting will correctly add the positional encoding to each sample in the batch.
+Broadcasting: The Add layer will broadcast the positional encoding matrix to match the batch size of your input data. The shape of positional\_encoding will be (1, sequence\_length, d\_model), and the inputs will have a shape of (batch\_size, sequence\_length, d\_model). Broadcasting will correctly add the positional encoding to each sample in the batch.
 \end{verbatim}
 
 Input: "Input 0 of layer "dense" is incompatible with the layer: expected axis -1 of input shape to have value 225, but received input with shape (None, 15)
@@ -359,13 +359,13 @@ The Solution: Reshaping the Input
 
 To make this work, we need to treat your input vector of 15 features as a sequence of 15 steps, where each step has a dimension of 1. We can do this by adding a Reshape layer.
 
-Here is the corrected build_model function that properly integrates the positional encoding:
+Here is the corrected build\_model function that properly integrates the positional encoding:
 
 code
 Python
 download
-content_copy
-expand_less
+content\_copy
+expand\_less
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import Input, Flatten, Dense, PReLU, Dropout, Add, Reshape
@@ -373,50 +373,50 @@ from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 
 # --- Make sure these functions are defined in your notebook ---
-def get_angles(pos, i, d_model):
-    angle_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d_model))
-    return pos * angle_rates
+def get\_angles(pos, i, d\_model):
+    angle\_rates = 1 / np.power(10000, (2 * (i // 2)) / np.float32(d\_model))
+    return pos * angle\_rates
 
-def posEncoding(max_seq_len, d_model):
-    angle_rads = get_angles(np.arange(max_seq_len)[:, np.newaxis],
-                          np.arange(d_model)[np.newaxis, :],
-                          d_model)
+def posEncoding(max\_seq\_len, d\_model):
+    angle\_rads = get\_angles(np.arange(max\_seq\_len)[:, np.newaxis],
+                          np.arange(d\_model)[np.newaxis, :],
+                          d\_model)
     # Apply sine to even indices
-    angle_rads[:, 0::2] = np.sin(angle_rads[:, 0::2])
+    angle\_rads[:, 0::2] = np.sin(angle\_rads[:, 0::2])
     # Apply cosine to odd indices
-    angle_rads[:, 1::2] = np.cos(angle_rads[:, 1::2])
-    pos_encoding = angle_rads[np.newaxis, ...]
-    return tf.cast(pos_encoding, dtype=tf.float32)
+    angle\_rads[:, 1::2] = np.cos(angle\_rads[:, 1::2])
+    pos\_encoding = angle\_rads[np.newaxis, ...]
+    return tf.cast(pos\_encoding, dtype=tf.float32)
 
-# --- Updated build_model function ---
-def build_model(hp, input_shape):
-    K.clear_session()
+# --- Updated build\_model function ---
+def build\_model(hp, input\_shape):
+    K.clear\_session()
     
     # Hyperparameters
-    num_neurons = hp.Int("num_neurons", 1, 512)
-    num_layers = hp.Int("num_layers", 1, 16)
+    num\_neurons = hp.Int("num\_neurons", 1, 512)
+    num\_layers = hp.Int("num\_layers", 1, 16)
     dropoutTF = hp.Boolean("dropoutT/F")
 
     # --- Model Architecture ---
-    inputs = Input(shape=input_shape) # Expects shape like (15,)
+    inputs = Input(shape=input\_shape) # Expects shape like (15,)
 
     # The input shape is (batch, 15). We need to treat it as a sequence.
     # Reshape to (batch, 15, 1) to represent a sequence of 15 steps with 1 feature each.
     # This is the key step to make shapes compatible.
-    sequence_length = input_shape[0]
-    d_model = 1
-    x = Reshape((sequence_length, d_model))(inputs)
+    sequence\_length = input\_shape[0]
+    d\_model = 1
+    x = Reshape((sequence\_length, d\_model))(inputs)
 
     # Add positional encoding
-    positional_encoding = posEncoding(sequence_length, d_model)
-    x = Add()([x, positional_encoding])
+    positional\_encoding = posEncoding(sequence\_length, d\_model)
+    x = Add()([x, positional\_encoding])
     
     # Flatten the sequence back into a vector of shape (batch, 15) for the Dense layers.
     x = Flatten()(x)
 
     # Add the dense layers as before
-    for i in range(num_layers):
-        x = Dense(num_neurons)(x)
+    for i in range(num\_layers):
+        x = Dense(num\_neurons)(x)
         x = PReLU()(x)
         if dropoutTF:
             x = Dropout(0.1)(x)
@@ -430,28 +430,28 @@ def build_model(hp, input_shape):
 
     return model
 
-# You can now use this build_model function with your Keras Tuner
+# You can now use this build\_model function with your Keras Tuner
 # Re-run the tuner search after updating the function.
 How to Use the New Function
 
-Replace the old build_model function in your notebook with the new, corrected version above.
+Replace the old build\_model function in your notebook with the new, corrected version above.
 
-Make sure the get_angles and posEncoding functions are also present in a cell before build_model is defined.
+Make sure the get\_angles and posEncoding functions are also present in a cell before build\_model is defined.
 
 Re-run the Keras Tuner search. Because you've changed the model's architecture by adding new layers (Reshape, Add), the previously found "best" hyperparameters are no longer valid. You need to run the search again to find the optimal parameters for this new model structure.
 
 code
 Python
 download
-content_copy
-expand_less
+content\_copy
+expand\_less
 # Re-initialize the tuner and run the search again
-tuner = keras_tuner.BayesianOptimization(
-    hypermodel=lambda hp: build_model(hp, input_shape),
+tuner = keras\_tuner.BayesianOptimization(
+    hypermodel=lambda hp: build\_model(hp, input\_shape),
     # ... other tuner parameters ...
 )
 
-tuner.search(train_dataset, epochs=num_epochs, validation_data=val_dataset)
+tuner.search(train\_dataset, epochs=num\_epochs, validation\_data=val\_dataset)
 \end{verbatim}
 
 Input: "there is a lot of code, that isn't necessary in this fle. make this file shorter." (attached file)
@@ -461,13 +461,13 @@ Input: "there is a lot of code, that isn't necessary in this fle. make this file
 
 Key Changes:
 
-Removed Data Loading: All code related to loading and batching x_train, y_train, x_val, y_val, and test datasets has been removed.
+Removed Data Loading: All code related to loading and batching x\_train, y\_train, x\_val, y\_val, and test datasets has been removed.
 
-Removed Model Training and Tuning: The keras_tuner implementation, including the build_model function, the BayesianOptimization tuner, and the tuner.search() call, has been deleted.
+Removed Model Training and Tuning: The keras\_tuner implementation, including the build\_model function, the BayesianOptimization tuner, and the tuner.search() call, has been deleted.
 
 Removed Evaluation Metrics: All sections calculating Mean Absolute Error (MAE) and Mean Relative Error (MRE) on the test sets, along with the final benchmarking logic, have been removed.
 
-Combined Model Creation and Loading: A new function, create_and_load_model, is introduced. This function defines the model architecture with the best hyperparameters that would have been found by the tuner, and then loads the saved weights into it. You may need to adjust the hyperparameters in this function to match the ones discovered during your actual training session.
+Combined Model Creation and Loading: A new function, create\_and\_load\_model, is introduced. This function defines the model architecture with the best hyperparameters that would have been found by the tuner, and then loads the saved weights into it. You may need to adjust the hyperparameters in this function to match the ones discovered during your actual training session.
 
 Kept Essential Components: The script retains the necessary imports, the path additions for custom modules, the tokenizer import, the model loading logic, and the final user-facing prediction loop.
 
@@ -475,8 +475,8 @@ Shortened FNN5reciever.py
 code
 Python
 download
-content_copy
-expand_less
+content\_copy
+expand\_less
 import sys
 import os
 import tensorflow as tf
@@ -488,19 +488,19 @@ from tensorflow.keras import Input
 # This allows the script to find the custom 'GetXY' module in the parent directory.
 try:
     # Get the absolute path of the current script's directory
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current\_dir = os.path.dirname(os.path.abspath(\_\_file\_\_))
 except NameError:
     # Fallback for interactive environments like Jupyter
-    current_dir = os.path.dirname(os.path.abspath("FNN5reciever.py"))
+    current\_dir = os.path.dirname(os.path.abspath("FNN5reciever.py"))
 
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
+parent\_dir = os.path.dirname(current\_dir)
+sys.path.append(parent\_dir)
 
 # --- Import Custom Tokenizer ---
 # This tokenizer is required to preprocess user input.
 from GetXY import tokenizer
 
-def create_and_load_model(weights_path):
+def create\_and\_load\_model(weights\_path):
     """
     Defines the model architecture, compiles it, and loads the pre-trained weights.
     
@@ -509,26 +509,26 @@ def create_and_load_model(weights_path):
     """
     # Define the model's input shape. This should match the shape of the tokenized input.
     # Example: if your tokenizer creates vectors of length 50, shape would be (50,)
-    input_shape = (15,) # <--- IMPORTANT: SET THIS TO MATCH YOUR TOKENIZER'S OUTPUT SHAPE
+    input\_shape = (15,) # <--- IMPORTANT: SET THIS TO MATCH YOUR TOKENIZER'S OUTPUT SHAPE
 
     # Best hyperparameters found during tuning (replace with your actual best values)
-    best_hps = {
-        "num_layers": 8,
-        "num_neurons": 269,
+    best\_hps = {
+        "num\_layers": 8,
+        "num\_neurons": 269,
         "dropout": True,
-        "dropout_rate": 0.1
+        "dropout\_rate": 0.1
     }
 
     # Re-create the model with the best hyperparameters
     model = Sequential()
-    model.add(Input(shape=input_shape))
+    model.add(Input(shape=input\_shape))
     model.add(Flatten())
     
-    for _ in range(best_hps["num_layers"]):
-        model.add(Dense(best_hps["num_neurons"]))
+    for \_ in range(best\_hps["num\_layers"]):
+        model.add(Dense(best\_hps["num\_neurons"]))
         model.add(PReLU())
-        if best_hps["dropout"]:
-            model.add(Dropout(best_hps["dropout_rate"]))
+        if best\_hps["dropout"]:
+            model.add(Dropout(best\_hps["dropout\_rate"]))
             
     model.add(Dense(1, activation='linear'))
     
@@ -536,7 +536,7 @@ def create_and_load_model(weights_path):
     model.compile(optimizer="adam", loss="mse")
     
     # Load the trained weights
-    model.load_weights(weights_path)
+    model.load\_weights(weights\_path)
     
     print("Model architecture created and weights loaded successfully.")
     model.summary()
@@ -544,12 +544,12 @@ def create_and_load_model(weights_path):
     return model
 
 # --- Main Application ---
-if __name__ == "__main__":
+if \_\_name\_\_ == "\_\_main\_\_":
     # Path to the saved model weights
-    WEIGHTS_FILE = "FNN2_weights.weights.h5"
+    WEIGHTS\_FILE = "FNN2\_weights.weights.h5"
     
     # Create the model and load the weights
-    best_model = create_and_load_model(WEIGHTS_FILE)
+    best\_model = create\_and\_load\_model(WEIGHTS\_FILE)
 
     # --- Interactive Calculator Loop ---
     print("\n---------------------------------------------------")
@@ -558,18 +558,18 @@ if __name__ == "__main__":
 
     while True:
         try:
-            user_expr = input("What do you want me to calculate? (or type 'exit' to quit): ")
-            if user_expr.lower() == 'exit':
+            user\_expr = input("What do you want me to calculate? (or type 'exit' to quit): ")
+            if user\_expr.lower() == 'exit':
                 break
             
             # The tokenizer converts the string expression into a numerical vector
-            tokenized_input = tokenizer([user_expr])
+            tokenized\_input = tokenizer([user\_expr])
             
             # Use the model to predict the result
-            model_pred = best_model.predict(tokenized_input)
+            model\_pred = best\_model.predict(tokenized\_input)
             
-            print(f"what you asked: {user_expr}")
-            print(f"This should be the answer: {model_pred[0][0]:.4f}")
+            print(f"what you asked: {user\_expr}")
+            print(f"This should be the answer: {model\_pred[0][0]:.4f}")
             print("---------------------------------------------------")
             
         except Exception as e:
@@ -587,116 +587,332 @@ Output:
     #this was generated based on the FNN6.py script, which was made by myself. (Gemini 2.5 Pro)
 
 import numpy as np
-from scipy.stats import ttest_1samp
+from scipy.stats import ttest\_1samp
 
 # Initialize lists to store metrics for each bootstrap run
-MAEinRange_list = []
-MREinRange_list = []
-MAEoutRange_list = []
-MREoutRange_list = []
-MAElongRange_list = []
-benchmarks_list = []
+MAEinRange\_list = []
+MREinRange\_list = []
+MAEoutRange\_list = []
+MREoutRange\_list = []
+MAElongRange\_list = []
+benchmarks\_list = []
 
 
 # Loop through the predictions from each bootstrap run
-for i in range(n_bootstrap):
+for i in range(n\_bootstrap):
     # Extract predictions for the current run
-    current_preds_in_range = bootstrap_predsInRange[i]
-    current_preds_out_range = bootstrap_predsOutRange[i]
-    current_preds_long_range = bootstrap_predsLongRange[i]
+    current\_preds\_in\_range = bootstrap\_predsInRange[i]
+    current\_preds\_out\_range = bootstrap\_predsOutRange[i]
+    current\_preds\_long\_range = bootstrap\_predsLongRange[i]
 
     # --- In-Range Metrics ---
-    diffInRange = np.abs(y_test - current_preds_in_range.flatten())
-    safe_y_test = np.where(np.isclose(y_test, 0.0), 1.0, y_test)
-    reldiffInRange = diffInRange / np.abs(safe_y_test)
+    diffInRange = np.abs(y\_test - current\_preds\_in\_range.flatten())
+    safe\_y\_test = np.where(np.isclose(y\_test, 0.0), 1.0, y\_test)
+    reldiffInRange = diffInRange / np.abs(safe\_y\_test)
     
-    mean_mae_in_range = np.mean(diffInRange)
-    mean_mre_in_range = np.mean(reldiffInRange)
-    MAEinRange_list.append(mean_mae_in_range)
-    MREinRange_list.append(mean_mre_in_range)
+    mean\_mae\_in\_range = np.mean(diffInRange)
+    mean\_mre\_in\_range = np.mean(reldiffInRange)
+    MAEinRange\_list.append(mean\_mae\_in\_range)
+    MREinRange\_list.append(mean\_mre\_in\_range)
 
     # --- Out-of-Range Metrics ---
-    diffOutRange = np.abs(out_y_test - current_preds_out_range.flatten())
-    safe_out_y_test = np.where(np.isclose(out_y_test, 0.0), 1.0, out_y_test)
-    reldiffOutRange = diffOutRange / np.abs(safe_out_y_test)
+    diffOutRange = np.abs(out\_y\_test - current\_preds\_out\_range.flatten())
+    safe\_out\_y\_test = np.where(np.isclose(out\_y\_test, 0.0), 1.0, out\_y\_test)
+    reldiffOutRange = diffOutRange / np.abs(safe\_out\_y\_test)
 
-    mean_mae_out_range = np.mean(diffOutRange)
-    mean_mre_out_range = np.mean(reldiffOutRange)
-    MAEoutRange_list.append(mean_mae_out_range)
-    MREoutRange_list.append(mean_mre_out_range)
+    mean\_mae\_out\_range = np.mean(diffOutRange)
+    mean\_mre\_out\_range = np.mean(reldiffOutRange)
+    MAEoutRange\_list.append(mean\_mae\_out\_range)
+    MREoutRange\_list.append(mean\_mre\_out\_range)
 
     # --- Long-Range Metrics ---
-    diffLongRange = np.abs(long_y_test - current_preds_long_range.flatten())
-    mean_mae_long_range = np.mean(diffLongRange)
-    MAElongRange_list.append(mean_mae_long_range)
+    diffLongRange = np.abs(long\_y\_test - current\_preds\_long\_range.flatten())
+    mean\_mae\_long\_range = np.mean(diffLongRange)
+    MAElongRange\_list.append(mean\_mae\_long\_range)
     
     # --- Benchmark Calculation ---
     # This part replicates the specific slicing and filtering from FNN6.py for the benchmark score
     
     # Specific filter for out-of-range benchmark
     placeholder = absSum(outsideExpr)
-    indices_with_placeholder_22 = [i for i, val in enumerate(placeholder) if val == 22]
-    diffOutRange_for_benchmark = []
-    for idx in indices_with_placeholder_22:
-        diffOutRange_for_benchmark.append(np.abs(out_y_test[idx] - current_preds_out_range[idx]))
+    indices\_with\_placeholder\_22 = [i for i, val in enumerate(placeholder) if val == 22]
+    diffOutRange\_for\_benchmark = []
+    for idx in indices\_with\_placeholder\_22:
+        diffOutRange\_for\_benchmark.append(np.abs(out\_y\_test[idx] - current\_preds\_out\_range[idx]))
     
-    meanDiff_OutRange_for_benchmark = np.mean(diffOutRange_for_benchmark)
+    meanDiff\_OutRange\_for\_benchmark = np.mean(diffOutRange\_for\_benchmark)
 
     # Specific slice for long-range benchmark
-    diffLongRange_for_benchmark = []
+    diffLongRange\_for\_benchmark = []
     for j in range(200, 300):
-         diffLongRange_for_benchmark.append(np.abs(long_y_test[j] - current_preds_long_range[j]))
+         diffLongRange\_for\_benchmark.append(np.abs(long\_y\_test[j] - current\_preds\_long\_range[j]))
 
-    meanDiff_LongRange_for_benchmark = np.mean(diffLongRange_for_benchmark)
+    meanDiff\_LongRange\_for\_benchmark = np.mean(diffLongRange\_for\_benchmark)
 
     # Calculate the benchmark score for the current run
     benchmark = 0
-    benchmark += baseline_deviation / (mean_mae_in_range**2) / 4
-    benchmark += baseline_out_deviation / (meanDiff_OutRange_for_benchmark**2) / 4
-    benchmark += baseline_long_deviation / (meanDiff_LongRange_for_benchmark**2) / 4
-    benchmark += baseline_relError / (mean_mre_out_range**2) / 4
-    benchmarks_list.append(benchmark)
+    benchmark += baseline\_deviation / (mean\_mae\_in\_range**2) / 4
+    benchmark += baseline\_out\_deviation / (meanDiff\_OutRange\_for\_benchmark**2) / 4
+    benchmark += baseline\_long\_deviation / (meanDiff\_LongRange\_for\_benchmark**2) / 4
+    benchmark += baseline\_relError / (mean\_mre\_out\_range**2) / 4
+    benchmarks\_list.append(benchmark)
 
 # --- Statistical Analysis and Final Output ---
 
 # Perform one-sample t-test against a population mean of 1
-# Note: A t-test is meaningful only if n_bootstrap > 1
-if n_bootstrap > 1:
-    stats1, p_value1 = ttest_1samp(MAEinRange_list, popmean=1)
-    stats2, p_value2 = ttest_1samp(MREinRange_list, popmean=1)
-    stats3, p_value3 = ttest_1samp(MAEoutRange_list, popmean=1)
-    stats4, p_value4 = ttest_1samp(MREoutRange_list, popmean=1)
-    stats5, p_value5 = ttest_1samp(MAElongRange_list, popmean=1)
-    stats6, p_value6 = ttest_1samp(benchmarks_list, popmean=1)
+# Note: A t-test is meaningful only if n\_bootstrap > 1
+if n\_bootstrap > 1:
+    stats1, p\_value1 = ttest\_1samp(MAEinRange\_list, popmean=1)
+    stats2, p\_value2 = ttest\_1samp(MREinRange\_list, popmean=1)
+    stats3, p\_value3 = ttest\_1samp(MAEoutRange\_list, popmean=1)
+    stats4, p\_value4 = ttest\_1samp(MREoutRange\_list, popmean=1)
+    stats5, p\_value5 = ttest\_1samp(MAElongRange\_list, popmean=1)
+    stats6, p\_value6 = ttest\_1samp(benchmarks\_list, popmean=1)
 
-    print(f"MAE in Range P-value: {p_value1}")
-    print(f"MRE in Range P-value: {p_value2}")
-    print(f"MAE out Range P-value: {p_value3}")
-    print(f"MRE out Range P-value: {p_value4}")
-    print(f"MAE long Range P-value: {p_value5}")
-    print(f"benchmark P-value: {p_value6}\n")
+    print(f"MAE in Range P-value: {p\_value1}")
+    print(f"MRE in Range P-value: {p\_value2}")
+    print(f"MAE out Range P-value: {p\_value3}")
+    print(f"MRE out Range P-value: {p\_value4}")
+    print(f"MAE long Range P-value: {p\_value5}")
+    print(f"benchmark P-value: {p\_value6}\n")
 else:
-    print("Cannot calculate p-values with n_bootstrap=1. Run more bootstraps for statistical tests.\n")
+    print("Cannot calculate p-values with n\_bootstrap=1. Run more bootstraps for statistical tests.\n")
 
 
 # Print average metrics across all runs
-print(f"Average MAE in Range: {np.mean(MAEinRange_list)}")
-print(f"Average MRE in Range: {np.mean(MREinRange_list)}")
-print(f"Average MAE out Range: {np.mean(MAEoutRange_list)}")
-print(f"Average MRE out Range: {np.mean(MREoutRange_list)}")
-print(f"Average MAE long Range: {np.mean(MAElongRange_list)}")
-print(f"Average benchmark: {np.mean(benchmarks_list)}\n")
+print(f"Average MAE in Range: {np.mean(MAEinRange\_list)}")
+print(f"Average MRE in Range: {np.mean(MREinRange\_list)}")
+print(f"Average MAE out Range: {np.mean(MAEoutRange\_list)}")
+print(f"Average MRE out Range: {np.mean(MREoutRange\_list)}")
+print(f"Average MAE long Range: {np.mean(MAElongRange\_list)}")
+print(f"Average benchmark: {np.mean(benchmarks\_list)}\n")
 
 # Print the lists of metrics
-print(f"MAE in Range List: {MAEinRange_list}")
-print(f"MRE in Range List: {MREinRange_list}")
-print(f"MAE out Range List: {MAEoutRange_list}")
-print(f"MRE out Range List: {MREoutRange_list}")
-print(f"MAE long Range List: {MAElongRange_list}")
-print(f"Benchmark List: {benchmarks_list}")
+print(f"MAE in Range List: {MAEinRange\_list}")
+print(f"MRE in Range List: {MREinRange\_list}")
+print(f"MAE out Range List: {MAEoutRange\_list}")
+print(f"MRE out Range List: {MREoutRange\_list}")
+print(f"MAE long Range List: {MAElongRange\_list}")
+print(f"Benchmark List: {benchmarks\_list}")
 \end{verbatim}
 
+Input: 
+loss landscape of a neural network, with the number of neurons and number of layers being the two axis of the plain. The plain caves in at multiple sweetspots. The height is loss. draw it in matplot.pyplot. add some randomness to the mix, so the landscape isn't smooth. The landscape goes from 1 to 512 neurons and from 1 to 16 layers.
+here are the values of the sweetspots: (only use num\_neurons and num\_layers, ignore the rest.)
 
+Trial 025 summary
+Hyperparameters:
+num\_neurons: 345
+num\_layers: 1
+dropoutT/F: False
+Score: 0.0012616724707186222
+
+Trial 000 summary
+Hyperparameters:
+num\_neurons: 348
+num\_layers: 1
+dropoutT/F: False
+Score: 0.001294966321438551
+
+Trial 056 summary
+Hyperparameters:
+num\_neurons: 439
+num\_layers: 4
+dropoutT/F: False
+Score: 0.0025118887424468994
+
+Trial 020 summary
+Hyperparameters:
+num\_neurons: 16
+num\_layers: 1
+dropoutT/F: False
+Score: 0.002628110349178314
+
+Trial 026 summary
+Hyperparameters:
+num\_neurons: 289
+num\_layers: 2
+dropoutT/F: False
+Score: 0.002691656118258834
+
+Trial 042 summary
+Hyperparameters:
+num\_neurons: 435
+num\_layers: 4
+dropoutT/F: False
+Score: 0.0027040746062994003
+
+Trial 094 summary
+Hyperparameters:
+num\_neurons: 440
+num\_layers: 4
+dropoutT/F: False
+Score: 0.002829659730195999
+
+Trial 064 summary
+Hyperparameters:
+num\_neurons: 440
+num\_layers: 4
+dropoutT/F: False
+Score: 0.0029272951651364565
+
+Trial 044 summary
+Hyperparameters:
+num\_neurons: 435
+num\_layers: 4
+dropoutT/F: False
+Score: 0.003144865622743964
+
+Trial 008 summary
+Hyperparameters:
+num\_neurons: 200
+num\_layers: 2
+dropoutT/F: False
+Score: 0.0031737370882183313
+
+
+Output:
+\begin{verbatim}
+    I'll create a 3D loss landscape visualization with valleys at your specified sweetspots. Here's the code:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl\_toolkits.mplot3d import Axes3D
+from scipy.ndimage import gaussian\_filter
+
+# Define the grid
+neurons = np.linspace(1, 512, 100)
+layers = np.linspace(1, 16, 50)
+X, Y = np.meshgrid(neurons, layers)
+
+# Define sweetspots from your data
+sweetspots = [
+    (345, 1, 0.00126),
+    (348, 1, 0.00129),
+    (439, 4, 0.00251),
+    (16, 1, 0.00263),
+    (289, 2, 0.00269),
+    (435, 4, 0.00270),
+    (440, 4, 0.00283),
+    (440, 4, 0.00293),  # duplicate location
+    (435, 4, 0.00314),  # duplicate location
+    (200, 2, 0.00317),
+]
+
+# Create base landscape with slight upward trend for complexity
+# Higher loss for very small and very large networks
+Z = 0.01 + 0.002 * np.log1p(X/100) + 0.001 * np.log1p(Y/4)
+Z += 0.003 * np.exp(-X/200)  # Penalty for very small networks
+Z += 0.002 * np.exp((X-512)/200)  # Penalty for very large networks
+
+# Add random noise for rough texture
+np.random.seed(42)
+noise = np.random.randn(*Z.shape) * 0.0008
+Z += noise
+
+# Create depressions at sweetspots
+for neurons\_val, layers\_val, loss\_val in sweetspots:
+    # Create Gaussian depression centered at each sweetspot
+    sigma\_n = 40  # width in neuron dimension
+    sigma\_l = 1.5  # width in layer dimension
+    
+    # Calculate distance from this sweetspot
+    dist\_n = (X - neurons\_val)**2 / (2 * sigma\_n**2)
+    dist\_l = (Y - layers\_val)**2 / (2 * sigma\_l**2)
+    
+    # Create depression (lower values at sweetspot)
+    depression = np.exp(-(dist\_n + dist\_l))
+    
+    # Blend the depression with target loss value
+    Z = Z * (1 - 0.8 * depression) + loss\_val * depression
+
+# Apply mild smoothing to blend features while keeping roughness
+Z = gaussian\_filter(Z, sigma=0.5)
+
+# Add final layer of small random noise
+Z += np.random.randn(*Z.shape) * 0.0002
+
+# Create the 3D plot
+fig = plt.figure(figsize=(14, 10))
+ax = fig.add\_subplot(111, projection='3d')
+
+# Plot the surface
+surf = ax.plot\_surface(X, Y, Z, cmap='viridis', 
+                       edgecolor='none', alpha=0.9,
+                       antialiased=True, shade=True)
+
+# Mark the sweetspots with red dots
+for neurons\_val, layers\_val, loss\_val in sweetspots:
+    ax.scatter([neurons\_val], [layers\_val], [loss\_val], 
+              color='red', s=50, alpha=0.8, 
+              edgecolors='darkred', linewidth=1)
+
+# Labels and title
+ax.set\_xlabel('Number of Neurons', fontsize=12, labelpad=10)
+ax.set\_ylabel('Number of Layers', fontsize=12, labelpad=10)
+ax.set\_zlabel('Loss', fontsize=12, labelpad=10)
+ax.set\_title('Neural Network Loss Landscape\n(Red dots indicate optimal configurations)', 
+             fontsize=14, pad=20)
+
+# Set viewing angle for better visualization
+ax.view\_init(elev=25, azim=45)
+
+# Add colorbar
+fig.colorbar(surf, ax=ax, shrink=0.5, aspect=5, pad=0.1)
+
+# Set axis limits
+ax.set\_xlim(1, 512)
+ax.set\_ylim(1, 16)
+
+plt.tight\_layout()
+plt.show()
+
+# Create a contour plot view from above
+fig2, ax2 = plt.subplots(figsize=(12, 8))
+contour = ax2.contourf(X, Y, Z, levels=20, cmap='viridis', alpha=0.8)
+contour\_lines = ax2.contour(X, Y, Z, levels=15, colors='black', alpha=0.3, linewidths=0.5)
+
+# Mark sweetspots
+for neurons\_val, layers\_val, loss\_val in sweetspots:
+    ax2.scatter(neurons\_val, layers\_val, color='red', s=100, 
+               edgecolors='darkred', linewidth=2, zorder=5)
+    ax2.annotate(f'{loss\_val:.4f}', (neurons\_val, layers\_val), 
+                xytext=(5, 5), textcoords='offset points', 
+                fontsize=8, color='darkred')
+
+ax2.set\_xlabel('Number of Neurons', fontsize=12)
+ax2.set\_ylabel('Number of Layers', fontsize=12)
+ax2.set\_title('Loss Landscape - Top View\n(Red dots with values show optimal configurations)', 
+             fontsize=14)
+ax2.grid(True, alpha=0.3)
+
+plt.colorbar(contour, ax=ax2, label='Loss')
+plt.tight\_layout()
+plt.show()
+```
+
+This code creates two visualizations:
+
+1. **3D Surface Plot**: Shows the loss landscape as a 3D surface with:
+   - Valleys (depressions) at your specified sweetspot locations
+   - Random roughness throughout the surface
+   - Red dots marking the exact optimal configurations
+   - The surface shows how loss varies with both the number of neurons and layers
+
+2. **Contour Plot**: A top-down view showing:
+   - The same landscape as a heat map
+   - Contour lines showing loss levels
+   - Red dots with annotations showing the exact loss values at sweetspots
+
+The landscape features:
+- Lower loss values (deeper valleys) at your specified optimal configurations
+- General trend showing that very small or very large networks tend to have higher loss
+- Random variations to create a realistic, non-smooth surface
+- Clear visualization of multiple local minima in the hyperparameter space
+
+The sweetspots around (345-348 neurons, 1 layer) and (435-440 neurons, 4 layers) appear as the deepest valleys, consistent with your best trial results.
+\end{verbatim}
 
 \section{AI assistance with grammar errors on documentation documents.}
 Input: "Correct the attached document for grammar errors and give me feedback.
