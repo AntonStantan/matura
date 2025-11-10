@@ -24,8 +24,8 @@
 \\[0em]
 {\large Maturitätsarbeit, Kantonsschule Baden}
 \\[-0.5em]
-{\large Michael Schneider, Julia Smits}}
-\author{Anton Mukin G4h}
+{\large Erstbetreuer: Michael Schneider, Zweitbetreuer: Julia Smits}}
+\author{Anton Mukin}
 \date{June 2025}
 
 \setlength{\parindent}{0pt}
@@ -41,17 +41,25 @@
     Various architectures built for regression tasks were evaluated: Feedforward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), transformers, 
     as well as fine-tuned Large Language Models (LLMs). Evaluations were performed to measure 
     if the models were able to learn arithmetic rules by assessing their generalization 
-    capabilities with a custom made benchmark. The best performance on the previously 
-    defined benchmark was achieved by the simple FNN architecture. Still, no model performed 
-    well enough to be classified as \textit{having learned} arithmetic rules.
+    capabilities with a custom-made benchmark. The best performance on the previously 
+    defined benchmark was achieved by the simple FNN architecture.
 
-    The regression models were presented to a colleague in a guided discussion. Though only on a 
-    small and insignificant dataset, it was found to be beneficial to explain the basic 
-    workings of FNNs and transformers.
+    The good performance of simple architectures with relatively few parameters suggests that 
+    these architectures are better at generalizing than the more sophisticated models.
+    Still, no model performed well enough to be classified as \textit{having learned} arithmetic rules.
+    Which leads to the conclusion that neural networks are not capable of extrapolating symbolic rules.
+    Even further, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
+    While humans typically identify underlying principles, neural networks rely on pattern recognition, primarily analyzing surface-level data.
 
+    The regression models used for this project were presented to a colleague in a guided discussion. Although this conclusion is drawn from a single experiment, the results indicate that it was advantageous to explain the basic workings of FNNs and transformers using models for regression as opposed to sequence-to-sequence models.
 
 
 \end{abstract}
+
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
 
 \subsection{Introduction}
 This project began with a simple idea: a calculator that predicts answers using a neural network rather than performing systematic calculations. The central question that propelled this project was determining the most suitable neural network architecture for this task. The current document presents the findings from the "Neural Predictive Calculator" project.
@@ -61,35 +69,28 @@ Following a \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdu
 It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional encoding, a seq2grid pre-processor\footnote{Upon further research into the preprocessor; Its architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This does not fit the requirements for this project. Even though it is not systematic, the preprocessor effectively just increases the model complexity by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
 
 
-\newpage
-\listoffigures
-\tableofcontents
-\newpage
-
 \section{Feed-forward Neural Networks (FNNs)}
 The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document.
 
-\subsection{Hyper-parameter tuning}
-FNNs as well as other models have hyper-parameters (i.e. the number of layers or neuronsper layer) which have to be optimized for the specific task the models are being trained on.
-In this project the Keras-Tuner (or a heatmap visualization of different models) is used to find the global minimas of the loss landscape\footnote{The code for drawing the landscape was generated with AI. The data fed into the drawing is real data from the FNN2 notebook. Random noise is added to the landscape to make it look more realistic.}, as shown below. 
+\subsection{Hyper-Parameter Tuning}
 
 \begin{figure}[htbp]
     \centering
     \begin{minipage}{0.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/landscape.png}
-        \caption{3D Visualization of the loss landscape for the from the tuner-summary of the FNN2 model}
         \label{fig:landscape}
     \end{minipage}
-    \hfill
     \begin{minipage}{0.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/landscape_top.png}
-        \caption{The top-view of FNN2's loss landscape.}
+        \caption{3D Visualization of the loss landscape from the Keras-Tuner-search of the FNN2 model, with the top-view on the right.}
         \label{fig:landscape_top}
     \end{minipage}
 \end{figure}
 
+FNNs as well as other models have hyper-parameters (i.e. the number of layers or neurons per layer) which have to be optimized for the specific task the models are being trained on.
+In this project the Keras-Tuner (or a heatmap visualization of different models) is used to find the global minimas of the loss landscape\footnote{The code for drawing the landscape was generated with AI. The data fed into the drawing is real data from the FNN2 notebook. Random noise is added to the landscape to make it look more realistic.}, as shown below. 
 
 
 \section{RNN}
@@ -120,6 +121,8 @@ Let:
 
 $$h_t = \sigma(W_{xh}x_t + W_{hh}h_{t-1} + b_h)$$
 $$y_t = \sigma_{out}(W_{hy}h_t + b_y)$$
+
+Source for equations: \cite{shervine_cheatsheet_rnn}
 
 \subsection{Relevant Takeaway}
 For this project, it means the RNN processes an expression sequentially, one part at a time, rather than as a whole. Due to the nature of the RNN's formula, tokens that appear later in a sequence have a more significant impact on the model's prediction than earlier tokens. This means the output number will almost always be closer to the last number of the expression than the first. This is a common issue with RNNs. It was well documented by \cite{pascanu2013difficultytrainingrecurrentneural} and is widely known as the vanishing gradient problem.
@@ -222,8 +225,8 @@ Source for equations: \cite{cristina_2023_bahdanau}
 An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, \eqref{eq:attention_score}, it is then normalized \eqref{eq:alpha_score}. Finally the attention weights scale their respective hidden-states from the LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
 \section{Transformers} \label{sec:transformers}
-The best performing and most widely used architectures for most tasks to date are transformers; they form the basis for LLMs. The key to their success is multi-head self-attention.
-\\[2em]
+As of the most recent findings by \cite{zhao2025surveylargelanguagemodels}, transformer architectures remain the state-of-the-art and most prevalent models across a majority of tasks; they form the basis for LLMs. The key to their success is multi-head self-attention.
+\\[1em]
 In this document, we will discuss the transformer architecture as first proposed by \cite{vaswani2023attentionneed}.
 
 \subsection{Multi-Head Self-Attention}
@@ -323,8 +326,6 @@ Please note that the models fine-tuned in this section are not regression models
 
 This is the reason why the only metric that makes sense for these models is accuracy, which is the percentage of correctly answered expressions from test data.
 
-\newpage
-
 \section{Findings}
 Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see the methodology section: 1.5 The Benchmark. 
 
@@ -417,7 +418,7 @@ Parameter size:                               &                            & 1.4
 Notice how the less complex models with fewer parameters are less accurate. Additionally, only the performance of smaller models seems to be impacted by longer expressions and expressions with numbers outside of the range the models were fine-tuned on, Gemini 2.5 Pro even shows a better performance on the latter.
 
 
-\subsection{Guided Discussion}
+\subsection{Guided Discussion Experiment}
 
 After conducting an open presentation for a colleague, his feedback was collected and his knowledge of the presented topics graded. 
 
@@ -466,7 +467,9 @@ If maximum performance with unlimited computational resources is the goal, a fin
 \\[0.5em]
 Throughout evaluation the benchmark proved essential, to assessing the generalization capabilities of different models. This is thanks to the shifts in numbers used in the expressions, as well as the length of the expressions.
 \\[0.5em]
-From the findings a broader implication for neural networks regardless of size or architecture can be drawn: Neural networks excel at interpolation within a the training distribution and struggle at extrapolating symbolic rules. This means neural networks should be treated as pattern-retrieval algorithms not rule-learners like our human brains.
+From the findings a broader implication for neural networks regardless of size or architecture can be drawn (though admittedly a little far-fetched): 
+
+Neural networks excel at interpolation within a the training distribution and struggle at extrapolating symbolic rules. This means neural networks should be treated as pattern-retrieval algorithms not rule-learners like our human brains.
 \\[0.5em]
 Despite the chance factor playing a role, the conclusions will hold true. Conclusions were reached with significant margins and are backed by logical explanations. All results are reproducible with \href{https://github.com/AntonStantan/matura/tree/main}{publicly available notebooks}.
 

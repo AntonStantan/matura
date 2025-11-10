@@ -25,8 +25,8 @@
 \\[0em]
 {\large Maturitätsarbeit, Kantonsschule Baden}
 \\[-0.5em]
-{\large Michael Schneider, Julia Smits}}
-\author{Anton Mukin G4h}
+{\large Erstbetreuer: Michael Schneider, Zweitbetreuer: Julia Smits}}
+\author{Anton Mukin}
 \date{June 2025}
 
 \setlength{\parindent}{0pt}
@@ -42,14 +42,17 @@
     Various architectures built for regression tasks were evaluated: Feedforward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), transformers, 
     as well as fine-tuned Large Language Models (LLMs). Evaluations were performed to measure 
     if the models were able to learn arithmetic rules by assessing their generalization 
-    capabilities with a custom made benchmark. The best performance on the previously 
-    defined benchmark was achieved by the simple FNN architecture. Still, no model performed 
-    well enough to be classified as \textit{having learned} arithmetic rules.
+    capabilities with a custom-made benchmark. The best performance on the previously 
+    defined benchmark was achieved by the simple FNN architecture.
 
-    The regression models were presented to a colleague in a guided discussion. Though only on a 
-    small and insignificant dataset, it was found to be beneficial to explain the basic 
-    workings of FNNs and transformers.
+    The good performance of simple architectures with relatively few parameters suggests that 
+    these architectures are better at generalizing than the more sophisticated models.
+    Still, no model performed well enough to be classified as \textit{having learned} arithmetic rules.
+    Which leads to the conclusion that neural networks are not capable of extrapolating symbolic rules.
+    Even further, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
+    While humans typically identify underlying principles, neural networks rely on pattern recognition, primarily analyzing surface-level data.
 
+    The regression models used for this project were presented to a colleague in a guided discussion. Although this conclusion is drawn from a single experiment, the results indicate that it was advantageous to explain the basic workings of FNNs and transformers using models for regression as opposed to sequence-to-sequence models.
 
 
 \end{abstract}
