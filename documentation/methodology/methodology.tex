@@ -9,6 +9,8 @@
 \usepackage{geometry}
 \usepackage{titling}
 \usepackage{xurl}
+\usepackage[font=small, labelfont=bf]{caption}
+
 
 \geometry{margin=2.5cm}
 
@@ -49,7 +51,7 @@
     these architectures are better at generalizing than the more sophisticated models.
     Still, no model performed well enough to be classified as \textit{having learned} arithmetic rules.
     Which leads to the conclusion that neural networks are not capable of extrapolating symbolic rules.
-    Even further, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
+    Furthermore, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
     While humans typically identify underlying principles, neural networks rely on pattern recognition, primarily analyzing surface-level data.
 
     The regression models used for this project were presented to a colleague in a guided discussion. Although this conclusion is drawn from a single experiment, the results indicate that it was advantageous to explain the basic workings of FNNs and transformers using models for regression as opposed to sequence-to-sequence models.
@@ -58,7 +60,16 @@
 \end{abstract}
 
 \newpage
+\tableofcontents
+\listoffigures
+\newpage
 
+\section{Introduction}
+The goal of this document is to describe methodology applied in the current project, assist in reproducibility and demonstrate how the findings discussed in the related document were obtained.
+
+All of the code written for this project is available in the following GitHub repository:
+
+\url{https://github.com/AntonStantan/matura}
 \subsection{Brief Summary of the Project}
 
 This Matura project investigates and evaluates the arithmetic capabilities of different neural networks.
@@ -69,41 +80,29 @@ The next step was to build a Recurrent Neural Network (RNN) and similar attentio
 
 The benchmark's baseline was defined as the performance of a basic FNN on different, but broadly similar, arithmetic tasks.
 
-Afterwards, the same procedure was applied to the transformer type of neural network model. Here, their exact functionality was thoroughly investigated because of their unique architectures.
+Afterwards, the same procedure was applied to the transformer type of neural network model. Here, their exact functionality was thoroughly investigated because of the unique architectures.
 
-A similar workflow was repeated for larger, pre-trained models.
+A similar workflow was repeated for larger pre-trained models.
 
 To sum things up, all \href{https://github.com/AntonStantan/matura/blob/main/documentation/findings/findings.pdf}{findings} were collected and evaluated comprehensively.
 
-\subsection{Introduction to this document}
+\subsection{Software and Hardware Specifications}
+
 \begin{wrapfigure}{r}{0.35\textwidth}
     \centering
     \includegraphics[width=0.35\textwidth]{images/JetsonBoot.jpg}
     \caption{Nvidia Jetson device during its boot sequence.}
     \label{fig:JetsonBoot}
 \end{wrapfigure}
-The goal of this document is to describe methodology applied in the current project, assist in reproducibility and to demonstrate how the findings discussed in the related document were obtained.
-
-All of the code written for this project is available in the following GitHub repository:
-
-\url{https://github.com/AntonStantan/matura}
-
-\subsection{Software and Hardware specifications}
 
 All code for this project is written in Python notebooks (Jupyter Lab). The preferred library used was \href{https://www.tensorflow.org/guide/keras}{tensorflow keras}.
 
 Most of the models were trained locally on an Nvidia GPU device: \textit{Nvidia Jetson Orin Nano Super Developer Kit}, or alternatively on a Laptop: \textit{ThinkPad Z16 Gen 1} with a \textit{AMD Ryzen 7 PRO 6850H} CPU, which was used for calculations.
 
 
-
-\newpage
-\listoffigures
-\tableofcontents
-\newpage
-
 \section{Experimental Setup}
 
-For most notebooks the \href{https://github.com/AntonStantan/matura/blob/main/GetXY.py}{GetXY.py} script was used to get the training, test and validation datasets. Other notebooks used the same data, just generated it differently.
+For most notebooks, the \href{https://github.com/AntonStantan/matura/blob/main/GetXY.py}{GetXY.py} script was used to get the training, test and validation datasets. Other notebooks used the same data, just generated it differently.
 
 For the benchmark, mostly the \href{https://github.com/AntonStantan/matura/blob/main/FNN1_1.py}{FNN1\_1.py} script was used to obtain the performance of the benchmark model.
 
@@ -111,7 +110,7 @@ For the benchmark, mostly the \href{https://github.com/AntonStantan/matura/blob/
 
 To define the training data, the decision was made to exclusively use subtraction and addition. The arithmetic expressions were defined to consist of two operators (+ or -) and three integers within the range $[-5, 5]$.
 
-The reasons for these definitions are that + and - are the two simplest operators. The decision to introduce the model to three numbers, instead of the more common two, was made in the hope of simplifying the transition to more numbers in a later stage.
+The reason for these definitions is that + and - are the two simplest operators. The decision to introduce the model to three numbers, instead of the more common two, was made in the hope of simplifying the transition to more numbers in a later stage.
 
 For example, the first three entries are:
 \[
@@ -168,7 +167,7 @@ To calculate the benchmark, a model is evaluated on four categories. Its perform
     \item[-] A relative MSE of the test data with numbers outside of the range.
 \end{itemize}
 
-In the order previously mentioned, let: \small{\texttt{baseline\_deviation}}, \small{\texttt{baseline\_out\_deviation}... be the baseline values and \small{\texttt{meanDiff\_InRange}}, \small{\texttt{meanDiff\_OutRange}} be the Mean Absolute Errors (MAEs) of the model being evaluated.
+In the order previously mentioned, let: {\small{\texttt{baseline\_deviation}}}, {\small{\texttt{baseline\_out\_deviation}}}... be the baseline values and {\small{\texttt{meanDiff\_InRange}}}, {\small{\texttt{meanDiff\_OutRange}}} be the Mean Absolute Errors (MAEs) of the model being evaluated.
 
 To make the code for the formula below more apparent, imagine that the benchmark formula establishes a score of 1 for any model that performs identically to the baseline model. Therefore, models that perform worse on the test data will yield scores below 1, whereas models that perform better will result in scores above 1.
 \begin{Verbatim}
@@ -183,30 +182,30 @@ print(f"Benchmark: {benchmark}")
 The use of a relative error penalizes mistakes on "simpler" expressions and is less harsh on more "difficult" ones. Expressions whose absolute result is small are easier for a neural network to solve, while a larger absolute result is more difficult to calculate.
 
 For the same reason, two more adjustments have been made: 
-
-For longer expressions, only expressions with 4 numbers were used.
-
-For expressions with numbers outside the range, the expression was only used if the absolute values of all three numbers added up to 22.
+\begin{description}
+    \item[$\cdot$] For longer expressions, only expressions with 4 numbers were used.
+    \item[$\cdot$] For expressions with numbers outside the range, the expression was only used if the absolute values of all three numbers added up to 22.
+\end{description}
 
 These subsets were chosen because of their reasonable MSE of around 10 each.
 \\[1em]
 This, as well as the inclusion of the relative MSE, is done in hopes of bringing the benchmarks of different models closer together and increasing the linearity between them. This makes the benchmark more tractable and consistent for comparison.
 
 The baseline values are defined to be from an FNN model\footnotemark with 30 neurons and two dense layers. It is trained over a period of 200 epochs with early stopping enabled.
-\footnotetext{The number of neurons and layers should be chosen, so that the model is capable of predicting with reasonable accurately (This was done in \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1.ipynb}). The exact number of neurons and layers does not really matter.}
+\footnotetext{The number of neurons and layers was chosen, so that the model is capable of predicting with a reasonably good performance on the validation data. (This was done in \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1.ipynb}.) The exact number of neurons and layers does not really matter, because all models whose benchmark is being evaluated are compared to the same baseline model.}
 
 
 \section{Feed-forward Neural Networks (FNNs)}
 For details on how an FNNs works, please refer to section 2 in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature study}.
 
-This section corresponds with the \href{https://github.com/AntonStantan/matura/tree/main/FNN}{/FNN directory} in the GitHub repository.
+This section corresponds to the \href{https://github.com/AntonStantan/matura/tree/main/FNN}{/FNN directory} in the GitHub repository.
 
 There are three notebooks here: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1}, \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}{FNN2} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}.
 
 
 \subsection{Training a Neural Network Using Tensorflow}
 This subsection will show how the models used in this project were first defined and then trained with TensorFlow on the example of a simple FNN.
-\\[2em]
+\\[1.5em]
 To begin, the necessary libraries are imported.
 \begin{Verbatim}
 import tensorflow as tf
@@ -231,11 +230,10 @@ The activation function used is PReLU, as this was the most promising in \cite{t
 
 Dropout is included to prevent overfitting. In most models used in this project, it was not necessary.
 
-As shown, the input shape must be defined when defining the model.
+As shown below, the input shape must be defined when defining the model.
 
 Additionally, it should be noted that the output layer only consists of a single neuron with a linear activation function. This means the model created is a regression model, which is similar to not having a decoder.
 
-\newpage
 \begin{Verbatim}
 input_shape = (15,)
 model = Sequential([
@@ -278,7 +276,7 @@ FNN2 includes a model with hyperparameters (in this case, the number of neurons,
 The model in FNN2 is evaluated inside that notebook, and its benchmark is also calculated there.
 
 
-\subsection{FNN3 with Positional Encoding}
+\subsection{FNN3 With Positional Encoding}
 
 In the notebook \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}, a positional embedding layer is added to the model, and a Keras tuner tunes the hyperparameters of the model to an optimum. The formula used is the one from \cite{vaswani2023attentionneed}.
 
@@ -315,7 +313,7 @@ Useful sources for the creation of the first RNN prototype:
 \subsection{Attentional RNNs}
 For the sake of transitioning from RNNs to transformers, an attentional RNN model was trained and evaluated.
 
-It consisted of a bidirectional\footnote{This means input is being processed from front to back and from back to front. It allows the LSTM to get a richer and broader contextual representation} Long Short-Term Memory (LSTM) layer, used as the encoder, and a self-attention mechanism for attention.
+It consisted of a bidirectional\footnote{This means input is being processed from front to back and from back to front. It allows the LSTM to get a richer and broader contextual representation.} Long Short-Term Memory (LSTM) layer, used as the encoder, and a self-attention mechanism for attention.
 
 \begin{Verbatim}
 #Encoder:
@@ -342,7 +340,6 @@ In the directory \href{https://github.com/AntonStantan/matura/tree/main/RNN/Heat
 
 Nevertheless, the GRU architecture is still discussed in the findings document.
 
-\newpage
 \subsection{Transformers}
 
 The original paper by \cite{vaswani2023attentionneed} was used as an example for building a replica model, which later was adjusted for better performance on the specific tasks in this project. 
@@ -365,8 +362,8 @@ To code this in Python, an object-oriented approach has been taken, with classes
 Below is the hierarchy:
 
 \begin{itemize}
-    \item Transformer which encapsulates embedding and positional encoding, as well as the encoder and a final one-neuron-FNN with a linear activation.
-    \item Encoder containing encoding layers and dropout.
+    \item Transformer which encapsulates embedding and positional encoding, as well as the encoder and a final one-neuron-FNN with a linear activation
+    \item Encoder containing encoding layers and dropout
     \item Encoding layer consisting of the MHA and pointwise-FNN, as well as layer normalization and dropout (included in the original paper to prevent dropout)
     \item Multi-Head Attention (MHA) and pointwise-FNN
     \item Scaled Dot-Product (SDP) Attention
@@ -383,14 +380,14 @@ A couple of additional minor adjustments were made to the model before applying 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\paperwidth]{images/learningRate.png}
-    \caption{This is how the learning rate could look for a model being trained over a period of 200 epochs when using a cosine decay with a linear warmup, as in this project. (Except for the changing peak learning rate, all other parameters are the same as the ones used in this project.)}
+    \caption{This is how the learning rate could look like for a model being trained over a period of 200 epochs when using a cosine decay with a linear warmup, as in this project. Except for the changing peak learning rate, all other parameters are the same as the ones used in this project.}
     \label{fig:learningrate}
 \end{figure}
 
 In contrast to the FNN or the RNN, a transformer has to be trained on other hyperparameters:
 \begin{itemize}
     \item The number of heads inside the MHA
-    \item The number of dimensions tensors have inside the model
+    \item The number of dimensions vectors have inside the model
     \item The number of encoding layers
     \item The number of neurons in the layer inside of the pointwise-FNN
     \item Whether to use dropout or not
@@ -402,7 +399,7 @@ In the notebooks \href{https://github.com/AntonStantan/matura/blob/main/transfor
 
 The difference between them is that Transformer5 is a larger model than Transformer4.
 
-\section{Pre-trained Transformers}
+\section{Pre-Trained Transformers}
 
 The final model type to be analyzed was fine-tuned pre-trained LLMs. Since working with them is completely different than working with locally trained neural networks, extensive research was required before commencing the work.
 \\[1em]
@@ -410,7 +407,7 @@ Significant effort was dedicated to resolving library compatibility issues for t
 
 
 \subsection{Gemini 2.5 Pro}
-The first model to be fine-tuned was Gemini 2.5 Pro. This model was selected partly because of the author's familiarity with it and its high ranking in the \href{https://lmarena.ai/leaderboard}{LMArena}.
+The first model that was fine-tuned was Gemini 2.5 Pro. This model was selected partly because of the author's familiarity with it and its high ranking in the \href{https://lmarena.ai/leaderboard}{LMArena}.
 Fine-tuning had to be done on a remote server hosted by Google Cloud because of the model's size.
 
 In the end, the costs for their service amounted to CHF 83.58.
@@ -426,9 +423,9 @@ For diversity, a small (Gemma3 1B parameters by \cite{gemma1b_2025}) and a tiny 
 
 Because of their size, they can be fine-tuned locally on the Jetson device. They are fine-tuned with the SFTTrainer provided by `trl`.\footnote{We cannot use the standard Trainer from Hugging Face because the fine-tuning we do is supervised; hence the name: Supervised Fine-Tuning (SFT)} \href{https://huggingface.co/docs/trl/en/sft_trainer}{The guide on Hugging Face} was used as help for this.
 
-During the fine-tuning process, a custom-designed function calculates the accuracy on some validation data (defined here as the first 100 samples from the test data). This function was used to evaluate the model at different steps in training. Fine-tuning notebooks for Gemma3 models can be found under:
+During the fine-tuning process, a custom-designed function calculates the accuracy on some validation data (defined here as the first 100 samples from the test data). This function was used to evaluate the model at different steps in training.
 
-\href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/big_gemma_huggingface.ipynb}{Gemma3 1B}, \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemma_huggingface.ipynb}{Gemma3 270M}
+Fine-tuning notebooks for Gemma3 models can be found under: \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/big_gemma_huggingface.ipynb}{Gemma3 1B}, \href{https://github.com/AntonStantan/matura/blob/main/pre-trained-tranformers/gemma_huggingface.ipynb}{Gemma3 270M}
 \\[2em]
 After fine-tuning, the models can be found in the Hugging Face repositories:
 
@@ -458,7 +455,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
             \item \textit{Result:} All previous runs were deleted, leaving only one. The specific, most recent checkpoint was explicitly specified.
         \end{itemize}
 
-    \item \textbf{Data Generation Error:} A second hypothesis suggested an error in the data generation process, such as using different hyperparameters (e.g., temperature) between training and evaluation.
+    \item \textbf{Data Generation Error:} The second hypothesis suggested an error in the data generation process, such as using different hyperparameters (e.g., temperature) between training and evaluation.
         \begin{itemize}
             \item \textit{Result:} Both the PyTorch `.generate()` method and the Hugging Face generator pipeline yielded similar results. The pipeline uses hyperparameters from the fine-tuning configuration.
         \end{itemize}
@@ -470,7 +467,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 
     \item \textbf{Model Overfitting:} The model might be overfitted to the training data.
         \begin{itemize}
-            \item \textit{Result:} Definitely not, this does not align with the definition of overfitting, but just to be sure; Predicting on the training data yielded nearly identical (or slightly better) results, to those calculated from test data, which does not support overfitting as the cause of the discrepancy.
+            \item \textit{Result:} Definitely not, this does not align with the definition of overfitting, but just to be sure; Predicting on the training data yielded nearly identical (or slightly better) results to those calculated from test data, which does not support overfitting as the cause of the discrepancy.
         \end{itemize}
     
     \item \textbf{Calculation Discrepancy:} There might be a subtle difference in how predictions are processed. In the `compute\_metrics` function, the prediction is only counted if the model uses a turn separator. This could explain the gap in accuracies.
@@ -483,7 +480,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
             \item \textit{Result:} This was not the case. After setting `model.eval()`, the accuracy for the Gemma3 270M model only increased by approximately 0.5\%. 'model.eval()' did not have an effect.
         \end{itemize}
 
-    \item \textbf{Improper Weight Loading:} A final explanation could be that the model's weights are not being loaded into the model properly. This was the case when working on FNN2 once.
+    \item \textbf{Improper Weight Loading:} The final explanation could be that the model's weights are not being loaded into the model properly. This was the case when working on FNN2 once.
         \begin{itemize}
             \item \textit{Result:} This is unlikely, as loading hyperparameters is a different process from loading trained weights. A model with loaded weights is already trained. Furthermore, the model shows clear signs of having learned from the fine-tuning process (e.g., in its response format).
         \end{itemize}
@@ -493,7 +490,7 @@ The discrepancy was approached systematically; multiple hypotheses were formulat
 Should a reader identify the cause of this discrepancy, they are kindly encouraged to contact the author of this project.
 
 \section{Findings Table}
-This section presents a comprehensive summary of all model performances. A table is used to present all the important regression-based-models and their performances.
+The findings table in the Findings section of the Findings document presents a comprehensive summary of all model performances. A table is used to present all the important regression-based-models and their performances.
 
 FNN2, FNN3, RNN2, Bidirectional LSTM with attention, transformer4, as well as transformer5 were the chosen models. They were chosen so that all major different architectures were covered. The strongest performing models\footnote{The best performing models were determined with Keras-Tuner.} were chosen for each architecture.
 All of them were evaluated on:
@@ -501,7 +498,7 @@ All of them were evaluated on:
     \item Mean Absolute Error (MAE) on all three of the test datasets separately
     \item Mean Relative Error (MRE) on the test datasets, excluding the one with longer expressions
     \item The Benchmark score
-    \item p-value of the Benchmark score
+    \item p-value of the Benchmark test
 \end{itemize}
 
 Each model was trained 5 times separately on the same training data, and then evaluated on the same test data. The average performance of the 5 evaluations was used in the table.
@@ -512,7 +509,7 @@ The p-value was calculated using the \href{https://docs.scipy.org/doc/scipy/refe
 The p-values used are two-sided one-sample t-test\footnotemark as first described by \cite{87464e34-37bc-3288-807c-e421e5a0d7a6}. They were calculated using the list of 5 benchmarks computed in the 5 trainings performed for each model.
 \footnotetext{A t-test was chosen over a gaussian normality curve because of the small sample size as suggested by \cite{de2013students}.}
 
-The null hypothesis is defined as benchmark value 1, the performance of the baseline model.
+The null hypothesis is defined as benchmark value $= 1$, the performance of the baseline model.
 
 The p-value is a value between $[0,1]$. It represents the probability of observing these benchmark results or more extreme ones, if the model being evaluated performs the same as the baseline model.
 
@@ -533,25 +530,26 @@ print(f"p-value of the benchmarks: {p_value}")
 \end{Verbatim}
 In the notebooks, the p-value was computed with a slight inaccuracy (it also accounted for negative benchmarks which are not possible by definition.)
 The \href{https://github.com/AntonStantan/matura/blob/main/get_p-value.py}{p-value calculation script} (seen above) calculates the p-values correctly by applying a logarithmic transformation on the individual benchmarks first.
-This is necessary because the benchmark can only be positive by defintion and a two-sided t-test also accounts for negative numbers. The logarithmic transformation allows values between $(0,1)$ to be negative. It also changes baseline benchmark: $ln(1) = 0$
+This is necessary because the benchmark can only be positive by defintion and a two-sided t-test also accounts for negative numbers. The logarithmic transformation converts values between $(0,1)$ to be negative. It also changes baseline benchmark: $ln(1) = 0$
 
 \subsection{Fine-Tuned Models}
 In addition to regression-based architectures, a table was also drawn for fine-tuned language models.
 
 The performance of the Small and Large Language Models was evaluated with accuracy, not deviation, because these types of models generate discrete tokens for each number in an expression. For them, solving an expression isn't a regression task, but a classification task. This means the output of these models will always be an integer, never a float like with the regression models. Compared to the solution of an expression the model's output will either be right or wrong.
 \\[1em]
-While the Gemma3 models are open-sourced and their parameter sizes published, the Gemini 2.5 Pro and it's parameters on the other hand aren't open-sourced to the public.
+While the Gemma3 models are open-sourced and their parameter sizes published, the Gemini 2.5 Pro and its parameters on the other hand aren't open-sourced to the public.
 An estimation for the number of parameters of the Gemini 2.5 Pro model was published by \cite{chadha2025gemini}. This estimate was adopted for the table.
 
 \section{Guided Discussion}
-After having evaluated all data collected on the performance of various models, a guided discussion with a colleague was organized. The goal was to interpret a hypothesis formed at the very start of the project: Isn't it simpler to explain how models for regression (like the ones used for this project) work than the usual sequence to sequence (seq2seq) models.
+After having evaluated all data collected on the performance of various models, a guided discussion with a colleague was organized. The goal was to test a hypothesis formed at the very start of the project: \textbf{It is simpler to explain how models for regression (like the ones used for this project) work, than the usual sequence-to-sequence (seq2seq) models.}
 
 The discussion partner was selected because he fit the criteria for the target audience of this project: Basic prior knowledge in both the theory, as well as the application and implementation of neural networks.
 
-The discussion was structured as an open presentation where the author explains the functionalities of FNN and transformer regression models with a focus on their architecture. To support the explanation, clear examples from the main project were used to illustrate the point.
+The discussion was structured as an open presentation where the author explained the functionalities of FNN and transformer regression models with a focus on their architecture. To support the explanation, clear examples from the main project were used to illustrate the point.
 
-After the approximately one hour long discussion, feedback was collected through a questionnaire, which also consisted of a quiz. The goal was to see if regression models helped the participant understand the new topics, as well as evaluate his understanding.
+After the approximately one hour long discussion, feedback was collected through a questionnaire, which also contained a quiz. The goal was to see if regression models helped the participant understand the new topics, as well as evaluate his understanding.
 
+The results of the questionnaire along with the author's comments are available \href{https://github.com/AntonStantan/matura/tree/main/documentation/Questionnaire.pdf}{on github}.
 \newpage
 \section{Closing Remark}
 

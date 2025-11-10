@@ -9,6 +9,8 @@
 \usepackage{wrapfig}
 \usepackage{titling}
 \usepackage{xurl}
+\usepackage[font=small, labelfont=bf]{caption}
+
 
 \usepackage[table,xcdraw]{xcolor}
 
@@ -48,7 +50,7 @@
     these architectures are better at generalizing than the more sophisticated models.
     Still, no model performed well enough to be classified as \textit{having learned} arithmetic rules.
     Which leads to the conclusion that neural networks are not capable of extrapolating symbolic rules.
-    Even further, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
+    Furthermore, the results point to the fact that neural networks differentiate from our human brain in the way they generalize rules from data\footnote{\cite{marcus2018deeplearningcriticalappraisal} expresses this well in his concerns.};
     While humans typically identify underlying principles, neural networks rely on pattern recognition, primarily analyzing surface-level data.
 
     The regression models used for this project were presented to a colleague in a guided discussion. Although this conclusion is drawn from a single experiment, the results indicate that it was advantageous to explain the basic workings of FNNs and transformers using models for regression as opposed to sequence-to-sequence models.
@@ -61,7 +63,7 @@
 \listoffigures
 \newpage
 
-\subsection{Introduction}
+\section{Introduction}
 This project began with a simple idea: a calculator that predicts answers using a neural network rather than performing systematic calculations. The central question that propelled this project was determining the most suitable neural network architecture for this task. The current document presents the findings from the "Neural Predictive Calculator" project.
 
 \subsection{Hypothesis}
@@ -432,13 +434,15 @@ The use of Regression models instead of sequence to sequence (seq2seq) models al
 
 The feedback included criticism about the lack of information and explanation regarding the optimization process. This is understandable, because the focus for this project was placed elsewhere.
 
+for more details, see \href{https://github.com/AntonStantan/matura/tree/main/documentation/Questionnaire.pdf}{the questionnaire} itself with the participant's responses and some comments by the author.
+
 In conclusion, though only evaluated on a very small dataset, it can be said that it is beneficial to explain the basic workings of FNNs and transformers on the basis of models for regression, because of the wider use of numbers, as well as better connections to topics like linear regression, discussed as a part of the standard curriculum in school.
 
 \section{Discussion}
 \subsection{Regression Models}
 All of the 4 architectures discussed here are very different, and all of them have different strengths and weaknesses, as one can tell by their performances on different sets of test data. Recurrent Neural Networks excel at long expressions, due to the way data is passed through these models sequentially in hidden-states. They are designed for handling longer inputs. Similarly, Bidirectional LSTMs with attention are even more effective when adjusting to a longer input. They can confidently predict longer expressions the best out of all the models studied in this project. This is because vanishing gradients are punished heavily when solving arithmetic expressions by nature, and this model combats this well, as opposed to the simplistic RNN architecture. Additionally, the attention mechanism not only helps with vanishing gradients in longer expressions but also emphasizes outstandingly large numbers and their corresponding signs. 
 
-When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same; the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data, they perform the worst out of all models on expressions with numbers outside of the training range. Their decent performance on loger expressions shows that the attention is distributed well to numbers inside of the training range. transformer5 with more parameters than transformer4 doesn't show a performance improvement on the benchmark. This underlines that a more complex model doesn't necessarily mean a better performance for this task, rather the loss landscape is shaped with sweet-spots at the hyper parameters of transformer4 and transoformer5, similar to the figures \ref{fig:landscape} and \ref{fig:landscape_top}.
+When it comes to transformers, they perform best on data just like the one they are trained on, but not exactly the same; the classical definition of validation data. There are too many different types of different parameters, which all have been trained to process training data; this means even the smallest differences in input will lead to the model processing them wrong. Transformers are bad at generalizing rules from data, they perform the worst out of all models on expressions with numbers outside of the training range. Their decent performance on loger expressions shows that the attention is distributed well to numbers inside of the training range. transformer5 with more parameters than transformer4 doesn't show a performance improvement on the benchmark. This underlines that a more complex model doesn't necessarily mean a better performance for this task, rather the loss landscape is shaped with sweet-spots at the hyper parameters of transformer4 and transoformer5. Imagine it looking similar to the loss landscape drawn in figure \ref{fig:landscape_top}.
 
 The FNN architecture performed with the best benchmark. The FNN2 model was the best at expressions of the same length with numbers not encountered in the training data -- The least complex model was best at generalization. Still, its abilities will not suffice to label it as 'able to generalize', primarily also because of its weakness at longer expressions. Even after adding positional encoding in FNN3, the model struggles at grasping expressions of different sizes.
 
@@ -474,7 +478,7 @@ Neural networks excel at interpolation within a the training distribution and st
 Despite the chance factor playing a role, the conclusions will hold true. Conclusions were reached with significant margins and are backed by logical explanations. All results are reproducible with \href{https://github.com/AntonStantan/matura/tree/main}{publicly available notebooks}.
 
 \subsection{Possible Future Work}
-The topic chosen for this project is very grand and current. There's a lot of possible future work that can be done.
+The topic chosen for this project is very broad and current. There's a lot of possible future work that can be done.
 \\[0.5em]
 A logical and important continuation of this project is using the benchmark as the loss function; this might lead to the training of better-performing models, as well as a struggle with overfitting. 
 \\[0.5em]
