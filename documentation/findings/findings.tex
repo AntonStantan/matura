@@ -68,7 +68,7 @@ This project began with a simple idea: a calculator that predicts answers using 
 
 \subsection{Hypothesis}
 Following a \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{literature review}, the expected results were as follows: 
-It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional encoding, a seq2grid pre-processor\footnote{Upon further research into the preprocessor; Its architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This does not fit the requirements for this project. Even though it is not systematic, the preprocessor effectively just increases the model complexity by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
+It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakest architecture, Recurrent Neural Networks (RNNs) would perform better, and transformers and pre-trained transformers would perform the best. Technologies such as positional encoding, a seq2grid pre-processor\footnote{Upon further research into the preprocessor, its architecture uses a neural network for reshaping inputs into a grid, as shown in their paper \cite{kim2021neuralsequencetogridmodulelearning}. This does not fit the requirements for this project. Even though it is not systematic, the preprocessor effectively just increases the model complexity by attaching a RNN in the front. Neural Networks using a seq2grid preprocessor were not evaluated in this project.} and a PReLU activation function were expected to help the model generalize simple arithmetic rules.
 
 
 \section{Feed-forward Neural Networks (FNNs)}
@@ -100,9 +100,9 @@ Recurrent Neural Networks (RNNs) work similarly to FNNs with one key difference:
 
 \subsection{Numerical Visualization of a RNN:}
 
-\begin{wrapfigure}{r}{0.35\textwidth}
+\begin{wrapfigure}{r}{0.45\textwidth}
     \centering
-    \includegraphics[width=0.35\textwidth]{images/RNN.png}
+    \includegraphics[width=\linewidth]{images/RNN.png}
     \caption{RNN diagram as described by \cite{inproceedings}}
     \label{fig:RNNarchitecture}
 \end{wrapfigure}
@@ -224,7 +224,7 @@ Then compute the context vector:
 
 Source for equations: \cite{cristina_2023_bahdanau}
 \\[2em]
-An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, \eqref{eq:attention_score}, it is then normalized \eqref{eq:alpha_score}. Finally the attention weights scale their respective hidden-states from the LSTMs, to compute the context vector \eqref{eq:attention_context}.
+An attention score is calculated for each timestep in \eqref{eq:v_bahdanau}, \eqref{eq:attention_score} and it is then normalized in \eqref{eq:alpha_score}. Finally the attention weights scale their respective hidden-states from the LSTMs, to compute the context vector \eqref{eq:attention_context}.
 
 \section{Transformers} \label{sec:transformers}
 As of the most recent findings by \cite{zhao2025surveylargelanguagemodels}, transformer architectures remain the state-of-the-art and most prevalent models across a majority of tasks; they form the basis for LLMs. The key to their success is multi-head self-attention.
@@ -241,7 +241,7 @@ In this document, we will discuss the transformer architecture as first proposed
 
 Data is first split equally into multiple heads, which process it in parallel. There, the tensors are linearly projected with trainable weights to obtain queries (Q), keys (K), and values (V), which can be seen at the bottom of the image.
 $$ Q = X W_Q, \quad K = X W_K, \quad V = X W_V $$
-Afterwards, the dot-product between the queries and the keys is calculated and scaled\footnote{According to \cite{vaswani2023attentionneed} this is done to counteract dot-products growing too large and later overwhelming the softmax function.} to determine how similar they are. This leaves us with a number between 0 and 1, representing how much attention to pay. The value $V$ represents the actual information of the token for which we just calculated the attention. This means our final step is to scale the value $V$ by its attention. Pay attention to the equation below.\footnote{K has a T, this means the matrix is transposed. This is necessary for multiplication because the Q and K matrices have the same number of rows and columns.} \eqref{eq:sdpAttention}
+Afterwards, the dot-product between the queries and the keys is calculated and scaled\footnote{According to \cite{vaswani2023attentionneed} this is done to counteract dot-products growing too large and later overwhelming the softmax function.} to determine how similar they are. This leaves us with a number between 0 and 1, representing how much attention to pay. The value $V$ represents the actual information of the token for which we just calculated the attention. This means our final step is to scale the value $V$ by its attention. Pay attention to the equation below.\footnote{K has a T superscript, this means the matrix is transposed. This is necessary for multiplication because the Q and K matrices have the same number of rows and columns.} \eqref{eq:sdpAttention}
 \begin{equation}
     \text{Attention}(Q, K, V) = \text{softmax}\left( \frac{Q K^\top}{\sqrt{d_k}} \right) V \label{eq:sdpAttention}
 \end{equation}
@@ -312,7 +312,7 @@ The last model type used for this project are fine-tuned Large Language Models (
 For sources and further reading on this section see (in chronological order; left to right): \cite{geeksforgeeks_2024,Stryker_LLM,srinivasan2024transformer,Bergmann_Fine_Tuning}
 
 \subsection{LLM}
-LLMs adopt the transformer architecture\footnote{The transformer architecture discussed in the previous section \ref{sec:transformers}. But now it not only consists of an encoder but also has a decoder, which is responsible for the model's output} and adapt it to imense sizes, by increasing the architecture's hyperparameters, as well as employing new technological advancements. The number of parameters used by a LLM varies from model to model, but lies in the hundreds of billions per popular high-end LLM.
+LLMs adopt the transformer architecture\footnote{The transformer architecture discussed in the previous section \ref{sec:transformers}. But now it not only consists of an encoder but also has a decoder, which is responsible for the model's output.} and adapt it to imense sizes, by increasing the architecture's hyperparameters, as well as employing new technological advancements. The number of parameters used by a LLM varies from model to model, but lies in the hundreds of billions per popular high-end LLM.
 The large size allows large architectures to excel at complicated tasks like mostly Natural Language Processing (NLP).
 To facilitate training and prediction on such large architectures, massive supercomputers are used, consisting of thousands of GPUs. They mainly work by utilizing parallel processing to distribute the load across multiple powerful GPUs. While by far not a supercomputer, a tiny replica was used for this project: The Nvidia Jetson Orin Nano Super Developer Kit.
 
@@ -329,7 +329,7 @@ Please note that the models fine-tuned in this section are not regression models
 This is the reason why the only metric that makes sense for these models is accuracy, which is the percentage of correctly answered expressions from test data.
 
 \section{Findings}
-Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see the methodology section: 1.5 The Benchmark. 
+Lastly, the most noteworthy architectures were evaluated and scored on a benchmark. A custom benchmark was defined for this rather unique project, so that it takes into account the different generalization capabilities of models. For details, see \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{the methodology}, section: 2.3 The Benchmark. 
 
 An evaluation was performed on 5 training runs of each model, where the average of the 5 performances yielded the results in the following table\footnotemark: 
 \footnotetext{Mean Absolute Error (MAE) is the average deviation of the predicted answer, to the correct answer. And Mean Relative Error (MRE) is the deviation of the predicted answer, to the correct answer divided by the correct answer.}
@@ -359,13 +359,13 @@ MRE out Range:                               &                           & 0.250
 \rowcolor[HTML]{D86DCD} 
 \multicolumn{2}{|l|}{\cellcolor[HTML]{D86DCD}Benchmark   score:}         & 10.702839                                          & 8.908331                                           & 0.665370                                           & 2.202380                                           & 5.023883                                           & 4.771119                                           \\ \hline
 \rowcolor[HTML]{B5E6A2} 
-\multicolumn{2}{|l|}{\cellcolor[HTML]{B5E6A2}Benchmark   score p-value:} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.001} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.147} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{l|}{\cellcolor[HTML]{B5E6A2}0.001} \\ \hline
+\multicolumn{2}{|l|}{\cellcolor[HTML]{B5E6A2}Benchmark   score p-value:} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.001} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.147} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.000} & \multicolumn{1}{r|}{\cellcolor[HTML]{B5E6A2}0.001} \\ \hline
 \end{tabular}
 \end{table}
 
 \subsection{p-Value}
 
-The p-values\footnote{Two-sided one-sample t-test was calculated on the natural logarithmic transformation of 5 benchmarks.} calculated symbolize the propability that the next benchmark calculated will be $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
+The p-values\footnote{Two-sided one-sample t-test was calculated on the natural logarithmic transformation of 5 benchmarks.} calculated symbolize the propability that the next benchmark calculated is $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
 Small p-values ($<0.05$) signify that the models will perform better than the baseline model (or respectively worse in the case of RNN2). This proves the significance of the results.
 \\[1em]
 To formalize this, let:
@@ -390,11 +390,12 @@ $$p\text{-value} = 2 \cdot P(T_{n-1} \geq |t|)$$
 \subsection{Interpretaion}
 
 Firstly, notice how the FNNs dominate the benchmark, with the FNN2 being the best model out of the bunch. 
+The p-values prove that all models except RNN2 and the Bidirectional LSTM with attention performed significantly better (with a 95\% confidence interval) than the baseline model on the benchmark.
 
 The bi-directional LSTM with attention is a very interesting model, because it performs bad on most datasets in comparison to other models, but it excels at longer expressions, which only slightly hinder the model's performance.
 
 It is also notable that the main hypothesis -- that more complex\footnotemark models would perform better -- is not supported by the results. This is made apparent by the clear outliers, such as the outstanding performance of the FNN2 (which is small in complexity) or the poor performance of the RNN2 model, which consists of the second to most parameters. 
-\footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture. Where a large number of parameters and a more advanced architecture correlate to a higher complexity}
+\footnotetext{The complexity of a neural network depends in part on the number of parameters, and in part on the type of architecture, where a large number of parameters and a more advanced architecture correlate to a higher complexity}
 
 Also, notice the minimal improvement of the long expressions MAE between FNN2 and FNN3, which includes positional encoding. It can be derived that applying a positional encoding to the input only improves the model's performance when predicting longer expressions, on other test datasets used in this evaluation it only lead to a decrease in performance.
 
@@ -424,7 +425,7 @@ Notice how the less complex models with fewer parameters are less accurate. Addi
 
 After conducting an open presentation for a colleague, his feedback was collected and his knowledge of the presented topics graded. 
 
-The starting hypothesis and the reason for conducting this discussion was to test if regression models (like the ones in this project) are easier to teach and understand for people interested in neural networks, who already posses some basic knowledge.
+The starting hypothesis and the reason for conducting this discussion was to test if regression models (like the ones in this project) are easier to teach and understand for people interested in neural networks, who already possess some basic knowledge.
 
 The Results from the questionnaire yield that the discussion partner did not fully understand either topic\footnote{The FNN and transformer architectures of regression models were taught.}, but was able to answer basic questions. The topic of FNNs was easier to grasp than transformers.
 
@@ -460,7 +461,7 @@ The MSEs of models with Dropout are higher than those of the previous models wit
 \subsection{Conclusion}
 The benchmark results expose that for generalization, less complex models tend to perform better than more complex ones.
 In the results, both the FNN models outperformed the more sophisticated transformer architecture models.
-FNNs are, overall, the best at generalizing and perform best on the defined benchmark. The downside is, that they struggle with longer expressions\footnote{and in general with longer, sequential inputs as shown by \cite{Goodfellow-et-al-2016}.}. They are the best architecture for solving simple arithmetic expressions with a reasonable\footnotemark supply of computational resources.
+FNNs are, overall, the best at generalizing and perform best on the defined benchmark. The downside is, that they struggle with longer expressions\footnote{and in general with longer, sequential inputs as shown by \cite{Goodfellow-et-al-2016}.}. They are the best architecture for solving simple arithmetic expressions with a reasonable\footnotemark supply of computational resources. 
 \footnotetext{Publicly available, affordable hardware e.g., The Nvidia Jetson Orin Nano Super Developer Kit GPU used in this project.}
 Adding positional encoding barely makes a difference for FNNs, as is shown in the difference between the FNN2 and FNN3 models, it only slightly improves the performance on longer expressions. 
 For this type of data sequential processing, like it is done in RNNs is best. While the simple RNN architecture is a weak model, bidirectional LSTMs with attention are better. By solving the vanishing gradient problem, the model solves longer expressions the best.
@@ -477,18 +478,30 @@ Neural networks excel at interpolation within a the training distribution and st
 \\[0.5em]
 Despite the chance factor playing a role, the conclusions will hold true. Conclusions were reached with significant margins and are backed by logical explanations. All results are reproducible with \href{https://github.com/AntonStantan/matura/tree/main}{publicly available notebooks}.
 
+\newpage
 \subsection{Possible Future Work}
-The topic chosen for this project is very broad and current. There's a lot of possible future work that can be done.
-\\[0.5em]
-A logical and important continuation of this project is using the benchmark as the loss function; this might lead to the training of better-performing models, as well as a struggle with overfitting. 
-\\[0.5em]
-The fine-tuned models have been evaluated very sparsly in this study. A possible continuation would be to evaluate them in more detail. (In this study this wasn't done, because of the computational costs.)
-\\[0.5em]
-Another possible direction is improving models by evaluating different activation functions, optimizers, or training data and using the best one, or even designing one's own. Training data and its tokenizer and padding is an area with lots of potential for improvement, i.e., by using an additional embedding, or finding the best training data, to teach a neural network simple arithmetics. 
-\\[0.5em]
-Also, consider this a proposal to evaluate a model architecture: an FNN with attention seems to be promising. Judging by the results of this study, this model is expected to improve the FNN's performance with longer expressions than in training, as well as strengthen its ability to accurately and confidently predict test data inside of the number range, previously referred to as the classical validation data.
-\\[0.5em]
-A minimal but still interesting branch can be formed from this project to find the error or investigate the exact reason for the accuracy missmatch observed during and after fine-tuning.
+\begin{description}
+    \item The topic chosen for this project is very broad and current. There's a lot of possible future work that can be done.
+    \item A logical and important continuation of this project is using the benchmark as the loss function; this might lead to the training of better-performing models, as well as a struggle with overfitting. 
+    \item The fine-tuned models have been evaluated very sparsly in this study. A possible continuation would be to evaluate them in more detail. (In this study this wasn't done, because of the computational costs.)
+    \item The relatively small amount of data samples in the training data could why the neural networks were not able to generalize rules. One possible direction would be to use the same number range, but similar to how \cite{trask2018neuralarithmeticlogicunits} did it, use float-numbers in the training data instead of limiting yourself to only integers. This approax would allow for more training data.
+    \item Another possible direction is improving models by evaluating different activation functions, optimizers, or training data and using the best one, or even designing one's own. Training data and its tokenizer and padding is an area with lots of potential for improvement, i.e., by using an additional embedding, or finding the best training data, to teach a neural network simple arithmetics. 
+    \item Also, consider this a proposal to evaluate a model architecture: an FNN with attention seems to be promising. Judging by the results of this study, this model is expected to improve the FNN's performance with longer expressions than in training, as well as strengthen its ability to accurately and confidently predict test data inside of the number range, previously referred to as the classical validation data.
+    \item A minimal but still interesting branch can be formed from this project to find the error or investigate the exact reason for the accuracy missmatch observed during and after fine-tuning.
+
+\end{description}
+
+\section{Closing Remark}
+
+The author has invested significant effort into this project and would appreciate any feedback. He can be reached via email at anton.mukin@students.ksba.ch or lolgod2703@gmail.com.
+
+It was a very interesting project and a pleasure to work on.
+If you also find this project interesting, please consider starring the \href{https://github.com/AntonStantan/matura/tree/main}{GitHub repository}.
+\\[1em]
+The author would like to thank Herr Schneider for his valuable insights and prompt responses, as well as Frau Smits for her availabilty to help. 
+
+Additionally a massive Thanks to my mom for reviewing the documentation on grammatical and logical inaccuracies.
+
 
 \newpage
 \printbibliography[heading=bibintoc]
