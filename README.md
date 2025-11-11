@@ -27,10 +27,10 @@ Here are some of the most important notebooks and scripts in this repository, sh
   - [`FNN1_1.py`](./FNN1_1.py): A script version of the FNN model.
   - [`get_p-value.py`](./get_p-value.py): A script for obtaining the p-value caluclated for the findings table
   - [`EvaluationMatura.xlsx`](./EvaluationMatura.xlsx): Findings Table
-
+  - [`FNN/NPC-final.py`](./FNN/NPC-final.py): Script for demonstrating the best model `FNN2` on user-requested expressions.
 - **Notebooks:**
   - **FNN:**
-    - [`FNN/FNN1.ipynb`](./FNN/FNN1.ipynb): Initial Feed-Forward Neural Network implementation.
+    - [`FNN/FNN1.ipynb`](./FNN/FNN1.ipynb): Initial Feed-Forward Neural Network implementation. Bugged on github.com, but works on VSC.
     - [`FNN/FNN2.ipynb`](./FNN/FNN2.ipynb): An iteration on the FNN model.
   - **RNN:**
     - [`RNN/RNN0.ipynb`](./RNN/RNN0.ipynb): A basic Recurrent Neural Network implementation for arithmetic tasks.
@@ -46,10 +46,20 @@ Here are some of the most important notebooks and scripts in this repository, sh
     - [`pre-trained-tranformers/big_gemma_huggingface.ipynb`](./pre-trained-tranformers/big_gemma_huggingface.ipynb): Fine-tuning the Gemma 1B model from Hugging Face.
     - [`pre-trained-tranformers/gemini_vertex.ipynb`](./pre-trained-tranformers/gemini_vertex.ipynb): Fine-tuning the Gemini model using Vertex AI.
 
+- **Documentation:**
+  - [`documentation/findings/findings.pdf`](./documentation/findings/findings.pdf): Fidnings document
+  - [`documentation/methodology/methodology.pdf`](./documentation/methodology/methodology.pdf): Methodology document
+  - [`documentation/AI_assistance/ai_assistance.pdf`](./documentation/AI_assistance/ai_assistance.pdf): Document stating the ai assistance used for this project.
+  - [`zwischenProdukt/LiteraturstudieAnton.pdf`](./zwischenProdukt/LiteraturstudieAnton.pdf): Literature Review (Zwischenprodukt)
+  - [`documentation/Process/`](./documentation/Process/): Arbeitsprozess
+
+
 
 ## Dependencies
 The required Python packages for most of the project are listed in `requirements.txt`. These are the libraries used on the laptop. They will be running on CPU.
-They can be installed using pip:
+These libraries should be enough for running the [`demonstation script`](./FNN/NPC-final.py), try it out!
+
+The packages can be installed using pip:
 ```bash
 pip install -r requirements.txt
 ```
