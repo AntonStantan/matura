@@ -1,4 +1,7 @@
-# Evaluating the Arithmetic Capabilities of Neural Networks
+# Neural Predictive Calculator
+Scientific research on the ability of neural networks to solve simple arithmetic expressions.
+
+## Evaluating the Arithmetic Capabilities of Neural Networks
 
 This project investigates why neural networks often struggle with simple arithmetic expressions. It involves building and evaluating various neural network architectures—including Feed-Forward Neural Networks (FNNs), Recurrent Neural Networks (RNNs), attention-based RNNs, and Transformers—to assess their performance on arithmetic tasks.
 
@@ -13,7 +16,6 @@ The repository is organized as follows:
 - [`transformer/`](./transformer/): Contains notebooks for Transformer-based models.
 - [`documentation/`](./documentation/): Contains project documentation, such as literature reviews.
 - [`pre-trained-tranformers/`](./pre-trained-tranformers/): Contains notebooks for pre-trained transformer models.
-- [`ArbeitsProzess/`](./ArbeitsProzess/): Contains PDFs documenting the work log.
 - [`zwischenPresentation/`](./zwischenPresentation/): Contains presentation materials.
 - [`zwischenProdukt/`](./zwischenProdukt/): Contains intermediate products and results.
 
@@ -23,6 +25,8 @@ Here are some of the most important notebooks and scripts in this repository, sh
 - **Scripts:**
   - [`GetXY.py`](./GetXY.py): A script for generating the dataset.
   - [`FNN1_1.py`](./FNN1_1.py): A script version of the FNN model.
+  - [`get_p-value.py`](./get_p-value.py): A script for obtaining the p-value caluclated for the findings table
+  - [`EvaluationMatura.xlsx`](./EvaluationMatura.xlsx): Findings Table
 
 - **Notebooks:**
   - **FNN:**
@@ -38,19 +42,20 @@ Here are some of the most important notebooks and scripts in this repository, sh
     - [`transformer/transformer4.ipynb`](./transformer/transformer4.ipynb): Explores the use of a Transformer architecture for arithmetic tasks.
     - [`transformer/transformer5.ipynb`](./transformer/transformer5.ipynb): A further iteration on the Transformer model.
   - **Pre-trained Fine-tuned Transformers:**
-    - [`pre-trained-tranformers/gemma_huggingface.ipynb`](./pre-trained-tranformers/gemma_huggingface.ipynb): Fine-tuning the Gemma model from Hugging Face.
+    - [`pre-trained-tranformers/gemma_huggingface.ipynb`](./pre-trained-tranformers/gemma_huggingface.ipynb): Fine-tuning the Gemma 270M model from Hugging Face.
+    - [`pre-trained-tranformers/big_gemma_huggingface.ipynb`](./pre-trained-tranformers/big_gemma_huggingface.ipynb): Fine-tuning the Gemma 1B model from Hugging Face.
     - [`pre-trained-tranformers/gemini_vertex.ipynb`](./pre-trained-tranformers/gemini_vertex.ipynb): Fine-tuning the Gemini model using Vertex AI.
 
 
 ## Dependencies
-The required Python packages for most of the project are listed in `requirements.txt`. They can be installed using pip:
+The required Python packages for most of the project are listed in `requirements.txt`. These are the libraries used on the laptop. They will be running on CPU.
+They can be installed using pip:
 ```bash
 pip install -r requirements.txt
 ```
-**Note:** The notebooks within the [`pre-trained-transformers/`](./pre-trained-transformers/) directory have different dependency requirements. Please refer to the methodology documentation for more details.
+Incase you have a nvidia Jetson device, try the packages listed in `requirements_GPU.txt`
+```bash
+pip install -r requirements_GPU.txt
+```
 
-## Usage
-To get started with this project:
-1. Clone the repository to your local machine.
-2. Install the dependencies as described above.
-3. Explore the notebooks and scripts in their respective directories to see the different models in action.
+**Note:** The notebooks within the [`pre-trained-transformers/`](./pre-trained-transformers/) directory have different dependency requirements. Please refer to the methodology documentation for more details.
