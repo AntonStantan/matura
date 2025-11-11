@@ -211,7 +211,7 @@ For details on how an FNNs works, please refer to section 2 in \href{https://git
 
 This section corresponds to the \href{https://github.com/AntonStantan/matura/tree/main/FNN}{/FNN directory} in the GitHub repository.
 
-There are three notebooks here: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1}, \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}{FNN2} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}.
+Some notable notebooks here are: \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN1.ipynb}{FNN1}, \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN2.ipynb}{FNN2} and \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}.
 
 
 \subsection{Training a Neural Network Using Tensorflow}
@@ -292,10 +292,11 @@ FNN2 includes a model with hyperparameters (in this case, the number of neurons,
 The model in FNN2 is evaluated inside that notebook, and its benchmark is also calculated there.
 
 
-\subsection{FNN3 With Positional Encoding}
+\subsection{FNN3 With Positional Encoding and FNN4}
 
 In the notebook \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN3.ipynb}{FNN3}, a positional embedding layer is added to the model, and a Keras tuner tunes the hyperparameters of the model to an optimum. The formula used is the one from \cite{vaswani2023attentionneed}.
-
+\\
+The \href{https://github.com/AntonStantan/matura/blob/main/FNN/FNN4.ipynb}{FNN4} notebooks use a different tokenizer and define the "+" and "-" operators as non-integer floats. They show once and for all that replacing "+" and "-" with integers is not problematic.
 
 \section{Recurrent Neural Network (RNN)}
 
