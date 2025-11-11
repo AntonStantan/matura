@@ -26,7 +26,7 @@
 \\[0em]
 {\large Maturitätsarbeit, Kantonsschule Baden}
 \\[-0.5em]
-{\large Erstbetreuer: Michael Schneider, Zweitbetreuer: Julia Smits}}
+{\large Betreuer: Michael Schneider, Zweitbetreuerin: Julia Smits}}
 \author{Anton Mukin}
 \date{June 2025}
 
@@ -168,6 +168,7 @@ $$
 $$
 
 \subsection{The Benchmark}
+The goal of the benchmark, is to compute a model's performance, with a strong emphasis on the model's generalization abilities.
 To calculate the benchmark, a model is evaluated on four categories. Its performance is then compared to that of a baseline model and graded. The four categories are: 
 
 \begin{itemize}
@@ -354,7 +355,7 @@ A number of 35 LSTM units were chosen for the encoder because of its previous pe
 In the directory \href{https://github.com/AntonStantan/matura/tree/main/RNN/Heatmaps}{/RNN/Heatmaps}, some heatmaps are presented; these were used to evaluate which model architecture to add attention to. Even though Gated Recurrent Units (GRUs) showed better results, they were not implemented because of the lack of online documentation for using attentional GRUs. This led to the choice of attentional LSTMs.
 
 Nevertheless, the GRU architecture is still discussed in the findings document.
-
+\newpage
 \subsection{Transformers}
 
 The original paper by \cite{vaswani2023attentionneed} was used as an example for building a replica model, which later was adjusted for better performance on the specific tasks in this project. 

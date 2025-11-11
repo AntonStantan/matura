@@ -26,7 +26,7 @@
 \\[0em]
 {\large Maturitätsarbeit, Kantonsschule Baden}
 \\[-0.5em]
-{\large Erstbetreuer: Michael Schneider, Zweitbetreuer: Julia Smits}}
+{\large Betreuer: Michael Schneider, Zweitbetreuerin: Julia Smits}}
 \author{Anton Mukin}
 \date{June 2025}
 
@@ -93,9 +93,9 @@ To make this more apparent some equations are formulated. Let:
 \begin{itemize}
     \item $x_j$ is the output of neuron $j$
     \item $f$ is the activation function (in our case: PReLU)
-    \item $w_ji$ is the weight connecting input $i$ (of the previous layer) to the neuron $j$
+    \item $w_{ji}$ is the weight connecting input $i$ (of the previous layer) to the neuron $j$
     \item $b_j$ is the bias of neuron $j$
-    \item $L$ is the Loss, here and in our case: MSE
+    \item $L$ is the loss function, here and in our case: MSE
     \item $y$ is the true answer corresponding to the predicted answer $x_o$
     \item $z_j$ is the pre-activation output of neuron $j$
     \item $\delta_j$ is the error signal for neuron $j$
@@ -182,14 +182,14 @@ The LSTM architecture solves the gradient vanishing problem by using a memory ce
 
 Let: 
 \begin{itemize}
-    \item $\sigma(\cdot)$ denotes the sigmoid activation function,
-    \item $\tanh(\cdot)$ is the hyperbolic tangent function,
-    \item $\odot$ represents element-wise (Hadamard) multiplication,
-    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state $h_{t-1}$ and the current input $x_t$,
-    \item $W_f, W_i, W_C, W_o$ are trainable weight matrices,
-    \item $b_f, b_i, b_C, b_o$ are trainable bias vectors,
-    \item $C_t$ is the current memory cell state,
-    \item $\tilde{C}_t$ is the candidate cell state,
+    \item $\sigma(\cdot)$ denotes the sigmoid activation function
+    \item $\tanh(\cdot)$ is the hyperbolic tangent function
+    \item $\odot$ represents element-wise (Hadamard) multiplication
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state $h_{t-1}$ and the current input $x_t$
+    \item $W_f, W_i, W_C, W_o$ are trainable weight matrices
+    \item $b_f, b_i, b_C, b_o$ are trainable bias vectors
+    \item $C_t$ is the current memory cell state
+    \item $\tilde{C}_t$ is the candidate cell state
 \end{itemize}
 
 \begin{align}
@@ -213,12 +213,12 @@ The GRU architecture works in a similar way to the LSTM. Instead of utilizing me
 
 Let:
 \begin{itemize}
-    \item $\sigma(\cdot)$ is the sigmoid activation function,
-    \item $\tanh(\cdot)$ is the hyperbolic tangent function,
-    \item $\odot$ denotes element-wise (Hadamard) multiplication,
-    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state and current input,
-    \item $W_z, W_r, W_h$ are trainable weight matrices,
-    \item $b_z, b_r, b_h$ are trainable bias vectors,
+    \item $\sigma(\cdot)$ is the sigmoid activation function
+    \item $\tanh(\cdot)$ is the hyperbolic tangent function
+    \item $\odot$ denotes element-wise (Hadamard) multiplication
+    \item $[h_{t-1}, x_t]$ is the concatenation of the previous hidden-state and current input
+    \item $W_z, W_r, W_h$ are trainable weight matrices
+    \item $b_z, b_r, b_h$ are trainable bias vectors
     \item $\tilde{h}_t$ is the candidate hidden-state
     \item $h_t$ is the current hidden-state
 \end{itemize}

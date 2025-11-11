@@ -11,4 +11,5 @@
 !*.pdf
 !*.png
 !*.jpg
+!*.xlsx
 !.gitignore

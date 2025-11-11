@@ -1,10 +1,18 @@
 \documentclass{article}
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\small\ttfamily, % optional: for a typical lstlisting look
+    breaklines=true             % The key option for line wrapping
+}
 
 \title{ai\_assistance}
 \author{Anton Mukin}
 \date{\today}
 
 \setlength{\parindent}{0pt}
+
+
 
 
 \begin{document}
@@ -18,10 +26,14 @@ easier to do it yourself or find a better solution online.
 
 LLMs used: MistralAI, Gemini2.5 flash, Gemini 2.5 pro, Qwen3, a little bit 
 of copilot.
-\\[2em]
 
-Bigger tasks AI did: 
-\\[2em]
+\section{AI assistance with grammar errors on documentation documents.}
+Input: "Correct the attached document for grammar errors and give me feedback.
+Latex code for document:"
+
+Output: *Corrections for the document*
+
+\section{Further Uses}
 
 Gemini2.5 Pro:
 
@@ -30,7 +42,7 @@ scheduler for a neural network. It should consist of a linear warmup and a
 cosine decay."
 
 Output:
-\begin{verbatim}
+\begin{lstlisting}
     
 
 # Define a custom learning rate schedule class with warmup and cosine decay
@@ -75,21 +87,21 @@ class WarmupCosineDecay(tf.keras.optimizers.schedules.LearningRateSchedule):
                 decay\_lr
             )
             return learning\_rate
-\end{verbatim}
+\end{lstlisting}
 
 google jules:
 
 Input: make a gitignore file for this repository. do not remove the direcotries "not\_relevant", they are relevant. Remove stuff like ipynbcheckpoints or pycashe
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 # Ignore Jupyter Notebook checkpoints
 .ipynb\_checkpoints/
 
 # Ignore Python bytecode
 \_\_pycache\_\_/
-\end{verbatim}
+\end{lstlisting}
 Input: all the irrelevant files except for .tex, .bib, .pdf, .png, .jpg should be ignored too. also ignore gitattributes
-\begin{verbatim}
+\begin{lstlisting}
 Output: 
 I've received the latest code review feedback, and I see a potential contradiction in the instructions for the .gitignore file.
 
@@ -103,15 +115,15 @@ Proceed with ignoring all files except .tex, .bib, .pdf, .png, and .jpg?
 Also include .py and .ipynb files in the whitelist of files to keep?
 Take a different approach to the .gitignore file?
 Once I have this clarification, I can finalize the .gitignore file correctly.
-\end{verbatim}
+\end{lstlisting}
 Input: I meant all the irrelevant files except .tex, .bib, .pdf, .png, and .jpg in the documentation directory.
-\begin{verbatim}
+\begin{lstlisting}
 Output: gitignore files were published in a branch "add-gitigrnore-rules"
-\end{verbatim}
+\end{lstlisting}
 google jules:
 
 Input:update the README.md file
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 Update the .gitignore file.
 
@@ -131,10 +143,10 @@ Complete pre-commit steps to make sure proper testing, verifications, reviews an
 Submit the changes.
 
 Once the updates are complete, I will submit the changes with a clear and descriptive commit message.
-\end{verbatim}
+\end{lstlisting}
 
 Input:why update the gitignore?
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 I'm updating the .gitignore file to incorporate the preferences you shared earlier. Specifically, I'll be adding rules to:
 
@@ -143,10 +155,10 @@ In the documentation/ directory, ignore all files except for specific types like
 This ensures that the repository remains clean and only tracks the files relevant to the project, as per your instructions.
 
 Does the plan I've laid out seem right to you? Once you approve, I'll start working on the first step.
-\end{verbatim}
+\end{lstlisting}
 
 Input:but this already is in the repository.
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 You're right, my apologies. I see that .ipynb\_checkpoints/ and \_\_pycache\_\_/ are already in the .gitignore file.
 
@@ -159,10 +171,10 @@ Update the README.md file: Reorganize it and highlight the important notebooks y
 Complete pre-commit steps: Ensure everything is in order before finalizing.
 Submit the changes.
 Does this updated plan look good to you?
-\end{verbatim}
+\end{lstlisting}
 
 Input:do not update the gitignore file. Only update the readme.md file
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 Update the README.md file.
 
@@ -178,22 +190,22 @@ Submit the changes.
 
 Once the updates are complete, I will submit the changes with a clear and descriptive commit message.
 The README.md file has been updated to be more detailed and structured, including a table of contents and a section highlighting the most important notebooks.
-\end{verbatim}
+\end{lstlisting}
 
 Input:where did you get this shit with sin(x) function from?? that0s not what this repo is for. you are hallucinating.
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 I sincerely apologize for the mistake. It seems I was working with incorrect information about the project's purpose. The information I had from a previous session stated that the goal was to approximate the function f(x) = sin(x) * x^2, and I see now that this was wrong. I am very sorry for the confusion and frustration this has caused.
 
 Could you please tell me the correct purpose of this repository? I will update the README.md immediately with the right information.
-\end{verbatim}
+\end{lstlisting}
 
 Input:It's purpose is evaluating why neural networks don't perform well on simple arithmetic expressions. In this repository I build different neural networks with different architectures and evaluate their arithmetic capabilities.
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 Thank you for the clarification. I understand now. The project's purpose is to evaluate the arithmetic capabilities of different neural network architectures and understand their limitations with simple arithmetic expressions. I will correct the README.md right away. I apologize again for the error.
 I have corrected the README.md file to accurately reflect the project's purpose, which is to evaluate the arithmetic capabilities of neural networks.
-\end{verbatim}
+\end{lstlisting}
 
 Input:important notebooks: RNN2, instead of RNN0 and g4gLSTM instead of the many2onelstmattention
 
@@ -204,28 +216,28 @@ also include: FNN1\_1 and GetXY script
 other important notebooks are: FNN1, RNN0, transformer0
 
 can you make the notebooks and scripts and directories clickable?
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 Thank you for the detailed feedback. I will update the README.md with all the changes you've requested. I'm updating my plan now to incorporate these new requirements.
 I have revised the README.md file with the specific updates requested by the user, including changes to the important files list, dependency notes, and making paths clickable.
 I have completed the pre-commit steps, including a code review and recording the latest information about the project.
-\end{verbatim}
+\end{lstlisting}
 
 Input:I like how you did the whole Important files gimmick. Just a small change: add the transformer4 and transformer 5 to the important files
 
 inside the important files: also add a section with pre-trained fine-tuned transformers pick out 2 important files from there and list them
-\begin{verbatim}
+\begin{lstlisting}
 Output:
 Of course. I can make those final adjustments to the README.md file. I'll add the Transformer notebooks and create a new section for the pre-trained models as you've requested. I'm updating the plan now.
 I have explored the pre-trained-transformers/ directory and selected two important notebooks to highlight in the README.md.
 I have revised the README.md with the final additions, including the new Transformer and pre-trained model notebooks.
 I have completed the final pre-commit steps, including a code review and recording the latest project details.
 ---->>docs-final-readme-update branch
-\end{verbatim}
+\end{lstlisting}
 
 Input: Notebook and "how to implement the posEncoding function to the model?"
 
-\begin{verbatim}
+\begin{lstlisting}
     To implement the posEncoding function into your Keras model, you'll need to add it as a layer or an operation within your model that modifies the input embeddings. Positional encoding is typically added to the input embeddings to provide the model with information about the relative or absolute position of the tokens in the sequence.
 
 Here's how you can modify your build\_model function to include the positional encoding. Since you are using a feed-forward neural network, the positional encoding needs to be added to your input data before it's fed into the first dense layer.
@@ -331,7 +343,7 @@ Important Considerations:
 Input Shape: The most critical part is ensuring input\_shape is correctly interpreted. Positional encoding makes sense when you have a sequence of data. If your input data x\_train is just a flat vector of features without a sequence order, adding positional encoding might not be beneficial. Positional encoding is designed for data where the order of elements is important (like words in a sentence or time-series data).
 
 Broadcasting: The Add layer will broadcast the positional encoding matrix to match the batch size of your input data. The shape of positional\_encoding will be (1, sequence\_length, d\_model), and the inputs will have a shape of (batch\_size, sequence\_length, d\_model). Broadcasting will correctly add the positional encoding to each sample in the batch.
-\end{verbatim}
+\end{lstlisting}
 
 Input: "Input 0 of layer "dense" is incompatible with the layer: expected axis -1 of input shape to have value 225, but received input with shape (None, 15)
 
@@ -342,7 +354,7 @@ Arguments received by Functional.call():
 • kwargs=<class 'inspect.\_empty'>"
 
 
-\begin{verbatim}
+\begin{lstlisting}
     You've run into a very common and insightful error in Keras. Let's break down what's happening and how to fix it.
 
 Understanding the Error
@@ -452,11 +464,11 @@ tuner = keras\_tuner.BayesianOptimization(
 )
 
 tuner.search(train\_dataset, epochs=num\_epochs, validation\_data=val\_dataset)
-\end{verbatim}
+\end{lstlisting}
 
 Input: "there is a lot of code, that isn't necessary in this fle. make this file shorter." (attached file)
 
-\begin{verbatim}
+\begin{lstlisting}
     Of course, the provided Python script contains a significant amount of code for training, tuning, and evaluation that isn't necessary for its final purpose as a "Neural Predictive Calculator." Below is a refactored, shorter version of the file that exclusively focuses on loading the pre-trained model and using it for prediction.
 
 Key Changes:
@@ -576,14 +588,14 @@ if \_\_name\_\_ == "\_\_main\_\_":
             print(f"An error occurred: {e}")
             print("Please ensure your input is a valid mathematical expression.")
             print("---------------------------------------------------")
-\end{verbatim}
+\end{lstlisting}
 
 
 Input: 
 create one more cell in the transformer5 notebook, where it uses the same logic as in FNN6.py to calculate the pvalue among others. answer with the code.
 
 Output:
-\begin{verbatim}
+\begin{lstlisting}
     #this was generated based on the FNN6.py script, which was made by myself. (Gemini 2.5 Pro)
 
 import numpy as np
@@ -694,7 +706,7 @@ print(f"MAE out Range List: {MAEoutRange\_list}")
 print(f"MRE out Range List: {MREoutRange\_list}")
 print(f"MAE long Range List: {MAElongRange\_list}")
 print(f"Benchmark List: {benchmarks\_list}")
-\end{verbatim}
+\end{lstlisting}
 
 Input: 
 loss landscape of a neural network, with the number of neurons and number of layers being the two axis of the plain. The plain caves in at multiple sweetspots. The height is loss. draw it in matplot.pyplot. add some randomness to the mix, so the landscape isn't smooth. The landscape goes from 1 to 512 neurons and from 1 to 16 layers.
@@ -772,7 +784,7 @@ Score: 0.0031737370882183313
 
 
 Output:
-\begin{verbatim}
+\begin{lstlisting}
     I'll create a 3D loss landscape visualization with valleys at your specified sweetspots. Here's the code:
 
 ```python
@@ -912,13 +924,9 @@ The landscape features:
 - Clear visualization of multiple local minima in the hyperparameter space
 
 The sweetspots around (345-348 neurons, 1 layer) and (435-440 neurons, 4 layers) appear as the deepest valleys, consistent with your best trial results.
-\end{verbatim}
+\end{lstlisting}
 
-\section{AI assistance with grammar errors on documentation documents.}
-Input: "Correct the attached document for grammar errors and give me feedback.
-Latex code for document:"
 
-Output: *Corrections for the document*
 
 
 \end{document}
