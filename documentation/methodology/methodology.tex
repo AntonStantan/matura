@@ -11,7 +11,6 @@
 \usepackage{xurl}
 \usepackage[font=small, labelfont=bf]{caption}
 
-
 \geometry{margin=2.5cm}
 
 % Set smaller font size for all Verbatim environments
@@ -108,7 +107,7 @@ For the benchmark, mostly the \href{https://github.com/AntonStantan/matura/blob/
 
 \subsection{Train, Test and Validation - Data} \label{sec:ttvData}
 
-To define the training data, the decision was made to exclusively use subtraction and addition. The arithmetic expressions were defined to consist of two operators (+ or -) and three integers within the range $[-5, 5]$.
+To define the training data, the decision was made to exclusively use subtraction and addition. The arithmetic expressions were defined to consist of two operators (+ or -) and three integers within the range $[-5, 5]$. The selction of the range for the integers was inspired by \cite{trask2018neuralarithmeticlogicunits}.
 
 The reason for these definitions is that + and - are the two simplest operators. The decision to introduce the model to three numbers, instead of the more common two, was made in the hope of simplifying the transition to more numbers in a later stage.
 
@@ -118,19 +117,30 @@ For example, the first three entries are:
 \]
 In total, there are 1907 such expressions in the training data. It can be argued that this is too little data for training a model for this task, as suggested by \cite{baka}. The counter argument is that \cite{trask2018neuralarithmeticlogicunits} used a similar, slightly larger sample size. Additionally, it is later shown in \href{https://github.com/AntonStantan/matura/blob/main/documentation/findings/findings.pdf}{the findings} that the models are able to predict data validation data with a low error rate.
 \\[2em]
-The test data is also defined in a slightly unconventional manner. It is split into three categories.
+The test data is also defined in a slightly unconventional manner. It is split into three categories. The three categories were chosen to cover all the ways the expressions from the training data can be modified.
 \begin{itemize}
-    \item Inside of the number range (1457 expressions): Expressions identical in structure to the training data but not present in the training set.
+    \item Inside of the number range (1457 expressions): Expressions identical in structure to the training data but not present in the training dataset. 
+    \begin{itemize}
+        \item[$\qquad\hookrightarrow$]This category ensures the modes is not just memorizing expressions and tests the models interpolation on previously unseen expressions.
+    \end{itemize}
     \item Outside of the number range (2048 expressions): The same expression structures, but with numbers in the ranges $[-8, -5]$ and $[5, 8]$, e.g.,
 \[
 -6 + 6 + 8 \qquad -7 + 6 + 7 \qquad 5 - -6 - 6
 \]
+    \begin{itemize}
+        \item[$\qquad\hookrightarrow$]This category tests the model's extrapolation on data slightly beyond what it encountered in training.
+    \end{itemize}
     \item Longer expressions (700 expressions): Expressions of different lengths. Specifically, there are between 2 and 8 numbers inside of the $[-5, 5]$ range, e.g.,
 \[
 -5 + 1 \qquad 3 + -1 + 4 + -2 + -4 \qquad -2 + 1 + 5 + -5 - -2 + -1 - 2 - 5
 \]
+    \begin{itemize}
+        \item[$\qquad\hookrightarrow$]This category tests the model for structural generalization and it's ability to adapt to sequential, longer, but structurally the same data.
+    \end{itemize}
 \end{itemize}
 
+Other possible categories like longer inputs with numbers outside of the training range, non-integer numbers or even multiplication and division were disregarded, to scope in on evaluating simpler generalization abilities.
+\\[2em]
 During training, later on, the model will require a small validation dataset (636 expressions), which will be used to evaluate the model during training on data not in the training dataset. Based on the model's performance on this datset, it will be either rewarded or punished.
 The validation data is generated the exact same way as the training data, so that there is 3 times as much training data as there is validation data.
 
@@ -164,7 +174,7 @@ To calculate the benchmark, a model is evaluated on four categories. Its perform
     \item[-] Test data inside the number range defined for training data (like the validation data),
     \item[-] Test data outside of the number range,
     \item[-] Test data consisting of longer expressions with numbers inside of the number range,
-    \item[-] A relative MSE of the test data with numbers outside of the range.
+    \item[-] A relative Mean Squared Error (MSE) of the test data with numbers outside of the range.
 \end{itemize}
 
 In the order previously mentioned, let: {\small{\texttt{baseline\_deviation}}}, {\small{\texttt{baseline\_out\_deviation}}}... be the baseline values and {\small{\texttt{meanDiff\_InRange}}}, {\small{\texttt{meanDiff\_OutRange}}} be the Mean Absolute Errors (MAEs) of the model being evaluated.
@@ -206,7 +216,9 @@ There are three notebooks here: \href{https://github.com/AntonStantan/matura/blo
 \subsection{Training a Neural Network Using Tensorflow}
 This subsection will show how the models used in this project were first defined and then trained with TensorFlow on the example of a simple FNN.
 \\[1.5em]
-To begin, the necessary libraries are imported.
+To begin, the necessary libraries are imported. Most models in this project, except for the fine-tuned models, use TensorFlow as opposed to PyTorch. 
+This is in part because the author was taught to use tensorflow, by \href{https://www.kaggle.com/learn/intermediate-machine-learning}{kaggle tutorials} and in part because of TensorFlows's wider use in the industry and production-ready ecosystem accordig to \cite{alawi2025comparativesurveypytorchvs}.
+
 \begin{Verbatim}
 import tensorflow as tf
 from tensorflow import keras
@@ -251,7 +263,10 @@ model = Sequential([
 ])
 \end{Verbatim}
 
-The next step is to compile the model by choosing an optimizer and a loss calculation, in this case, Mean Squared Error (MSE).
+The next step is to compile the model by choosing an optimizer and a loss calculation. In this project, Adam optimizer and MSE were chosen.
+The Adam optimizer (first presented by \cite{kingma2017adammethodstochasticoptimization}) was chosen for most models in this project, due to it's popularity, wide usage and promising results as shown by \cite{ruder2017overviewgradientdescentoptimization}
+MSE was chosen because it was used by \cite{trask2018neuralarithmeticlogicunits}, but Mean Absolute Error (MAE) would've also worked.
+
 \begin{Verbatim}
 model.compile(optimizer="adam", loss="mse")
 \end{Verbatim}
