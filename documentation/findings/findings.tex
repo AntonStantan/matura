@@ -60,6 +60,7 @@
 
 \newpage
 \tableofcontents
+\vspace{-1em}
 \listoffigures
 \newpage
 
@@ -72,10 +73,52 @@ It was hypothesized that Feed-forward Neural Networks (FNNs) would be the weakes
 
 
 \section{Feed-forward Neural Networks (FNNs)}
-The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document.
-
+The functionality of FNNs has been previously discussed in \href{https://github.com/AntonStantan/matura/blob/main/zwischenProdukt/LiteraturstudieAnton.pdf}{the literature review} and \href{https://github.com/AntonStantan/matura/blob/main/documentation/methodology/methodology.pdf}{methodology document}. It will not be further discussed in here. However, FNNs will be referenced later in this document. 
+To refresh your memory for the next subsection, imagine the weights as the 'strengths' of connections between neurons and biases as 'small nudges' which are applied to the neurons throughout a neural network.
 \subsection{Backpropagation}
+Backpropagation describes the method, used by neural networks in training, to tweak the weights and biases of different neurons. Imagine a FNN, like the one in the image below.
+\\[1em]
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/BackpropagationFNN.png}
+    \caption{Backpropagation in a FNN for regression as described by \cite{geeksforgeeks_backprop}.}
+    \label{fig:backprop}
+\end{figure}
 
+The method consists of two phases. First the data is fed forward through the neural network to obtain the output. The output is compared to the matching true result and an Error is calculated.
+In the next and final phase, the search for who is to blame commences. For example, imagine the weight from the neuron h(2,1) to the output neuron is far greater, than the weights from h(2,2) and h(2,3). In this case, it is obvious that the h(2,1) neuron should be held accountable for the error, more than the other 2 neurons. This is done by 'punishing' the weights of neuron h(2,1).
+Using this principle, the model can feed backwards through the network and reassign the neurons with adjusted weights and biases.
+\newpage
+To make this more apparent some equations are formulated. Let:
+\begin{itemize}
+    \item $x_j$ is the output of neuron $j$
+    \item $f$ is the activation function (in our case: PReLU)
+    \item $w_ji$ is the weight connecting input $i$ (of the previous layer) to the neuron $j$
+    \item $b_j$ is the bias of neuron $j$
+    \item $L$ is the Loss, here and in our case: MSE
+    \item $y$ is the true answer corresponding to the predicted answer $x_o$
+    \item $z_j$ is the pre-activation output of neuron $j$
+    \item $\delta_j$ is the error signal for neuron $j$
+    \item $\eta$ is the learning rate
+\end{itemize}
+
+
+The forward pass is defined as the following equations. The equation \eqref{eq:lit} is taken from the literature study.
+\begin{gather}
+x_j = f\left(\sum_i (w_{ji} x_i) + b_j\right) \label{eq:lit} \\
+L = (y - x_o)^2 \\
+z_j = \sum_i (w_{ji} x_i) + b_j
+\end{gather}
+In the second phase of the method, the model propagates the error signal (defined in equation \eqref{eq:error_signal}) backwards, by multiplying it with a previously defined learning rate and subtracting the individual products from all weights and biases in equations: \eqref{eq:weight_new}, \eqref{eq:bias_new}
+\begin{gather}
+\delta_j = \frac{\partial L}{\partial z_j} \label{eq:error_signal} \\
+w_{ji}^{\text{new}} = w_{ji}^{\text{old}} - \eta \delta_j \label{eq:weight_new} \\
+b_{j}^{\text{new}} = b_{j}^{\text{old}} - \eta \delta_j \label{eq:bias_new}
+\end{gather}
+
+Sources from which the equations are drawn: \cite{Goodfellow-et-al-2016} and \cite{nielsen2015neural}.
+
+\newpage
 \subsection{Hyper-Parameter Tuning}
 
 \begin{figure}[htbp]
@@ -94,7 +137,7 @@ The functionality of FNNs has been previously discussed in \href{https://github.
 \end{figure}
 
 FNNs as well as other models have hyper-parameters (i.e. the number of layers or neurons per layer) which have to be optimized for the specific task the models are being trained on.
-In this project the Keras-Tuner (or a heatmap visualization of different models) is used to find the global minimas of the loss landscape\footnote{The code for drawing the landscape was generated with AI. The data fed into the drawing is real data from the FNN2 notebook. Random noise is added to the landscape to make it look more realistic.}, as shown below. 
+In this project the Keras-Tuner (or a heatmap visualization of different models) is used to find the global minimas of the loss landscape\footnote{The code for drawing the landscape was generated with AI. The data fed into the drawing is real data from the FNN2 notebook. Random noise is added to the landscape to make it look more realistic.}, shown above. 
 
 
 \section{RNN}
@@ -198,7 +241,7 @@ Lastly the hidden-state can be calculated by applying (1 - the update gate activ
 An architecture of this type consists in part of a bidirectional LSTM, meaning two LSTMs working in parallel, one of which processes data from front to back, the other from back to front; their results are then concatenated and passed on.
 \\[2em]
 The other part of this architecture is the attention mechanism. Here it is, as described by \cite{bahdanau2016neuralmachinetranslationjointly}.
-
+\\[2em]
 Let:
 \begin{itemize}
     \item $\mathbf{h}_t \in \mathbb{R}^{128}$ are the hidden-states for each timestep $t$, the output from the bidirectional LSTM,
@@ -257,7 +300,6 @@ This is done across all heads in parallel. The results are then concatenated\foo
 \text{where: } \text{head}_i = \text{Attention}(Q W_i^Q, K W_i^K, V W_i^V)
 \end{gather*}
 
-\newpage
 \subsection{The Encoder Layer}
 
 \begin{wrapfigure}{l}{0.25\textwidth}
@@ -369,7 +411,7 @@ MRE out Range:                               &                           & 0.250
 
 The p-values\footnote{Two-sided one-sample t-test was calculated on the natural logarithmic transformation of 5 benchmarks.} calculated symbolize the propability that the next benchmark calculated is $\le 1$ (or $\ge 1$ if the model's benchmark is smaller than 1, which is the case for RNN2). 
 Small p-values ($<0.05$) signify that the models will perform better than the baseline model (or respectively worse in the case of RNN2). This proves the significance of the results.
-\\[1em]
+\newpage
 To formalize this, let:
 \begin{itemize}
 
@@ -480,10 +522,10 @@ Neural networks excel at interpolation within a the training distribution and st
 \\[0.5em]
 Despite the chance factor playing a role, the conclusions will hold true. Conclusions were reached with significant margins and are backed by logical explanations. All results are reproducible with \href{https://github.com/AntonStantan/matura/tree/main}{publicly available notebooks}.
 
-\newpage
 \subsection{Possible Future Work}
+The topic chosen for this project is very broad and current. There's a lot of possible future work that can be done.
+
 \begin{description}
-    \item The topic chosen for this project is very broad and current. There's a lot of possible future work that can be done.
     \item A logical and important continuation of this project is using the benchmark as the loss function; this might lead to the training of better-performing models, as well as a struggle with overfitting. 
     \item The fine-tuned models have been evaluated very sparsly in this study. A possible continuation would be to evaluate them in more detail. (In this study this wasn't done, because of the computational costs.)
     \item The relatively small amount of data samples in the training data could why the neural networks were not able to generalize rules. One possible direction would be to use the same number range, but similar to how \cite{trask2018neuralarithmeticlogicunits} did it, use float-numbers in the training data instead of limiting yourself to only integers. This approax would allow for more training data.
