@@ -1,5 +1,6 @@
 # Neural Predictive Calculator
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Scientific research on the ability of neural networks to solve simple arithmetic expressions.
 
 ## Evaluating the Arithmetic Capabilities of Neural Networks
@@ -73,4 +74,4 @@ pip install -r requirements_GPU.txt
 
 ### License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License. See the [`LICENSE`](./LICENSE) file for details.
