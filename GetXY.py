@@ -60,8 +60,10 @@ def tokenizer(input_list): # Changed parameter name to avoid confusion with glob
       else:  # The index is uneven, it's an operator
         if tokenized_x[i][j] == "+":
           tokenized_x[i][j] = np.float32(1)
-        else:
+        elif tokenized_x[i][j] == "-":
           tokenized_x[i][j] = np.float32(0)
+        else:
+           raise ValueError(f"Unknown operator: {tokenized_x[i][j]}")
     padding_count = 15 - len(tokenized_x[i])
     for _ in range(padding_count): # Use a throwaway variable
       tokenized_x[i].append(np.float32(0.5))
