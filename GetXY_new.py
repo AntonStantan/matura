@@ -68,7 +68,7 @@ def tokenizer(input_list): # Changed parameter name to avoid confusion with glob
            raise ValueError(f"Unknown operator: {tokenized_x[i][j]}")
     padding_count = 15 - len(tokenized_x[i])
     for _ in range(padding_count): # Use a throwaway variable
-      tokenized_x[i].append(np.float32(9999))
+      tokenized_x[i].append(np.float32(0))
   tokenized_x = np.array(tokenized_x)
   return tokenized_x
 x = tokenizer(x_string)
@@ -152,7 +152,7 @@ def train_test_split(x, y, train_size=0.75):
     return x[train_indices], x[val_indices], y[train_indices], y[val_indices]
 
 x_train, x_val, y_train, y_val = \
-    train_test_split(x, y, train_size=0.75)
+    train_test_split(x, y, train_size=0.95)
 x_train, x_val, y_train, y_val = \
     np.array(x_train), np.array(x_val), np.array(y_train), np.array(y_val)
 '''
